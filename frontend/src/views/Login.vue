@@ -1,13 +1,13 @@
 <template> 
-<b-container class="bg-dark text-white px-6 py-4">
+<b-container fluid class="bg-dark text-white px-6 py-4">
     <b-row>
-        <b-col>
+        <b-col class="d-sm-flex flex-column align-items-center">
             <b-img height="45":src="require('../assets/icon-left-font-monochrome-white.svg')" alt="Groupomania logo" ></b-img>
 
             <h1 class="my-5">Un réseau pour nous rapprocher</h1>
             <h3 class="font-weight-bold">Connectez-vous</h3>
-            <b-form>
-            <b-form-group>
+            <b-form class="form-width">
+            <b-form-group >
                 <b-form-input placeholder="Email" type="email" class="my-3 px-4" ></b-form-input>
                 <b-form-input placeholder="Mot de passe" type="text" class="my-3 px-4"></b-form-input>
                 <b-button pill variant="primary" class="btn btn-block my-3 font-weight-bold" size="lg">se connecter</b-button>
@@ -47,6 +47,13 @@ footer {
 
 h1 {
   font-family: 'Lora', serif;
+}
+
+
+@media (min-width: 576px) {
+  .form-width {
+    width: 400px; // à partir de iphone 6, en dessous pas de width
+  }
 }
 
 </style>
