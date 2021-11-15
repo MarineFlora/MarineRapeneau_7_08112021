@@ -1,11 +1,10 @@
 <template> 
-<b-container fluid class="bg-dark text-white px-6 py-4">
+<b-container fluid class="bg-dark text-white px-6 py-4 login">
     <b-row>
         <b-col class="d-sm-flex flex-column align-items-center">
             <b-img height="45":src="require('../assets/icon-left-font-monochrome-white.svg')" alt="Groupomania logo" ></b-img>
-
-            <h1 class="my-5">Un réseau pour nous rapprocher</h1>
-            <h3 class="font-weight-bold">Connectez-vous</h3>
+            <h1 class="my-6">Un réseau pour nous rapprocher</h1>
+            <h3 class="font-weight-bold mb-lg-4">Connectez-vous</h3>
             <b-form class="form-width">
             <b-form-group >
                 <b-form-input placeholder="Email" type="email" class="my-3 px-4" ></b-form-input>
@@ -14,11 +13,11 @@
             </b-form-group>
             </b-form>                           
 
-           <p class="account-link">C'est votre première visite ? </br>
+           <p class="account-link mt-lg-4">C'est votre première visite ? </br>
            <a class="text-primary font-weight-bold"><u>Créez votre compte !</u></a>
            </p>
 
-            <footer> À propos · Politique de confidentialité <br>
+            <footer class="mt-lg-6"> À propos · Politique de confidentialité <br>
                 2021 Groupomania</footer> <!-- reut composant, add to app.vue -->
             
         </b-col>
@@ -52,7 +51,7 @@ h1 {
 
 @media (min-width: 576px) {
   .form-width {
-    width: 400px; // à partir de iphone 6, en dessous pas de width
+    width: 350px;
   }
 }
 
