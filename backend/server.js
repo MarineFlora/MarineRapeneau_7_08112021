@@ -1,10 +1,7 @@
-//----------------------- code du serveur amélioré, plus stable pour le déploiement (copie openclassrooms) -----------------------// 
+//----------------------- code du serveur  -----------------------// 
 
-// import package http de node
 const http = require('http');
-// import de l'application
 const app = require('./app');
-// import fichier config
 const config = require('./config/config.js');
 
 // fonction qui renvoi un port valide, qu'il soit fourni sous forme d'un numéro ou d'une chaine
