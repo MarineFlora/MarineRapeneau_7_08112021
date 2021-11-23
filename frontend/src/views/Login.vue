@@ -7,26 +7,32 @@
                 <h3 class="font-weight-bold mb-lg-4">Connectez-vous</h3>
                 <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
                     <b-form-group>
-                        <b-form-input
-                            v-model="$v.form.email.$model" 
-                            :state="validateState('email')"
-                            placeholder="Email" 
-                            type="email" 
-                            aria-describedby="input-live-feedback"
-                            class="px-4" 
-                        ></b-form-input>
+                        <div class="input-div">
+                            <h6 class="text-left">Email</h6>
+                            <b-form-input
+                                v-model="$v.form.email.$model" 
+                                :state="validateState('email')"
+                                @focus="addClassFocus"
+                                @blur="removeClassFocus"
+                                type="email" 
+                                class="px-4 input pt-3"
+                            ></b-form-input>
+                        </div>
                     </b-form-group>
 
                     <b-form-group>
+                    <div class="input-div">
+                        <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
                             v-model="$v.form.password.$model" 
                             :state="validateState('password')" 
-                            placeholder="Mot de passe" 
+                            @focus="addClassFocus"
+                            @blur="removeClassFocus"
                             type="password"
-                            aria-describedby="input-live-feedback"
-                            class="px-4"
+                            class="px-4 input pt-3"
                         ></b-form-input>
                         <b-form-invalid-feedback class="text-left">Au moins 8 caractères dont au moins </br> 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>
+                     </div>    
                     </b-form-group>
 
                     <Button type="submit">se connecter</Button>
@@ -100,10 +106,26 @@ export default {
             }
             // sinon envoyer les donnéees : to do
             alert("Form submitted!");
+        },
+        // ajout la classe .focus qui joue l'animation du titre
+        // ajouté à écouteur v-on:focus 
+        addClassFocus() {
+            let inputDiv = document.querySelector(".input-div");
+            inputDiv.classList.add("focus");  
+        },
+        // enlève la classe .focus qui joue l'animation du titre
+        // ajouté à écouteur v-on:blur
+        removeClassFocus() {
+            let inputDiv = document.querySelector(".input-div");
+            let input = document.querySelector(".input");
+            if (input.value == "") {
+                inputDiv.classList.remove("focus");
+            }
         }
     }
+
 }
-      
+     
 </script>
 
 <style lang="scss"> 
@@ -121,4 +143,23 @@ footer {
         width: 350px;
     }
 }
+
+.input-div {
+    position: relative;
+}
+
+.input-div.focus > h6 {
+    top: 0.75rem;
+    font-size: 13px;
+}
+
+.input-div > h6 {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6e6e6e;
+    transition: .3s;
+}
+
 </style>
