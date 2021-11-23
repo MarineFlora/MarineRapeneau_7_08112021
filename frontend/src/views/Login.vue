@@ -4,17 +4,18 @@
             <b-col class="d-sm-flex flex-column align-items-center">
                 <b-img height="45":src="require('../assets/icon-left-font-monochrome-white.svg')" alt="Groupomania logo" ></b-img>
                 <h1 class="my-6">Un réseau pour nous rapprocher</h1>
+
                 <h3 class="font-weight-bold mb-lg-4">Connectez-vous</h3>
+
                 <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
                     <b-form-group>
                         <div class="input-div">
                             <h6 class="text-left">Email</h6>
                             <b-form-input
-                                v-model="$v.form.email.$model" 
-                                :state="validateState('email')"
                                 @focus="addClassFocus"
                                 @blur="removeClassFocus"
                                 type="email" 
+                                title="email"
                                 class="px-4 input pt-3"
                             ></b-form-input>
                         </div>
@@ -24,14 +25,13 @@
                     <div class="input-div">
                         <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
-                            v-model="$v.form.password.$model" 
-                            :state="validateState('password')" 
                             @focus="addClassFocus"
                             @blur="removeClassFocus"
                             type="password"
+                            title="password"
                             class="px-4 input pt-3"
                         ></b-form-input>
-                        <b-form-invalid-feedback class="text-left">Au moins 8 caractères dont au moins </br> 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>
+                        <b-form-invalid-feedback class="text-left">identifiants invalides</b-form-invalid-feedback>
                      </div>    
                     </b-form-group>
 
@@ -51,12 +51,7 @@
 import Signup from '../components/Signup.vue';
 import Button from '../components/Button.vue';
 
-import { validationMixin } from "vuelidate";
-import { required, minLength, helpers } from "vuelidate/lib/validators";
 
-// regex patterns pour validation champs
-const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
-const emailValid = helpers.regex('emailValid', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
 
 export default {
     name: 'Login',
@@ -64,7 +59,7 @@ export default {
         Signup,
         Button
     },
-    mixins: [validationMixin],
+    
     data() {
         return {
             form: {
@@ -73,38 +68,11 @@ export default {
             }
         };
     },
-    validations: {
-        form: {
-            email: {
-                required,
-                emailValid
-        },
-            password: {
-                required,
-                passwordValid
-            }
-        }
-    },
+    
     methods: {
-        // methodes (vuelidate) pour changer le state de chaque input pour faire apparaitre la validation
-        validateState(email) {
-        const { $dirty, $error } = this.$v.form[email];
-        return $dirty ? !$error : null; 
-        },
-
-        validateState(password) {
-        const { $dirty, $error } = this.$v.form[password];
-        return $dirty ? !$error : null;
-        },
-
         login() {
-            // validation des champs
-            this.$v.form.$touch();
-            // si au moins 1 des inputs n'est pas valide, terminer l'exécution   
-            if (this.$v.form.$anyError) {
-                return;
-            }
-            // sinon envoyer les donnéees : to do
+            // to do fetch post
+           
             alert("Form submitted!");
         },
         // ajout la classe .focus qui joue l'animation du titre

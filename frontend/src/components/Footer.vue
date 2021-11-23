@@ -1,10 +1,19 @@
 <template> 
-<footer class="pt-3 pb-4 bg-dark text-white"> À propos · Politique de confidentialité <br> 2021 Groupomania</footer> 
+    <footer class="pt-3 pb-4 bg-dark text-white"> 
+        <p>À propos · Politique de confidentialité </br>
+        {{ copyright }} </p> 
+    </footer> 
 </template> 
 
 <script> 
 export default {
-  name: 'Footer'
+    name: 'Footer',
+    computed: {
+		copyright() {
+			const currentYear = new Date().getFullYear()
+			return `${currentYear} Groupomania`
+		}
+	}
 }
 </script>
 
