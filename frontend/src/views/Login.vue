@@ -9,11 +9,11 @@
 
                 <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
                     <b-form-group>
-                        <div class="input-div">
+                        <div class="input-div" id="email">
                             <h6 class="text-left">Email</h6>
                             <b-form-input
-                                @focus="addClassFocus"
-                                @blur="removeClassFocus"
+                                @focus="addClassFocus('#email')"
+                                @blur="removeClassFocus('#email')"
                                 type="email" 
                                 title="email"
                                 class="px-4 input pt-3"
@@ -22,11 +22,11 @@
                     </b-form-group>
 
                     <b-form-group>
-                    <div class="input-div">
+                    <div class="input-div" id="password">
                         <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
-                            @focus="addClassFocus"
-                            @blur="removeClassFocus"
+                            @focus="addClassFocus('#password')"
+                            @blur="removeClassFocus('#password')"
                             type="password"
                             title="password"
                             class="px-4 input pt-3"
@@ -62,10 +62,8 @@ export default {
     
     data() {
         return {
-            form: {
             email: '',
-            password: ''
-            }
+            password: '' 
         };
     },
     
@@ -77,15 +75,15 @@ export default {
         },
         // ajout la classe .focus qui joue l'animation du titre
         // ajouté à écouteur v-on:focus 
-        addClassFocus() {
-            let inputDiv = document.querySelector(".input-div");
+        addClassFocus(element) {
+            let inputDiv = document.querySelector(`${element}`);
             inputDiv.classList.add("focus");  
         },
         // enlève la classe .focus qui joue l'animation du titre
         // ajouté à écouteur v-on:blur
-        removeClassFocus() {
-            let inputDiv = document.querySelector(".input-div");
-            let input = document.querySelector(".input");
+        removeClassFocus(element) {
+            let inputDiv = document.querySelector(`${element}`);
+            let input = document.querySelector(`${element} > .input`);
             if (input.value == "") {
                 inputDiv.classList.remove("focus");
             }
@@ -97,37 +95,37 @@ export default {
 </script>
 
 <style lang="scss"> 
-.account-link {
-    font-size: 1.1rem;
-    margin-bottom: 4rem;
-}
-
-footer {
-    border-radius: 0;
-}
-
-@media (min-width: 576px) {
-    .form-width {
-        width: 350px;
+    .account-link {
+        font-size: 1.1rem;
+        margin-bottom: 4rem;
     }
-}
 
-.input-div {
-    position: relative;
-}
+    footer {
+        border-radius: 0;
+    }
 
-.input-div.focus > h6 {
-    top: 0.75rem;
-    font-size: 13px;
-}
+    @media (min-width: 576px) {
+        .form-width {
+            width: 350px;
+        }
+    }
 
-.input-div > h6 {
-    position: absolute;
-    left: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6e6e6e;
-    transition: .3s;
+    .input-div {
+        position: relative;
+    }
+
+    .input-div.focus > h6 {
+        top: 0.75rem;
+        font-size: 13px;
+    }
+
+    .input-div > h6 {
+        position: absolute;
+        left: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6e6e6e;
+        transition: .4s;
 }
 
 </style>

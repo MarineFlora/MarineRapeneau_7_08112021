@@ -45,10 +45,10 @@ exports.login = (req, res, next) => {
                 }
                 // si true, bonne connexion
                 res.status(200).json({
-                    userId: user._id,
+                    userId: user.id,
                     // encodage d'un nouveau token
                     token: jwt.sign(
-                        { userId: user._id },
+                        { userId: user.id },
                         `${process.env.JWT_KEY}`,
                         { expiresIn: '24h' }
                     )
