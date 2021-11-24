@@ -32,10 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        is: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/i
-      }
+      allowNull: false
     },
     profession: DataTypes.STRING,
     userDescription: DataTypes.STRING,

@@ -11,8 +11,13 @@ const { User } = db.sequelize.models
 
 // fonction pour enregistrement de nouveaux utilisateurs
 exports.signup = (req, res, next) => {
-    // fonction asynchrone de cryptage du mot de passe 
-    bcrypt.hash(req.body.password, 10)
+    // vérifier validation regex mot de passe
+    const passwordRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/i";
+    if (!req.body.password.match(passwordRegex)) {
+        res.status(400).json({ error: "le mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
+    } else {
+        // fonction asynchrone de cryptage du mot de passe 
+        bcrypt.hash(req.body.password, 10)
         .then(hash => {
             // création instance classe User + enregistrement DB
             User.create({
@@ -21,10 +26,14 @@ exports.signup = (req, res, next) => {
                 email: req.body.email,
                 password: hash
             })
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                .catch(error => res.status(400).json({ error }));
+            .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+            .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
+    
+
+    }
+    
 };
 
 // fonction pour connecter les users existants
