@@ -2,10 +2,7 @@
     <b-container fluid class="bg-dark text-white px-6 py-4 login">
         <b-row>
             <b-col class="d-sm-flex flex-column align-items-center">
-                <b-img height="45":src="require('../assets/icon-left-font-monochrome-white.svg')" alt="Groupomania logo" ></b-img>
-                <h1 class="my-6">Un réseau pour nous rapprocher</h1>
-
-                <h3 class="font-weight-bold mb-lg-4">Connectez-vous</h3>
+                <ConnectHeading subHeading="Connectez-vous"/>
 
                 <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
                     <b-form-group>
@@ -50,14 +47,15 @@
 <script> 
 import Signup from '../components/Signup.vue';
 import Button from '../components/Button.vue';
-
+import ConnectHeading from '../components/ConnectHeading.vue';
 
 
 export default {
     name: 'Login',
     components: {
         Signup,
-        Button
+        Button,
+        ConnectHeading
     },
     
     data() {

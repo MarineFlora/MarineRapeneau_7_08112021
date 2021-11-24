@@ -2,10 +2,7 @@
     <b-container fluid class="bg-dark text-white px-6 py-4">
         <b-row>
             <b-col class="d-sm-flex flex-column align-items-center">
-                <b-img height="45":src="require('../assets/icon-left-font-monochrome-white.svg')" alt="Groupomania logo" ></b-img>
-                <h1 class="my-6">Un réseau pour nous rapprocher</h1>
-                
-                <h3 class="font-weight-bold mb-lg-4">Créez votre compte</h3>
+                <ConnectHeading subHeading="Creez votre compte"/>
 
                 <b-form class="form-width my-4" @submit.stop.prevent="signup" novalidate>
 
@@ -85,6 +82,7 @@
 
 <script> 
 import Button from './Button.vue'
+import ConnectHeading from '../components/ConnectHeading.vue';
 
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
@@ -97,7 +95,8 @@ const nameValid = helpers.regex('nameValid', /[A-Za-z][A-Za-z' -]*/);
 export default {
     name: 'Signup',
     components: {
-        Button
+        Button,
+        ConnectHeading
 	},
     mixins: [validationMixin],
     data() {
