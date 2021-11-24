@@ -67,7 +67,7 @@
                         </div>    
                     </b-form-group>
 
-                    <Button type="submit">s'inscrire</Button>
+                    <Button btnTitle="s'inscrire"/>
                     
                 </b-form>                           
 

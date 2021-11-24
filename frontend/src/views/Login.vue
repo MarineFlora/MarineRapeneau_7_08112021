@@ -32,7 +32,7 @@
                      </div>    
                     </b-form-group>
 
-                    <Button type="submit">se connecter</Button>
+                    <Button btnTitle="se connecter" />
                 </b-form>                           
 
             <p class="account-link mt-lg-4">C'est votre première visite ? </br>
