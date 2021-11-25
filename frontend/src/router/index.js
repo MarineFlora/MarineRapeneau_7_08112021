@@ -1,34 +1,39 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import Home from '../views/Feed.vue'
-import Login from '../views/Login.vue'
+import LatestPosts from '../views/LatestPosts.vue'
+import LogIn from '../views/LogIn.vue'
+import SignUp from '../views/SignUp.vue'
+import AboutPage from '../views/AboutPage.vue'
+import UserProfile from '../views/UserProfile.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
- /* {
-    path: '/',
-    name: 'Feed',
-    component: Feed
-  },*/
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
-    path: '/', // doit être /login
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/signup',
-    name: 'Signup',
-    component: () => import('../components/Signup.vue')
-  }
+    {
+        path: '/posts', // à changer en /
+        name: 'LatestPosts',
+        component: LatestPosts
+    },
+    {
+        path: '/about',
+        name: 'AboutPage',
+        component: AboutPage
+    },
+    {
+        path: '/', // doit être /login (test)
+        name: 'LogIn',
+        component: LogIn
+    },
+    {
+        path: '/signup',
+        name: 'SignUp',
+        component: SignUp
+    },
+    {
+        path: '/user-profile',
+        name: 'UserProfile',
+        component: UserProfile
+    }
 ]
 
 const router = new VueRouter({

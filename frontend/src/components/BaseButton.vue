@@ -1,14 +1,14 @@
 <template> 
     <b-button pill type="submit" variant="primary" class="btn btn-block my-3 font-weight-bold" size="lg">
-    {{ btnTitle }}
+    {{ buttonTitle }}
     </b-button>
 </template> 
 
 <script> 
     export default {
-        name: 'Button',
+        name: 'BaseButton',
         props: {
-            btnTitle: String
+            buttonTitle: String
         }
     }
 </script>

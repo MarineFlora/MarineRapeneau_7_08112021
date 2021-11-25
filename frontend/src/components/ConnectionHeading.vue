@@ -8,7 +8,7 @@
 
 <script> 
     export default {
-        name: 'ConnectHeading',
+        name: 'ConnectionHeading',
         props: {
             subHeading: String
         }

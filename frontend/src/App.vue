@@ -2,17 +2,17 @@
   <div id="app">
         
     <router-view/>
-    <Footer />
+    <TheFooter />
   </div>
 </template>
 
 <script>
-import Footer from './components/Footer.vue'
+import TheFooter from './components/TheFooter.vue'
 
 export default {
 	name: 'App',
 	components: {
-		Footer
+		TheFooter
 	}
 }
 </script>

@@ -1,38 +1,41 @@
 <template> 
-    <b-container fluid class="bg-dark text-white px-6 py-4 login">
+    <b-container fluid class="bg-dark text-white px-6 py-4 login-page">
         <b-row>
             <b-col class="d-sm-flex flex-column align-items-center">
-                <ConnectHeading subHeading="Connectez-vous"/>
+                <ConnectionHeading sub-heading="Connectez-vous"/>
 
                 <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
                     <b-form-group>
-                        <div class="input-div" id="email">
+                        <!-- classe focus sera présente si propriété focusOnPassword est true (:=v-bind:)-->
+                        <div class="input-div" :class="{ 'focus' : focusOnEmail }" >
                             <h6 class="text-left">Email</h6>
                             <b-form-input
-                                @focus="addClassFocus('#email')"
-                                @blur="removeClassFocus('#email')"
+                                v-model="email"
+                                @focus="focusOnEmail=true"  
+                                @blur="getEmailValue"
                                 type="email" 
                                 title="email"
-                                class="px-4 input pt-3"
+                                class="px-4 pt-3"
                             ></b-form-input>
                         </div>
                     </b-form-group>
 
                     <b-form-group>
-                    <div class="input-div" id="password">
+                    <div class="input-div" :class="{ 'focus' : focusOnPassword }" >
                         <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
-                            @focus="addClassFocus('#password')"
-                            @blur="removeClassFocus('#password')"
+                            v-model="password"
+                            @focus="focusOnPassword=true"
+                            @blur="getPasswordValue"
                             type="password"
                             title="password"
-                            class="px-4 input pt-3"
+                            class="px-4 pt-3"
                         ></b-form-input>
                         <b-form-invalid-feedback class="text-left">identifiants invalides</b-form-invalid-feedback>
                      </div>    
                     </b-form-group>
 
-                    <Button btnTitle="se connecter" />
+                    <BaseButton button-title="se connecter" />
                 </b-form>                           
 
             <p class="account-link mt-lg-4">C'est votre première visite ? </br>
@@ -45,56 +48,49 @@
 </template>
 
 <script> 
-import Signup from '../components/Signup.vue';
-import Button from '../components/Button.vue';
-import ConnectHeading from '../components/ConnectHeading.vue';
-
+import BaseButton from '../components/BaseButton.vue';
+import ConnectionHeading from '../components/ConnectionHeading.vue';
 
 export default {
-    name: 'Login',
+    name: 'LogIn',
     components: {
-        Signup,
-        Button,
-        ConnectHeading
+        BaseButton,
+        ConnectionHeading
     },
     
     data() {
         return {
             email: '',
-            password: '' 
+            password: '',
+            focusOnPassword: false,
+            focusOnEmail: false
         };
     },
     
     methods: {
         login() {
             // to do fetch post
-           
-            alert("Form submitted!");
+           // if rien dans input ne rien faire sinon envoyer
+            alert("Form submitted login!");
         },
-        // ajout la classe .focus qui joue l'animation du titre
-        // ajouté à écouteur v-on:focus 
-        addClassFocus(element) {
-            let inputDiv = document.querySelector(`${element}`);
-            inputDiv.classList.add("focus");  
+        getPasswordValue() {
+            if (this.password == '') {
+                this.focusOnPassword = false
+            } 
         },
-        // enlève la classe .focus qui joue l'animation du titre
-        // ajouté à écouteur v-on:blur
-        removeClassFocus(element) {
-            let inputDiv = document.querySelector(`${element}`);
-            let input = document.querySelector(`${element} > .input`);
-            if (input.value == "") {
-                inputDiv.classList.remove("focus");
-            }
-        }
+        getEmailValue() {
+            if (this.email == '') {
+                this.focusOnEmail = false
+            } 
+        } 
     }
-
 }
      
 </script>
 
 <style lang="scss"> 
     .account-link {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         margin-bottom: 4rem;
     }
 

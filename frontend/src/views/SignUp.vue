@@ -1,8 +1,8 @@
 <template> 
-    <b-container fluid class="bg-dark text-white px-6 py-4">
+    <b-container fluid class="bg-dark text-white px-6 py-4 signup-page">
         <b-row>
             <b-col class="d-sm-flex flex-column align-items-center">
-                <ConnectHeading subHeading="Creez votre compte"/>
+                <ConnectionHeading sub-heading="Creez votre compte"/>
 
                 <b-form class="form-width my-4" @submit.stop.prevent="signup" novalidate>
 
@@ -67,7 +67,7 @@
                         </div>    
                     </b-form-group>
 
-                    <Button btnTitle="s'inscrire"/>
+                    <BaseButton button-title="s'inscrire"/>
                     
                 </b-form>                           
 
@@ -81,8 +81,8 @@
 </template> 
 
 <script> 
-import Button from './Button.vue'
-import ConnectHeading from '../components/ConnectHeading.vue';
+import BaseButton from '../components/BaseButton.vue'
+import ConnectionHeading from '../components/ConnectionHeading.vue';
 
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
@@ -93,10 +93,10 @@ const emailValid = helpers.regex('emailValid', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z
 const nameValid = helpers.regex('nameValid', /[A-Za-z][A-Za-z' -]*/);
 
 export default {
-    name: 'Signup',
+    name: 'SignUp',
     components: {
-        Button,
-        ConnectHeading
+        BaseButton,
+        ConnectionHeading
 	},
     mixins: [validationMixin],
     data() {
@@ -144,7 +144,7 @@ export default {
                 return;
             }
             // sinon envoyer les donnéees : to do
-            alert("Form submitted!");
+            alert("Form submitted signup!");
         },
         addClassFocus(element) {
             let inputDiv = document.querySelector(`${element}`);

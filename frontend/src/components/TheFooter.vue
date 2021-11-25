@@ -7,7 +7,7 @@
 
 <script> 
 export default {
-    name: 'Footer',
+    name: 'TheFooter',
     computed: {
 		copyright() {
 			const currentYear = new Date().getFullYear()
