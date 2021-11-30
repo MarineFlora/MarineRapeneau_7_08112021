@@ -28,7 +28,7 @@
                             @focus="focusOnPassword=true"
                             @blur="getPasswordValue"
                             type="password"
-                            title="password"
+                            title="mot de passe"
                             class="px-4 pt-3"
                         ></b-form-input>
                         
@@ -96,7 +96,10 @@ export default {
                             router.push({ name: 'LatestPosts' }); 
                         } 
                     })
-                    .catch(error => console.log(error));
+                    .catch(error => {
+                        console.log(error)
+                        this.errorMessage = 'Problèmes de connexion'
+                    })
             } else {
                 this.errorMessage = "Veuillez renseigner les champs de connexion"
             }

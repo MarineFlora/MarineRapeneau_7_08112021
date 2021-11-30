@@ -60,10 +60,10 @@
                                 @focus="addClassFocus('#password')"
                                 @blur="removeClassFocus('#password')"
                                 type="password"
-                                title="password"
+                                title="mot de passe"
                                 class="px-4 input pt-3"
                             ></b-form-input>
-                            <b-form-invalid-feedback v-if="!$v.form.password.passwordValid"class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
+                            <b-form-invalid-feedback v-if="!$v.form.password.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
                         </div>    
                     </b-form-group>
 
@@ -170,7 +170,10 @@ export default {
                         }
                             
                     })
-                    .catch(error => console.log(error));            
+                    .catch(error => {
+                        console.log(error)
+                        this.errorMessage = 'Problèmes de connexion'
+                    })            
             }
         },
         addClassFocus(element) {
