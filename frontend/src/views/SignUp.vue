@@ -50,7 +50,7 @@
                             ></b-form-input>
                         </div>
                     </b-form-group>
-                        
+                         
                     <b-form-group>
                         <div class="input-div" id="password">
                             <h6 class="text-left">Mot de passe</h6>
@@ -63,9 +63,11 @@
                                 title="password"
                                 class="px-4 input pt-3"
                             ></b-form-input>
-                            <b-form-invalid-feedback class="text-left">Mot de passe : Au moins 8 caractères dont au moins </br> 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
+                            <b-form-invalid-feedback v-if="!$v.form.password.passwordValid"class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
                         </div>    
                     </b-form-group>
+
+                    <p class="text-left text-danger"> {{ errorMessage }} </p>
 
                     <BaseButton button-title="s'inscrire"/>
                     
@@ -86,6 +88,7 @@ import ConnectionHeading from '../components/ConnectionHeading.vue';
 
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
+import router from '../router/index'
 
 // regex patterns pour validation champs
 const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
@@ -106,7 +109,8 @@ export default {
                 lastName: '',
                 email: '',
                 password: ''
-            }
+            },
+            errorMessage: '',
         };
     },
     validations: {
@@ -142,9 +146,32 @@ export default {
             // si au moins 1 des inputs n'est pas valide, terminer l'exécution   
             if (this.$v.form.$anyError) {
                 return;
+            } else {
+                // sinon envoi des champs au back-end
+                const userSignup = this.form;
+                fetch("http://localhost:3000/api/auth/signup", {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('userToken')  
+                    },
+                    body: JSON.stringify(userSignup)
+                })
+                    // puis recupérer token pour headers auth et envoyer à la page d'accueil
+                    .then((res) => res.json())
+                    .then((res) => {
+                        console.log('token:', res.token); 
+                        if (!res.token) {
+                            this.errorMessage = 'Problème de connexion'
+                        } else {
+                            localStorage.setItem('userToken', res.token);
+                            router.push({ name: 'LatestPosts' });
+                        }
+                            
+                    })
+                    .catch(error => console.log(error));            
             }
-            // sinon envoyer les donnéees : to do
-            alert("Form submitted signup!");
         },
         addClassFocus(element) {
             let inputDiv = document.querySelector(`${element}`);

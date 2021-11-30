@@ -31,9 +31,10 @@
                             title="password"
                             class="px-4 pt-3"
                         ></b-form-input>
-                        <b-form-invalid-feedback class="text-left">identifiants invalides</b-form-invalid-feedback>
+                        
                      </div>    
                     </b-form-group>
+                    <p class="text-left text-danger"> {{ errorMessage }} </p>
 
                     <BaseButton button-title="se connecter" />
                 </b-form>                           
@@ -50,6 +51,7 @@
 <script> 
 import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
+import router from '../router/index'
 
 export default {
     name: 'LogIn',
@@ -62,6 +64,7 @@ export default {
         return {
             email: '',
             password: '',
+            errorMessage: '',
             focusOnPassword: false,
             focusOnEmail: false
         };
@@ -69,9 +72,34 @@ export default {
     
     methods: {
         login() {
-            // to do fetch post
-           // if rien dans input ne rien faire sinon envoyer
-            alert("Form submitted login!");
+            if (this.email != '' && this.password !== '') {
+               // envoi des données au back
+                fetch("http://localhost:3000/api/auth/login", {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('userToken')
+                    },
+                    body: JSON.stringify({ email : this.email, password: this.password })
+                })
+                    // on récupère le token
+                    .then((res) => res.json())
+                    .then((res) => {
+                        // si erreur 401 au back-end : message erreur
+                        if (!res.token) {
+                            this.errorMessage = 'Identifiants incorrects'
+                        // sinon recupérer token pour headers auth et envoyer à la page d'accueil
+                        } else {
+                            localStorage.setItem('userToken', res.token);
+                            console.log(res.token);  
+                            router.push({ name: 'LatestPosts' }); 
+                        } 
+                    })
+                    .catch(error => console.log(error));
+            } else {
+                this.errorMessage = "Veuillez renseigner les champs de connexion"
+            }
         },
         getPasswordValue() {
             if (this.password == '') {
@@ -119,7 +147,7 @@ export default {
         top: 50%;
         transform: translateY(-50%);
         color: #6e6e6e;
-        transition: .4s;
+        transition: .2s;
 }
 
 </style>

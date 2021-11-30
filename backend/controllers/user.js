@@ -12,24 +12,34 @@ const { User } = db.sequelize.models
 // fonction pour enregistrement de nouveaux utilisateurs
 exports.signup = (req, res, next) => {
     // vérifier validation regex mot de passe
-    const passwordRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/i";
-    if (!req.body.password.match(passwordRegex)) {
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/i; // ne marche plus ?
+    if (!(req.body.password).match(passwordRegex)) {
         res.status(400).json({ error: "le mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
     } else {
         // fonction asynchrone de cryptage du mot de passe 
         bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            // création instance classe User + enregistrement DB
-            User.create({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                password: hash
+            .then(hash => {
+                // création instance classe User + enregistrement DB
+                User.create({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    password: hash
+                })
+                // puis encodage d'un nouveau token
+                .then(user => {
+                    res.status(201).json({
+                        userId: user.id,
+                        token: jwt.sign(
+                            { userId: user.id },
+                            `${process.env.JWT_KEY}`,
+                            { expiresIn: '24h' }
+                        )
+                    });
+                }) 
+                .catch(error => res.status(400).json({ error }));
             })
-            .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-            .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+            .catch(error => res.status(500).json({ error }));
     
 
     }
@@ -47,23 +57,23 @@ exports.login = (req, res, next) => {
             }
             // on utilise bcrypt pour comparer les hash
             bcrypt.compare(req.body.password, user.password)
-            .then(valid => {
-                // si false, invalide
-                if (!valid) {
-                    return res.status(401).json({ error: 'Mot de passe incorrect !' });
-                }
-                // si true, bonne connexion
-                res.status(200).json({
-                    userId: user.id,
-                    // encodage d'un nouveau token
-                    token: jwt.sign(
-                        { userId: user.id },
-                        `${process.env.JWT_KEY}`,
-                        { expiresIn: '24h' }
-                    )
-                });
-            })
-            .catch(error => res.status(500).json({ error }));
+                .then(valid => {
+                    // si false, invalide
+                    if (!valid) {
+                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
+                    }
+                    // si true, bonne connexion
+                    res.status(201).json({
+                        userId: user.id,
+                        // encodage d'un nouveau token
+                        token: jwt.sign(
+                            { userId: user.id },
+                            `${process.env.JWT_KEY}`,
+                            { expiresIn: '24h' }
+                        )
+                    });
+                })
+                .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
 };
