@@ -13,6 +13,17 @@ const { User } = db.sequelize.models
 const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 
+// constante pour renvoyer l'userId et le token pour se connecter
+const newToken = user => {
+    token = jwt.sign(
+        { userId: user.id },
+        `${process.env.JWT_KEY}`,
+        { expiresIn: '24h' }
+    )
+    return { userId: user.id, token }
+};
+
+
 // fonction pour enregistrement de nouveaux utilisateurs
 exports.signup = (req, res, next) => {
     // vérifier validation regex mot de passe
@@ -33,20 +44,11 @@ exports.signup = (req, res, next) => {
                 })
                 // puis encodage d'un nouveau token
                 .then(user => {
-                    res.status(201).json({
-                        userId: user.id,
-                        token: jwt.sign(
-                            { userId: user.id },
-                            `${process.env.JWT_KEY}`,
-                            { expiresIn: '24h' }
-                        )
-                    });
+                    res.status(201).json(newToken(user));
                 }) 
                 .catch(error => res.status(400).json({ error }));
             })
             .catch(error => res.status(500).json({ error }));
-    
-
     }
     
 };
@@ -71,15 +73,7 @@ exports.login = (req, res, next) => {
                             return res.status(401).json({ error: 'Mot de passe incorrect !' });
                         }
                         // si true, bonne connexion
-                        res.status(201).json({
-                            userId: user.id,
-                            // encodage d'un nouveau token
-                            token: jwt.sign(
-                                { userId: user.id },
-                                `${process.env.JWT_KEY}`,
-                                { expiresIn: '24h' }
-                            )
-                        });
+                        res.status(201).json(newToken(user));
                     })
                     .catch(error => res.status(500).json({ error }));
             })
