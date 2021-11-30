@@ -176,12 +176,13 @@ export default {
                     })            
             }
         },
+        // animation du titre des inputs
+        // ajoute classe 'focus' au focus
         addClassFocus(element) {
             let inputDiv = document.querySelector(`${element}`);
             inputDiv.classList.add("focus");  
         },
-        // enlève la classe .focus qui joue l'animation du titre
-        // ajouté à écouteur v-on:blur
+        // enlève la classe au blur v-on:blur
         removeClassFocus(element) {
             let inputDiv = document.querySelector(`${element}`);
             let input = document.querySelector(`${element} > .input`);
@@ -189,6 +190,7 @@ export default {
                 inputDiv.classList.remove("focus");
             }
         }
+         
     }
 }
 </script>

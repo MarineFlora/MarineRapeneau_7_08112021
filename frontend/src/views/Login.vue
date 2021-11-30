@@ -6,30 +6,29 @@
 
                 <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
                     <b-form-group>
-                        <!-- classe focus sera présente si propriété focusOnPassword est true (:=v-bind:)-->
-                        <div class="input-div" :class="{ 'focus' : focusOnEmail }" >
+                        <div class="input-div" id="email" >
                             <h6 class="text-left">Email</h6>
                             <b-form-input
                                 v-model="email"
-                                @focus="focusOnEmail=true"  
-                                @blur="getEmailValue"
+                                @focus="addClassFocus('#email')"
+                                @blur="removeClassFocus('#email')"
                                 type="email" 
                                 title="email"
-                                class="px-4 pt-3"
+                                class="px-4 input pt-3"
                             ></b-form-input>
                         </div>
                     </b-form-group>
 
                     <b-form-group>
-                    <div class="input-div" :class="{ 'focus' : focusOnPassword }" >
+                    <div class="input-div" id="password" >
                         <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
                             v-model="password"
-                            @focus="focusOnPassword=true"
-                            @blur="getPasswordValue"
+                            @focus="addClassFocus('#password')"
+                            @blur="removeClassFocus('#password')"
                             type="password"
                             title="mot de passe"
-                            class="px-4 pt-3"
+                            class="px-4 input pt-3"
                         ></b-form-input>
                         
                      </div>    
@@ -65,8 +64,6 @@ export default {
             email: '',
             password: '',
             errorMessage: '',
-            focusOnPassword: false,
-            focusOnEmail: false
         };
     },
     
@@ -104,16 +101,20 @@ export default {
                 this.errorMessage = "Veuillez renseigner les champs de connexion"
             }
         },
-        getPasswordValue() {
-            if (this.password == '') {
-                this.focusOnPassword = false
-            } 
+        // animation du titre des inputs
+        // ajoute classe 'focus' au focus
+        addClassFocus(element) {
+            let inputDiv = document.querySelector(`${element}`);
+            inputDiv.classList.add("focus");  
         },
-        getEmailValue() {
-            if (this.email == '') {
-                this.focusOnEmail = false
-            } 
-        } 
+        // enlève la classe au blur v-on:blur
+        removeClassFocus(element) {
+            let inputDiv = document.querySelector(`${element}`);
+            let input = document.querySelector(`${element} > .input`);
+            if (input.value == "") {
+                inputDiv.classList.remove("focus");
+            }
+        }
     }
 }
      
