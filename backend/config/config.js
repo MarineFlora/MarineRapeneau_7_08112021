@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 dotenv.config({
-    path: path.resolve(__dirname, `.env`)
+    path: path.resolve(__dirname, "../.env")
 });
 
 // exports pour retrouver les valeurs contenues dans fichier .env
@@ -14,21 +14,21 @@ module.exports = {
     "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
     "database": process.env.DATABASE_DEV,
-    "host": "127.0.0.1",
+    "host": process.env.DB_HOST,
     "dialect": "mysql"
   },
   "test": {
     "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
     "database": process.env.DATABASE_TEST,
-    "host": "127.0.0.1",
+    "host": process.env.DB_HOST,
     "dialect": "mysql"
   },
   "production": {
     "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
     "database": process.env.DATABASE_PROD,
-    "host": "127.0.0.1",
+    "host": process.env.DB_HOST,
     "dialect": "mysql"
   }
 }

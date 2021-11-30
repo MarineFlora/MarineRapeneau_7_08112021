@@ -1,0 +1,30 @@
+// Define variable defaults
+$primary: #d1515a;
+$dark: #091f43;
+
+$font-size-base: 1rem;
+$h1-font-size: $font-size-base * 2.2;
+$h2-font-size: $font-size-base * 1.75;
+$h3-font-size: $font-size-base * 1.5;
+
+$spacer: 1rem;
+$spacers: ();
+$spacers: map-merge(
+  (
+    0: 0,
+    1: ($spacer * .25),
+    2: ($spacer * .5),
+    3: $spacer,
+    4: ($spacer * 1.5),
+    5: ($spacer * 2.2),
+    6: ($spacer * 3)
+  ),
+  $spacers
+);
+
+$input-height: 3.2rem;
+
+// Then import Bootstrap an BootstrapVue SCSS files (order is important)
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+@import '../../node_modules/bootstrap-vue/src/index.scss';
+

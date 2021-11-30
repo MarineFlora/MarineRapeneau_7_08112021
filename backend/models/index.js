@@ -1,3 +1,5 @@
+//----------------------- fichier de configuration de la base de donnée avec sequelize ORM -----------------------// 
+
 'use strict';
 
 const fs = require('fs');
