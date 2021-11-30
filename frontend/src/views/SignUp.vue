@@ -93,7 +93,7 @@ import router from '../router/index'
 // regex patterns pour validation champs
 const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 const emailValid = helpers.regex('emailValid', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
-const nameValid = helpers.regex('nameValid', /[A-Za-z][A-Za-z' -]*/);
+const nameValid = helpers.regex('nameValid', /^[a-z ,'-]+$/i);
 
 export default {
     name: 'SignUp',
@@ -163,7 +163,7 @@ export default {
                     .then((res) => {
                         console.log('token:', res.token); 
                         if (!res.token) {
-                            this.errorMessage = 'Problème de connexion'
+                            this.errorMessage = 'Compte existant, veuillez vous connecter'
                         } else {
                             localStorage.setItem('userToken', res.token);
                             router.push({ name: 'LatestPosts' });

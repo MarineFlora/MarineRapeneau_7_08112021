@@ -12,8 +12,10 @@ const { User } = db.sequelize.models
 // fonction pour enregistrement de nouveaux utilisateurs
 exports.signup = (req, res, next) => {
     // vérifier validation regex mot de passe
-    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/i; // ne marche plus ?
-    if (!(req.body.password).match(passwordRegex)) {
+    const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    const passwordValue = req.body.password;
+    console.log(passwordRegex.test(passwordValue));
+    if ((passwordRegex.test(passwordValue)) == false) {
         res.status(400).json({ error: "le mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
     } else {
         // fonction asynchrone de cryptage du mot de passe 
