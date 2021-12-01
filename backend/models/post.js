@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.TEXT,
         imageUrl: DataTypes.STRING,
         likes: DataTypes.INTEGER,
-        usersLiked: DataTypes.JSON
+        usersLiked: DataTypes.JSON,
+        commentsCount: DataTypes.INTEGER,
+        usersCommented: DataTypes.JSON
     }, 
     {
         sequelize,

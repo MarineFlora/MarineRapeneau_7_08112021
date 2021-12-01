@@ -9,7 +9,11 @@ module.exports = {
             type: Sequelize.INTEGER
         },
         userId: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            references: {
+                model: 'Users',
+                key: 'id'
+            }
         },
         description: {
             type: Sequelize.TEXT
@@ -21,6 +25,12 @@ module.exports = {
             type: Sequelize.INTEGER
         },
         usersLiked: {
+            type: Sequelize.JSON
+        },
+        commentsCount: {
+            type: Sequelize.INTEGER
+        },
+        usersCommented: {
             type: Sequelize.JSON
         },
         createdAt: {
