@@ -10,7 +10,32 @@ const { Post } = db.sequelize.models
 const fs = require('fs');
 
 // création d'une publication
-exports.createPost = (req, res, next) => {
-   
-}
+exports.createPost = async (req, res, next) => {
+    let postObject = req.body;
+
+    if (req.file) {
+        postObject = JSON.parse(req.body.post);
+        postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        console.log('postObjectfile:', postObject);
+        console.log('req.body.post:', req.body.post);
+    } 
+    console.log('postObject:', postObject);
+
+    // vérifier autorisation avant enregistrement dans la DB
+    if (postObject.userId === req.token.userId) { 
+        try {
+            let post = await Post.create({ ...postObject });
+            // renvoi en réponse détails du Post et de son User
+            post = await Post.findOne({ where: { id: post.id }, include: db.User })
+            res.status(201).json({ message: 'Publication enregistrée !', post })
+
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({ error })
+        }
+    }
+    else {
+        res.status(401).json({ error: "création de post non autorisée" });
+    }
+};
 
