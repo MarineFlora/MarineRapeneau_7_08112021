@@ -1,10 +1,7 @@
 //----------------------- configuration protégeant les routes en vérifiant l'authentification avant envoi requêtes -----------------------// 
 
-// import jwt (verification tokens)
+// import jwt (verification token)
 const jwt = require('jsonwebtoken');
-
-// Importation config database avec ORM Sequelize
-const db = require('../models/index')
 
 // middleware a appliquer aux routes posts pour authentifier un utilisateur
 module.exports = (req, res, next) => {
@@ -19,7 +16,7 @@ module.exports = (req, res, next) => {
             throw "userId non valable (auth)!";
         // s'il y a correspondance, authentification effectuée
         } else {
-            next()
+            next();
         }
     } catch (error) {
         res.status(401).json({ error: error || "Requête non authentifiée !" });

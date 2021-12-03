@@ -1,10 +1,10 @@
 //----------------------- fichier contenant la logique appliquée à chaque route post -----------------------// 
 
 // Importation config database avec ORM Sequelize
-const db = require('../models/index')
+const db = require('../models/index');
 
 // Importation modèle Post
-const { Post } = db.sequelize.models
+const { Post } = db.sequelize.models;
 
 // import file system, accès aux opérations liées au systeme de fichier
 const fs = require('fs');
@@ -14,24 +14,22 @@ exports.createPost = async (req, res, next) => {
     let postObject = req.body;
 
     if (req.file) {
+        // reconverti chaine JSON en objet javascript
         postObject = JSON.parse(req.body.post);
         postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-        console.log('postObjectfile:', postObject);
-        console.log('req.body.post:', req.body.post);
     } 
-    console.log('postObject:', postObject);
 
     // vérifier autorisation avant enregistrement dans la DB
     if (postObject.userId === req.token.userId) { 
         try {
             let post = await Post.create({ ...postObject });
             // renvoi en réponse détails du Post et de son User
-            post = await Post.findOne({ where: { id: post.id }, include: db.User })
-            res.status(201).json({ message: 'Publication enregistrée !', post })
+            post = await Post.findOne({ where: { id: post.id }, include: db.User });
+            res.status(201).json({ message: 'Publication enregistrée !', post });
 
         } catch (error) {
-            console.log(error)
-            res.status(400).json({ error })
+            console.log(error);
+            res.status(400).json({ error });
         }
     }
     else {
