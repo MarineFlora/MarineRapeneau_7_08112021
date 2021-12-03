@@ -41,24 +41,45 @@ exports.createPost = async (req, res, next) => {
 };
 
 /* ---------- modification d'une publication ---------- */
-exports.modifyPost = async (req, res, next) => {
+exports.modifyPost = (req, res, next) => {
+    Post.findOne({ where: { id: req.params.id } })
+        .then((post) => {
+            // on récupère les informations modifiées de la publication
+            const postObject = req.file ?
+            // traitement si le fichier image existe
+            {
+                ...JSON.parse(req.body.post), 
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            // sinon on traite les autres élements du corps de la requête
+            } : { ...req.body };
 
+            // vérifier autorisation avant maj DB
+            if (req.token.userId === post.userId) {
+                Post.update({ ...postObject }, { where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
+                    .catch(error => res.status(400).json({ error }));  
+            } 
+            else {
+                res.status(401).json({ error: "vous n'êtes pas autorisé à modifier cette publication" });
+            }
+        })
+        .catch(error => res.status(500).json({ error })); 
 };
 
 /* ---------- suppression d'une publication ---------- */
-exports.deletePost = async (req, res, next) => {
+exports.deletePost = (req, res, next) => {
 
 };
 
 /* ---------- récupération de toutes les publications ---------- */
-exports.getAllPosts = async (req, res, next) => {
+exports.getAllPosts = (req, res, next) => {
     Post.findAll()
         .then(posts => res.status(200).json({ posts }))
         .catch(error => res.status(404).json({ error }));
 };
 
 /* ---------- récupération d'une publication ---------- */
-exports.getOnePost = async (req, res, next) => {
+exports.getOnePost = (req, res, next) => {
     Post.findOne({ where: { id: req.params.id } })
         .then(post => res.status(200).json({ post }))
         .catch(error => res.status(404).json({ error }));
