@@ -10,6 +10,7 @@ module.exports = {
         },
         userId: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             references: {
                 model: 'Users',
                 key: 'id'
@@ -17,22 +18,28 @@ module.exports = {
         },
         postId: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             references: {
                 model: 'Posts',
                 key: 'id'
             }
         },
         description: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         imageUrl: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
+            defaultValue: ''
         },
-        likes: {
-            type: Sequelize.INTEGER
+        likesCount: {
+            type: Sequelize.INTEGER,
+            defaultValue: 0
         },
         usersLiked: {
-            type: Sequelize.JSON
+            type: Sequelize.JSON,
+            defaultValue: []
         },
         createdAt: {
             allowNull: false,

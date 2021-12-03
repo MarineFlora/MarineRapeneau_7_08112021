@@ -4,10 +4,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Importation config database avec ORM Sequelize
-const db = require('../models/index')
+const db = require('../models/index');
 
 // Importation modèle User
-const { User } = db.sequelize.models
+const { User } = db.sequelize.models;
 
 // regex expressions pour valider inputs avant envoi à la base de donnée
 const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;

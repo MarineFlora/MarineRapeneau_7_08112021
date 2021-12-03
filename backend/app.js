@@ -6,6 +6,7 @@ const config = require('./config/config.js');
 
 //import des routers
 const userRoutes = require('./routes/user');
+const postsRoutes = require('./routes/posts');
 
 const app = express();
 
@@ -30,5 +31,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // enregistrement du routeur avec racine attendue par front-end
 app.use('/api/auth', userRoutes);
+app.use('/api/posts', postsRoutes);
 
 module.exports = app;

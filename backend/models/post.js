@@ -11,13 +11,35 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Post.init({
-        userId: DataTypes.INTEGER,
-        description: DataTypes.TEXT,
-        imageUrl: DataTypes.STRING,
-        likesCount: DataTypes.INTEGER,
-        usersLiked: DataTypes.JSON,
-        commentsCount: DataTypes.INTEGER,
-        usersCommented: DataTypes.JSON
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        imageUrl: { 
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: ''
+        },
+        likesCount: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
+        usersLiked: {
+            type: DataTypes.JSON,
+            defaultValue: []
+        },
+        commentsCount: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
+        usersCommented: {
+            type: DataTypes.JSON,
+            defaultValue: []
+        }    
     }, 
     {
         sequelize,
