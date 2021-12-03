@@ -68,19 +68,35 @@ exports.modifyPost = (req, res, next) => {
 
 /* ---------- suppression d'une publication ---------- */
 exports.deletePost = (req, res, next) => {
-
+    Post.findOne({ where: { id: req.params.id } })
+        .then(post => {
+            // vérifier autorisation avant suppression DB
+            // l'admin (userId=1) peut aussi supprimer une publication
+            if (post.userId === req.token.userId || req.token.userId === 1) {
+                const filename = post.imageUrl.split('/images/')[1];
+                // suppression de l'image du chemin local puis de la DB
+                fs.unlink(`images/${filename}`, () => {
+                    Post.destroy({ where: { id: req.params.id } })
+                        .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
+                        .catch(error => res.status(400).json({ error }));
+                });
+            } else {
+                res.status(401).json({ error: "vous n'êtes pas autorisé à supprimer cette publication" });
+            }
+        })
+        .catch(error => res.status(500).json({ error }));
 };
 
 /* ---------- récupération de toutes les publications ---------- */
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll()
+    Post.findAll({ include: db.User })
         .then(posts => res.status(200).json({ posts }))
         .catch(error => res.status(404).json({ error }));
 };
 
 /* ---------- récupération d'une publication ---------- */
 exports.getOnePost = (req, res, next) => {
-    Post.findOne({ where: { id: req.params.id } })
+    Post.findOne({ where: { id: req.params.id } , include: db.User })
         .then(post => res.status(200).json({ post }))
         .catch(error => res.status(404).json({ error }));
 };
