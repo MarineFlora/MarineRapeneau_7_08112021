@@ -9,7 +9,7 @@ const { Post } = db.sequelize.models;
 // import file system, accès aux opérations liées au systeme de fichier
 const fs = require('fs');
 
-// création d'une publication
+/* ---------- création d'une publication ---------- */
 exports.createPost = async (req, res, next) => {
     
     let postObject = req.body;
@@ -40,3 +40,26 @@ exports.createPost = async (req, res, next) => {
 
 };
 
+/* ---------- modification d'une publication ---------- */
+exports.modifyPost = async (req, res, next) => {
+
+};
+
+/* ---------- suppression d'une publication ---------- */
+exports.deletePost = async (req, res, next) => {
+
+};
+
+/* ---------- récupération de toutes les publications ---------- */
+exports.getAllPosts = async (req, res, next) => {
+    Post.findAll()
+        .then(posts => res.status(200).json({ posts }))
+        .catch(error => res.status(404).json({ error }));
+};
+
+/* ---------- récupération d'une publication ---------- */
+exports.getOnePost = async (req, res, next) => {
+    Post.findOne({ where: { id: req.params.id } })
+        .then(post => res.status(200).json({ post }))
+        .catch(error => res.status(404).json({ error }));
+};
