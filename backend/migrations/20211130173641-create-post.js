@@ -10,28 +10,36 @@ module.exports = {
         },
         userId: {
             type: Sequelize.INTEGER,
+            allowNull: false,
             references: {
                 model: 'Users',
                 key: 'id'
             }
         },
         description: {
-            type: Sequelize.TEXT
+            type: Sequelize.TEXT,
+            allowNull: false
         },
         imageUrl: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            allowNull: false,
+            defaultValue: ''
         },
         likesCount: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            defaultValue: 0
         },
         usersLiked: {
-            type: Sequelize.JSON
+            type: Sequelize.JSON,
+            defaultValue: []
         },
         commentsCount: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            defaultValue: 0
         },
         usersCommented: {
-            type: Sequelize.JSON
+            type: Sequelize.JSON,
+            defaultValue: []
         },
         createdAt: {
             allowNull: false,

@@ -10,12 +10,31 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Comment.init({
-        userId: DataTypes.INTEGER,
-        postId: DataTypes.INTEGER,
-        description: DataTypes.TEXT,
-        imageUrl: DataTypes.STRING,
-        likes: DataTypes.INTEGER,
-        usersLiked: DataTypes.JSON,
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        postId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        imageUrl: { 
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: ''
+        },
+        likesCount: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
+        },
+        usersLiked: {
+            type: DataTypes.JSON,
+            defaultValue: []
+        }
     }, 
     {
         sequelize,

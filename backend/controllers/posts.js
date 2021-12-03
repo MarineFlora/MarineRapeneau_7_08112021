@@ -11,7 +11,8 @@ const fs = require('fs');
 
 // création d'une publication
 exports.createPost = async (req, res, next) => {
-    let postObject = req.body;
+    
+    let postObject = req.body;
 
     if (req.file) {
         // reconverti chaine JSON en objet javascript
@@ -20,7 +21,8 @@ exports.createPost = async (req, res, next) => {
     } 
 
     // vérifier autorisation avant enregistrement dans la DB
-    if (postObject.userId === req.token.userId) { 
+    // si post as JSON (pas d'image), description obligatoire
+    if (req.body.description !== "" && postObject.userId === req.token.userId) { 
         try {
             let post = await Post.create({ ...postObject });
             // renvoi en réponse détails du Post et de son User
@@ -35,5 +37,6 @@ exports.createPost = async (req, res, next) => {
     else {
         res.status(401).json({ error: "création de post non autorisée" });
     }
+
 };
 
