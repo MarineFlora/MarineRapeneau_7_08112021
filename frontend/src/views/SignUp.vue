@@ -89,11 +89,12 @@ import ConnectionHeading from '../components/ConnectionHeading.vue';
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
 import router from '../router/index'
+import { apiFetch } from '../utils/ApiFetch'
 
 // regex patterns pour validation champs
 const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 const emailValid = helpers.regex('emailValid', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
-const nameValid = helpers.regex('nameValid', /^[a-z ,'-]+$/i);
+const nameValid = helpers.regex('nameValid', /^[a-z ,'-é]+$/i);
 
 export default {
     name: 'SignUp',
@@ -149,26 +150,16 @@ export default {
             } else {
                 // sinon envoi des champs au back-end
                 const userSignup = this.form;
-                fetch("http://localhost:3000/api/auth/signup", {
-                    method: "POST",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('userToken')  
-                    },
-                    body: JSON.stringify(userSignup)
-                })
-                    // puis recupérer token pour headers auth et envoyer à la page d'accueil
-                    .then((res) => res.json())
+                 apiFetch
+                    .post('/auth/signup', userSignup)
                     .then((res) => {
                         console.log('token:', res.token); 
                         if (!res.token) {
-                            this.errorMessage = 'Compte existant, veuillez vous connecter'
+                            this.errorMessage = 'Une erreur est survenue, si vous possédez déjà un compte, veuillez vous connecter'
                         } else {
                             localStorage.setItem('userToken', res.token);
                             router.push({ name: 'LatestPosts' });
                         }
-                            
                     })
                     .catch(error => {
                         console.log(error)

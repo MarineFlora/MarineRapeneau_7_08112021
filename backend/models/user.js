@@ -15,14 +15,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                is: /^[a-z ,'-]+$/i
+                is: /^[a-z ,'-é]+$/i
             }
         },
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                is: /^[a-z ,'-]+$/i
+                is: /^[a-z ,'-é]+$/i
             }
         },
         email: {
