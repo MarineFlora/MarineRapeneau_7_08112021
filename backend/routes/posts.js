@@ -9,8 +9,12 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
 // Routes avec action CRUD disponibles, avec leur endpoints, les middleware utilisés et leur fonction
-// création d'une sauce
+
 router.post('/', auth, multer, postsCtrl.createPost);
+router.put('/:id', auth, multer, postsCtrl.modifyPost);
+router.delete('/:id', auth, postsCtrl.deletePost);
+router.get('/', auth, postsCtrl.getAllPosts);
+router.get('/:id', auth, postsCtrl.getOnePost);
 
 
 module.exports = router;
