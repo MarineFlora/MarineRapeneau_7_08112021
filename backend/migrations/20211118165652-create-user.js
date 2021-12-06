@@ -12,14 +12,14 @@ module.exports = {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                is: /^[a-z ,'-]+$/i
+                is: /^[a-z ,'-é]+$/i
             }
         },
         lastName: {
             type: Sequelize.STRING,
             allowNull: false,
             validate: {
-                is: /^[a-z ,'-]+$/i
+                is: /^[a-z ,'-é]+$/i
             }
         },
         email: {

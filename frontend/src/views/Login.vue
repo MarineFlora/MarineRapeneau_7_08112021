@@ -51,6 +51,7 @@
 import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
 import router from '../router/index'
+import { apiFetch } from '../utils/ApiFetch'
 
 export default {
     name: 'LogIn',
@@ -70,18 +71,9 @@ export default {
     methods: {
         login() {
             if (this.email != '' && this.password !== '') {
-               // envoi des données au back
-                fetch("http://localhost:3000/api/auth/login", {
-                    method: "POST",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('userToken')
-                    },
-                    body: JSON.stringify({ email : this.email, password: this.password })
-                })
-                    // on récupère le token
-                    .then((res) => res.json())
+                // envoi des données au back
+                apiFetch
+                    .post('/auth/login', { email : this.email, password: this.password } )
                     .then((res) => {
                         // si erreur 401 au back-end : message erreur
                         if (!res.token) {
