@@ -54,7 +54,7 @@ import router from '../router/index'
 import { apiFetch } from '../utils/ApiFetch'
 
 export default {
-    name: 'LogIn',
+    name: 'Login',
     components: {
         BaseButton,
         ConnectionHeading
