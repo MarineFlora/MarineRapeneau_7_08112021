@@ -16,11 +16,11 @@ const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 // constante pour renvoyer l'userId et le token pour se connecter
 const newToken = user => {
     token = jwt.sign(
-        { userId: user.id },
+        { userId: user.id, isAdmin: user.admin },
         `${process.env.JWT_KEY}`,
         { expiresIn: '24h' }
     )
-    return { userId: user.id, token }
+    return { userId: user.id, isAdmin: user.admin, token }
 };
 
 

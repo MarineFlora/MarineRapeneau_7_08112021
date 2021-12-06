@@ -11,9 +11,7 @@ const fs = require('fs');
 
 /* ---------- création d'une publication ---------- */
 exports.createPost = async (req, res, next) => {
-    
     let postObject = req.body;
-
     if (req.file) {
         // reconverti chaine JSON en objet javascript
         postObject = JSON.parse(req.body.post);
@@ -28,7 +26,6 @@ exports.createPost = async (req, res, next) => {
             // renvoi en réponse détails du Post et de son User
             post = await Post.findOne({ where: { id: post.id }, include: db.User });
             res.status(201).json({ message: 'Publication enregistrée !', post });
-
         } catch (error) {
             console.log(error);
             res.status(400).json({ error });
@@ -37,7 +34,6 @@ exports.createPost = async (req, res, next) => {
     else {
         res.status(401).json({ error: "création de post non autorisée" });
     }
-
 };
 
 /* ---------- modification d'une publication ---------- */
@@ -71,10 +67,10 @@ exports.deletePost = (req, res, next) => {
     Post.findOne({ where: { id: req.params.id } })
         .then(post => {
             // vérifier autorisation avant suppression DB
-            // l'admin (userId=1) peut aussi supprimer une publication
-            if (post.userId === req.token.userId || req.token.userId === 1) {
+            // créateur du post et l'admin peuvent supprimer un post
+            if (post.userId === req.token.userId || req.token.isAdmin) {
                 const filename = post.imageUrl.split('/images/')[1];
-                // suppression de l'image du chemin local puis de la DB
+                // suppression de l'image du chemin local puis de la publication de la DB
                 fs.unlink(`images/${filename}`, () => {
                     Post.destroy({ where: { id: req.params.id } })
                         .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
