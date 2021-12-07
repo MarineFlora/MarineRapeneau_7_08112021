@@ -52,13 +52,23 @@
                         ></b-icon>
                     </b-nav-item>
 
-                    <b-nav-item to="/login">
+                    <b-nav-item>
                         <b-icon 
                             icon="power" 
                             font-scale="2" 
                             class="logout-icon"
                             title="se deconnecter"
+                            v-b-modal.my-modal
                         ></b-icon>
+
+                        <b-modal id="my-modal" hide-footer>
+                            <div class="text-center">
+                                <h4>Voulez-vous vraiment quitter votre espace personnel ?</h4>
+                                <router-link :to="{name: 'Login'}">
+                                    <BaseButton button-title="se desonnecter"/> 
+                                </router-link>
+                            </div>
+                        </b-modal>
                     </b-nav-item>
                 </b-navbar-nav>
 
@@ -68,15 +78,20 @@
 </template> 
 
 <script> 
-    export default {
-        name: 'TheHeader',
-        data() {
-            return {
-                hoverProfile: false,
-                hoverInfo: false, 
-            };
-        }        
-    }
+import BaseButton from '../components/BaseButton.vue';
+
+export default {
+    name: 'TheHeader',
+    components: {
+        BaseButton,
+    },
+    data() {
+        return {
+            hoverProfile: false,
+            hoverInfo: false, 
+        };
+    }        
+}
 </script>
 
 <style lang="scss">
