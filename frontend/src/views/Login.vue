@@ -118,10 +118,6 @@ export default {
         margin-bottom: 4rem;
     }
 
-    footer {
-        border-radius: 0;
-    }
-
     @media (min-width: 576px) {
         .form-width {
             width: 350px;
