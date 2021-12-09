@@ -1,6 +1,6 @@
 <template> 
     <header class="py-2 bg-dark shadow">
-        <b-container>
+        <b-container class="maxwidth-page px-md-0">
             <b-navbar class="px-0">
 
                 <b-navbar-brand href="/" class="mx-2">
@@ -70,7 +70,7 @@
 
                         <b-modal id="my-modal" hide-footer>
                             <b-row class="text-center flex-column align-items-center">
-                                <h4>Voulez-vous vraiment quitter votre espace personnel ?</h4>
+                                <h4 class="pb-3">Voulez-vous vraiment quitter votre espace personnel ?</h4>
                                 <router-link :to="{name: 'Login'}">
                                     <BaseButton button-title="se déconnecter"/> 
                                 </router-link>

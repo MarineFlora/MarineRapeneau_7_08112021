@@ -124,6 +124,7 @@ export default {
         }
     }
 
+    // classes pour animations material design inputs 
     .input-div {
         position: relative;
     }

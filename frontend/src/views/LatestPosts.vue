@@ -2,19 +2,19 @@
     <div class="latest-posts text-left">
         <TheHeader />
         <main>
-            <b-container>
-                <h1 class="my-4 page-title ">Dernières publications</h1>
+            <b-container class="maxwidth-page">
+                <h1 class="my-4 font-weight-bold">Dernières publications</h1>
                 
                 <b-row class="shadow p-3">
-                    <b-col cols="2" class="p-0 text-center">
+                    <b-col cols="3" sm="2" class="p-0 text-center">
                         <b-img 
-                            height="60" 
+                            height="65" 
                             :src="require('../assets/images/LauraLoiseau.png')" 
                             alt="avatar user"
                         ></b-img>
                     </b-col>
 
-                    <b-form class="col-10 px-0">
+                    <b-form class="col-9 col-sm-10 px-0">
                         <b-form-textarea                            
                             placeholder="Quoi de neuf ?"
                             rows="2"
@@ -23,19 +23,20 @@
                         ></b-form-textarea>
                         
                         <div class="d-flex align-items-center justify-content-between mt-3" >
-                                <div class="col d-flex align-items-center px-0 d-flex add-media">
+                              <!--  <div class="col d-flex align-items-center px-0 d-flex add-media">
                                     <b-icon icon="image" font-scale="1.5"  class="text-primary"></b-icon>
-                                    <b-form-file v-model="file1" class="mx-1 add-media upload-input" placeholder="ajouter médias" size="sm" multiple></b-form-file>
-                                </div>
-                                
-                            <BaseButton button-title="Publier" class="col-5 btn-sm btn-pages"/> 
-                        </div>
-               <!--  VERSION de l'input file sans bootstrapvue pour design correct...!-->
-                      <div class="col d-flex align-items-center justify-content-start px-0 mx-2 d-flex add-media">
+                                    <b-form-file v-model="file" class="mx-1 add-media upload-input" placeholder="ajouter médias" size="sm" multiple></b-form-file>
+                                </div>!-->
+                                 <!--  VERSION de l'input file sans bootstrapvue pour design correct... à tester !-->
+                                <div class="col d-flex align-items-center justify-content-start px-0 d-flex add-media">
                                     <b-icon icon="image" class="text-primary"></b-icon>
                                     <label for="image_uploads" class="mt-2 px-2 add-media">ajouter médias</label>
                                     <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png, .gif" multiple class="d-none">
                                 </div> 
+                                
+                            <BaseButton button-title="Publier" class="col btn-sm btn-pages"/> 
+                        </div>
+                               
                     </b-form>
                 </b-row>
 
@@ -63,7 +64,7 @@ export default {
     },
     data() {
         return {
-            file1: null
+            file: null
         }
     } 
 }
@@ -71,21 +72,22 @@ export default {
 
 <style lang="scss">
 
-.page-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
+// classes utilisées sur toutes les pages sauf connexion
 
 .btn-pages {
     font-size: 1.15rem !important;
+    max-width: 120px !important;
 }
 
+.maxwidth-page {
+    max-width: 720px !important;
+}
+
+// classes page posts
 .add-media{
     font-size: 0.9rem;
     color: grey;
     cursor: pointer;
 }
-
-
 
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="user-profile">
         <TheHeader />
-        <h1>Profil</h1>
+        <h1 class="font-weight-bold">Profil</h1>
     </div>
 </template>
 
