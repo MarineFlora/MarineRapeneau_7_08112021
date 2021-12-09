@@ -54,7 +54,7 @@ import router from '../router/index'
 import { apiFetch } from '../utils/ApiFetch'
 
 export default {
-    name: 'LogIn',
+    name: 'Login',
     components: {
         BaseButton,
         ConnectionHeading
@@ -118,16 +118,13 @@ export default {
         margin-bottom: 4rem;
     }
 
-    footer {
-        border-radius: 0;
-    }
-
     @media (min-width: 576px) {
         .form-width {
             width: 350px;
         }
     }
 
+    // classes pour animations material design inputs 
     .input-div {
         position: relative;
     }

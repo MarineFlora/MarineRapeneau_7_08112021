@@ -5,7 +5,7 @@ const multer = require('multer');
 // object dictionnaire pour faire correspondre l'extension avec le fichier
 const MIME_TYPES = {
     'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
+    'image/jpeg': 'jpeg',
     'image/png': 'png',
     'image/gif': 'gif'
 };
