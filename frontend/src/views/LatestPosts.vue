@@ -42,6 +42,7 @@
 
                 <!-- UNE PUBLICATION -->
                 <b-card class="my-3 p-0 shadow">
+                    <!-- USER + TIME -->
                     <b-row class="px-3" align-v="center">
                         <b-img 
                             height="55" 
@@ -51,11 +52,11 @@
                         ></b-img>
                         <div class="d-flex">
                             <h2 class="px-3">Yves Legrand</h2>
-                            <p class="text-secondary pr-2 d-none">admin</p>
+                            <p class="text-secondary pr-2">cuisinier</p>
                             <p class="text-secondary">· 2h</p>
                         </div>
                     </b-row>
-                    
+                    <!-- CONTENU PUBLICATION -->
                     <b-row>
                         <b-col class="py-3">
                             <b-card-text>
@@ -66,6 +67,66 @@
                             </b-card-text> 
                         </b-col>   
                     </b-row>
+                    <!-- COMMENTAIRES ET LIKES INFO-->
+                    <b-row>
+                        <b-col cols="9" class="d-flex align-items-center">
+                            <b-icon icon="chat-square" font-scale="1.3"></b-icon>
+                            <p class="text-secondary mx-2">2 commentaires</p>
+                        </b-col>
+
+                        <b-col cols="3" class="d-flex justify-content-end align-items-center">
+                            <b-icon icon="suit-heart" font-scale="1.3"></b-icon>
+                            <p class="text-secondary mx-2">5</p>
+                        </b-col>
+                    </b-row>
+                    <!-- COMMENTAIRES liste-->
+                    <div class="border border-left-0 border-right-0 my-3 py-2 comments">
+                        <!-- 1 COMMENTAIRE -->
+                        <b-row class="px-3 mb-3" align-v="start">
+                            <b-img 
+                                height="45" 
+                                :src="require('../assets/images/LauraLoiseau.png')" 
+                                rounded="circle"
+                                alt="avatar user"
+                            ></b-img>
+                            <div class="px-3">
+                                <div class="d-flex">
+                                    <p class="font-weight-bold pr-2">Laura Loiseau</p>
+                                    <p class="text-secondary pr-2">assistante comptable</p>
+                                    <p class="text-secondary">· 2h</p>
+                                </div>
+                                <p>trop cool ! :)</p>
+                                <div class="d-flex align-items-center text-secondary mt-1">
+                                    <b-link class="mr-4 text-secondary">Répondre</b-link>
+                                    <b-icon icon="suit-heart" font-scale="0.9"></b-icon>
+                                </div>
+                            </div>
+                        </b-row>
+                        <!-- 1 COMMENTAIRE -->
+                        <b-row class="px-3" align-v="start">
+                            <b-img 
+                                height="45" 
+                                :src="require('../assets/images/admin.png')" 
+                                rounded="circle"
+                                alt="avatar user"
+                            ></b-img>
+                            <div class="px-3">
+                                <div class="d-flex">
+                                    <p class="font-weight-bold pr-2">Ambre Hart</p>
+                                    <p class="text-secondary pr-2">admin</p>
+                                    <p class="text-secondary">· 2h</p>
+                                </div>
+                                <p> super!</p>
+                                <div class="d-flex align-items-center text-secondary mt-1">
+                                    <b-link class="mr-4 text-secondary">Répondre</b-link>
+                                    <b-icon icon="suit-heart" font-scale="0.9"></b-icon>
+                                </div>
+                            </div>
+                        </b-row>
+                    </div>
+                    <!-- AJOUTER UN COMMENTAIRES -->
+                    
+
                 </b-card>
 
 
@@ -136,6 +197,10 @@ export default {
 .add-media{
     font-size: 0.9rem;
     cursor: pointer;
+}
+
+.comments p, .comments a {
+    font-size: 0.9rem;
 }
 
 </style>
