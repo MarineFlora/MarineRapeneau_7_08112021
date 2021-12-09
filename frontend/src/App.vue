@@ -29,4 +29,8 @@ export default {
 h1 {
   font-family: 'Lora', serif;
 }
+
+h1, h2, p {
+    margin: 0 !important;
+}
 </style>

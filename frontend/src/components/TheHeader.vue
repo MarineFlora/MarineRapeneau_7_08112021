@@ -9,13 +9,13 @@
                         :src="require('../assets/images/logo-white.svg')" 
                         alt="Groupomania logo"
                         title="accueil" 
-                        class="d-md-none d-block"
+                        class="d-sm-none d-block"
                     ></b-img>
                     <b-img 
                         height="45" 
                         :src="require('../assets/images/logo-title-white.svg')" 
                         alt="Groupomania logo" 
-                        class="d-none d-md-block" 
+                        class="d-none d-sm-block" 
                     ></b-img>
                 </b-navbar-brand>
 
