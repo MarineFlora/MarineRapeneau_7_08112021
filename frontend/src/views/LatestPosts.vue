@@ -12,10 +12,13 @@
                 <b-card class="my-3 p-0 shadow">
                     <!-- 1 POST -->
                     <PostItem />
-
+                    
                     <!-- COMMENTAIRES liste-->
-                    <PostItemComment />
-
+                    <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3 comments">
+                        <PostItemComment />
+                        <PostItemComment />
+                    </div>
+                    
                     <!-- AJOUTER UN COMMENTAIRE meme principe que creer post -->
                     <PostItemCommentCreate />
 

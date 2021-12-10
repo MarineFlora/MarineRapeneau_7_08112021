@@ -31,21 +31,20 @@
                 <p class="text-secondary mx-2">2 commentaires</p>
             </b-col>
 
-            <b-col cols="3" class="d-flex justify-content-end align-items-center">
-                <b-icon icon="suit-heart" font-scale="1.3" title="aime ce post"></b-icon>
-                <p class="text-secondary mx-2">5</p>
-            </b-col>
+            <PostItemLike likeScale="1.3"/>
         </b-row>
     </div>
 </template>
 
 <script>
 import ProfileImage from '../components/ProfileImage.vue';
+import PostItemLike from '../components/PostItemLike.vue';
 
 export default {
     name: 'PostItem',
     components: {
-        ProfileImage
+        ProfileImage,
+        PostItemLike
     } 
 }
 </script>
