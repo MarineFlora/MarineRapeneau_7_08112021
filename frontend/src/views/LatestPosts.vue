@@ -5,6 +5,7 @@
             <b-container class="maxwidth-page">
             
                 <h1 class="my-4 font-weight-bold">Dernières publications</h1>
+
                 <!-- CREER UN POST -->
                 <PostItemCreate />
 
@@ -18,7 +19,7 @@
                         <PostItemComment />
                         <PostItemComment />
                     </div>
-                    
+
                     <!-- AJOUTER UN COMMENTAIRE meme principe que creer post -->
                     <PostItemCommentCreate />
 
@@ -51,12 +52,7 @@ export default {
         PostItem,
         PostItemComment,
         PostItemCommentCreate
-    },
-    data() {
-        return {
-            file: null
-        }
-    } 
+    }
 }
 </script>
 
