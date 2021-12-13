@@ -25,7 +25,7 @@
 
                 </b-card>
 
-                <b-row class="my-4">
+                <b-row class="my-4 px-3">
                     <b-icon icon="arrow-clockwise" font-scale="1.5" class="mx-3"></b-icon>
                     <p >Il n’y a pas d’autres publications à afficher...</p>
                 </b-row>

@@ -3,7 +3,7 @@
         <!-- USER + TIME -->
         <b-row class="px-3" align-v="center">
             <b-col cols="11" class="px-0" >
-                <div  class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
                     <!-- changer adresse image dynamiquement -->
                     <ProfileImage imageHeight="65" /> 
 
@@ -16,7 +16,7 @@
             </b-col>
             <b-col cols="1" class="px-0 d-flex justify-content-end">
                 <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
-                <b-dropdown size="sm" variant="outline-primary" offset="-130rem">
+                <b-dropdown size="sm" variant="outline-primary" offset="-130rem" title="paramètres">
                     <b-dropdown-item href="#">Modifier</b-dropdown-item>
                     <b-dropdown-item href="#">Supprimer</b-dropdown-item>
                     <b-dropdown-item href="/about">Signaler</b-dropdown-item>
