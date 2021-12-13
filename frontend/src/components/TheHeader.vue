@@ -24,8 +24,7 @@
                         to="/user-profile" 
                         @mouseover="hoverProfile = true" 
                         @mouseleave="hoverProfile = false" 
-                        v-b-tooltip.hover.v-primary 
-                        title="profil">
+                        v-b-tooltip.hover.v-primary="'profil'">
                             <b-icon 
                                 v-if="!hoverProfile" 
                                 icon="person" 
@@ -44,8 +43,7 @@
                         to="/about" 
                         @mouseover="hoverInfo = true" 
                         @mouseleave="hoverInfo = false" 
-                        v-b-tooltip.hover.v-primary 
-                        title="à propos">
+                        v-b-tooltip.hover.v-primary="'à propos'">
                             <b-icon 
                                 v-if="!hoverInfo" 
                                 icon="info-circle" 
@@ -60,7 +58,7 @@
                             ></b-icon>
                     </b-nav-item>
 
-                    <b-nav-item v-b-tooltip.hover.v-primary title="se déconnecter">
+                    <b-nav-item v-b-tooltip.hover.v-primary="'se déconnecter'">
                         <b-icon 
                             icon="power" 
                             font-scale="2" 

@@ -17,7 +17,7 @@
                     <!--  VERSION de l'input file sans bootstrapvue pour design correct... à tester !-->
                 <div class="col d-flex align-items-center justify-content-start px-0 d-flex add-media" title="ajouter une image ou un gif">
                     <b-icon icon="image" class="text-primary"></b-icon>
-                    <label for="image_uploads" class="mt-2 px-2 add-media text-secondary">ajouter médias</label>
+                    <label for="image_uploads" class="mt-2 px-2 add-media text-secondary">médias</label>
                     <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png, .gif" multiple class="d-none">
                 </div> 
                     

@@ -16,7 +16,7 @@
             </b-col>
             <b-col cols="1" class="px-0 d-flex justify-content-end">
                 <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
-                <b-dropdown size="sm" variant="outline-primary" offset="-130rem" title="paramètres">
+                <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
                     <b-dropdown-item href="#">Modifier</b-dropdown-item>
                     <b-dropdown-item href="#">Supprimer</b-dropdown-item>
                     <b-dropdown-item href="/about">Signaler</b-dropdown-item>

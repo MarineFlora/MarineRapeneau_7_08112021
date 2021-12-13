@@ -15,9 +15,9 @@
                     </b-col>
                     <b-col cols="1" class="px-0 d-flex justify-content-end">
                         <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
-                        <b-dropdown size="sm" variant="link" offset="-130rem" no-caret>
+                        <b-dropdown size="sm" variant="link" offset="-130rem" no-caret v-b-tooltip.hover.v-primary.left="'paramètres'">
                             <template #button-content>
-                            <b-icon icon="caret-down-fill" font-scale="0.9" title="paramètres"></b-icon>
+                            <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>
                             </template>
                         
                             <b-dropdown-item href="#">Modifier</b-dropdown-item>
