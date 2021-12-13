@@ -2,16 +2,26 @@
     <div class="pb-3 border border-left-0 border-top-0 border-right-0 ">
         <!-- USER + TIME -->
         <b-row class="px-3" align-v="center">
-            <!-- changer adresse image dynamiquement -->
-            <ProfileImage imageHeight="65" /> 
+            <b-col cols="11" class="px-0" >
+                <div  class="d-flex align-items-center">
+                    <!-- changer adresse image dynamiquement -->
+                    <ProfileImage imageHeight="65" /> 
 
-            <div class="d-flex">
-                <div class="px-3">
-                    <h2>Yves Legrand</h2>
-                    <p class="text-secondary d-none">admin</p>
+                    <div class="px-3 d-flex flex-wrap">
+                        <h2 class="pr-2">Yves Legrand</h2>
+                        <p class="text-secondary pr-2">admin</p>
+                        <p class="text-secondary pr-2">· 4h</p>
+                    </div>
                 </div>
-                <p class="text-secondary">· 4h</p>
-            </div>
+            </b-col>
+            <b-col cols="1" class="px-0 d-flex justify-content-end">
+                <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
+                <b-dropdown size="sm" variant="outline-primary" offset="-130rem">
+                    <b-dropdown-item href="#">Modifier</b-dropdown-item>
+                    <b-dropdown-item href="#">Supprimer</b-dropdown-item>
+                    <b-dropdown-item href="/about">Signaler</b-dropdown-item>
+                </b-dropdown>
+            </b-col>
         </b-row>
         <!-- CONTENU PUBLICATION -->
         <b-row>
