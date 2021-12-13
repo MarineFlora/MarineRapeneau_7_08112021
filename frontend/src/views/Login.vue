@@ -50,8 +50,8 @@
 <script> 
 import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
-import router from '../router/index'
-import { apiFetch } from '../utils/ApiFetch'
+import router from '../router/index';
+import { apiFetch } from '../utils/ApiFetch';
 
 export default {
     name: 'Login',

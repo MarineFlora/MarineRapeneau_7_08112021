@@ -16,12 +16,22 @@ class ApiFetch {
     }
 
     // requête POST, envoi données
-    post (path, body) {
+    post (path, body, options = {}) {
         return fetch(this.baseUrl + path, {
             method: 'POST',
-            headers: this.headers(),
+            headers: this.headers(options),
             body: JSON.stringify(body)
-        }).then((res) => res.json())
+        })
+            .then((res) => res.json())
+    }
+
+    get (path, body, options = {}) {
+        return fetch(this.baseUrl + path, {
+            method: 'GET',
+            headers: this.headers(options),
+            body: JSON.stringify(body)
+        })
+            .then((res) => res.json())
     }
 }
 

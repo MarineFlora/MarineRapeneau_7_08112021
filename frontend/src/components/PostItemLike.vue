@@ -21,7 +21,7 @@
                 ></b-icon>  
             </transition>
         </div>
-        <p class="text-secondary mx-2">5</p>
+        <p class="text-secondary mx-2">{{ likesCount }}</p>
     </b-col>
 </template>
 
@@ -37,7 +37,8 @@ export default {
     },
     data() {
         return {
-            liked: false
+            liked: false,
+            likesCount: null
         }
     },
     
