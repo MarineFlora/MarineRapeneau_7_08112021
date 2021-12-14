@@ -47,7 +47,7 @@ export default {
         apiFetch
             .get("/posts/")
             .then(data => {
-                this.likesCount = data.posts[0].likesCount;
+                this.likesCount = data.posts[0].likesCount; // !! test, à changer
             }) 
             .catch(error => {
                 if (!localStorage.getItem('userToken')) {
@@ -57,6 +57,7 @@ export default {
                 }
             });
     }
+    
 }
 </script>
 
