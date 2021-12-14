@@ -13,7 +13,7 @@
                             <div class="px-3 d-flex flex-wrap">
                                 <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
                                 <p class="text-secondary pr-2 d-none">admin</p>
-                                <p class="text-secondary pr-2">· {{ post.createdAt }} </p>
+                                <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow() }} </p>
                             </div>
                         </div>
                     </b-col>
@@ -71,10 +71,9 @@ import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import dayjs from 'dayjs' ;
-var relativeTime = require('dayjs/plugin/relativeTime');
+import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 require('dayjs/locale/fr');
-// fonction : dayjs(data.posts[0].createdAt).locale('fr').fromNow()
 
 export default {
     name: 'PostItem',
@@ -87,7 +86,8 @@ export default {
    
     data() {
         return {
-            posts: []
+            posts: [],
+            dayjs: dayjs
         }
     },
     mounted() {
@@ -95,7 +95,7 @@ export default {
             .get("/posts/")
             .then(data => { 
                 this.posts = data.posts
-               // console.log("PostItem-this.post:", this.posts)
+                console.log("PostItem-this.post:", this.posts)
             })
             .catch(error => {
                 if (!localStorage.getItem('userToken')) {
