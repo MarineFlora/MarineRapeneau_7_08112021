@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { apiFetch } from '../utils/ApiFetch';
+import router from '../router/index';
 
 export default {
     name: 'PostItemLike',
@@ -41,7 +43,20 @@ export default {
             likesCount: null
         }
     },
-    
+    mounted() {
+        apiFetch
+            .get("/posts/")
+            .then(data => {
+                this.likesCount = data.posts[0].likesCount;
+            }) 
+            .catch(error => {
+                if (!localStorage.getItem('userToken')) {
+                    router.push({ name: 'Login' });
+                } else {
+                    alert("Une erreur est survenue"); 
+                }
+            });
+    }
 }
 </script>
 

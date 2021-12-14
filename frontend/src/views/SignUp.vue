@@ -83,13 +83,13 @@
 </template> 
 
 <script> 
-import BaseButton from '../components/BaseButton.vue'
+import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
 
 import { validationMixin } from "vuelidate";
 import { required, minLength, helpers } from "vuelidate/lib/validators";
-import router from '../router/index'
-import { apiFetch } from '../utils/ApiFetch'
+import router from '../router/index';
+import { apiFetch } from '../utils/ApiFetch';
 
 // regex patterns pour validation champs
 const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
