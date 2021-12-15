@@ -18,6 +18,11 @@ exports.createPost = async (req, res, next) => {
         postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } 
 
+    console.log("req.body.description:", req.body.description);
+    console.log("postObject.userId:", postObject.userId);
+    console.log("postObject:", postObject);
+    console.log("req.body:", req.body);
+    console.log("req.token.userId:", req.token.userId)
     // vérifier autorisation avant enregistrement dans la DB
     // si post as JSON (pas d'image), description obligatoire
     if (req.body.description !== "" && postObject.userId === req.token.userId) { 
@@ -85,7 +90,7 @@ exports.deletePost = (req, res, next) => {
 
 /* ---------- récupération de toutes les publications ---------- */
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll({ include: db.User })
+    Post.findAll({ include: db.User, order: [ ['id', 'DESC'] ] })
         .then(posts => res.status(200).json({ posts }))
         .catch(error => res.status(404).json({ error }));
 };
