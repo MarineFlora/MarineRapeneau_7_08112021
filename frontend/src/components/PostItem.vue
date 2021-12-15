@@ -1,6 +1,7 @@
 <template>
     <div v-if="posts.length">
-        <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.createdAt">
+        
+        <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.id">
             <!-- POST SANS COMMENTAIRES -->
             <div class="pb-3 border border-left-0 border-top-0 border-right-0">
                 <!-- USER + TIME -->
@@ -87,7 +88,8 @@ export default {
     data() {
         return {
             posts: [],
-            dayjs: dayjs
+            dayjs: dayjs,
+           
         }
     },
     mounted() {
@@ -97,15 +99,18 @@ export default {
         apiFetch
             .get("/posts/")
             .then(data => { 
-                this.posts = data.posts
-                console.log("PostItem-this.post:", this.posts)
+                this.posts = data.posts;
+              
+                console.log("PostItem-this.posts:", this.posts)
             })
             .catch(error => {
                 console.log(error)
                 alert("Une erreur est survenue");
             }); 
-        }
+        };
+          
     }
+
 }
 </script>
 

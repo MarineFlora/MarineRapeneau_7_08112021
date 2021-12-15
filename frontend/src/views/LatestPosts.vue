@@ -8,10 +8,11 @@
 
                 <!-- CREER UN POST -->
                 <PostItemCreate />
+               
 
                 <!-- UNE PUBLICATION + COMMENTAIRES associés -->
                 <PostItem />
-                            
+                          
                 <b-row class="my-4 mx-0">
                     <p>
                         <b-icon icon="arrow-clockwise" font-scale="1.5" class="mr-1"></b-icon>
@@ -38,7 +39,8 @@ export default {
         BaseButton,
         PostItemCreate,
         PostItem
-    }
+    },
+   
 }
 </script>
 

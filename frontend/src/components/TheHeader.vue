@@ -69,9 +69,9 @@
                         <b-modal id="my-modal" hide-footer>
                             <b-row class="text-center flex-column align-items-center">
                                 <h4 class="pb-3">Voulez-vous vraiment quitter votre espace personnel ?</h4>
-                                <router-link :to="{name: 'Login'}">
-                                    <BaseButton button-title="se déconnecter"/> 
-                                </router-link>
+                                <div @click="logOut" >
+                                    <BaseButton button-title="se déconnecter" /> 
+                                </div>
                             </b-row>
                         </b-modal>
                     </b-nav-item>
@@ -84,6 +84,7 @@
 
 <script> 
 import BaseButton from '../components/BaseButton.vue';
+import router from '../router/index';
 
 export default {
     name: 'TheHeader',
@@ -95,6 +96,12 @@ export default {
             hoverProfile: false,
             hoverInfo: false, 
         };
+    },
+    methods: {
+        logOut() {
+            localStorage.clear();
+            router.push({ name: 'Login' });
+        }
     }        
 }
 </script>
