@@ -158,6 +158,7 @@ export default {
                             this.errorMessage = 'Une erreur est survenue, si vous possédez déjà un compte, veuillez vous connecter'
                         } else {
                             localStorage.setItem('userToken', res.token);
+                            localStorage.setItem('userId', res.userId);
                             router.push({ name: 'LatestPosts' });
                         }
                     })

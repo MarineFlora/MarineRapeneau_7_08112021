@@ -81,6 +81,7 @@ export default {
                         // sinon recupérer token pour headers auth et envoyer à la page d'accueil
                         } else {
                             localStorage.setItem('userToken', res.token);
+                            localStorage.setItem('userId', res.userId);
                             console.log(res.token);  
                             router.push({ name: 'LatestPosts' }); 
                         } 

@@ -13,16 +13,10 @@ const fs = require('fs');
 exports.createPost = async (req, res, next) => {
     let postObject = req.body;
     if (req.file) {
-        // reconverti chaine JSON en objet javascript
         postObject = JSON.parse(req.body.post);
         postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } 
 
-    console.log("req.body.description:", req.body.description);
-    console.log("postObject.userId:", postObject.userId);
-    console.log("postObject:", postObject);
-    console.log("req.body:", req.body);
-    console.log("req.token.userId:", req.token.userId)
     // vérifier autorisation avant enregistrement dans la DB
     // si post as JSON (pas d'image), description obligatoire
     if (req.body.description !== "" && postObject.userId === req.token.userId) { 

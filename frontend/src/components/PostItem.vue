@@ -1,6 +1,6 @@
 <template>
     <div v-if="posts.length">
-        <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.id">
+        <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.createdAt">
             <!-- POST SANS COMMENTAIRES -->
             <div class="pb-3 border border-left-0 border-top-0 border-right-0">
                 <!-- USER + TIME -->
@@ -91,6 +91,9 @@ export default {
         }
     },
     mounted() {
+        if (!localStorage.getItem('userToken')) {
+            router.push({ name: 'Login' });
+        } else {
         apiFetch
             .get("/posts/")
             .then(data => { 
@@ -98,12 +101,10 @@ export default {
                 console.log("PostItem-this.post:", this.posts)
             })
             .catch(error => {
-                if (!localStorage.getItem('userToken')) {
-                    router.push({ name: 'Login' });
-                } else {
-                    alert("Une erreur est survenue"); 
-                }
+                console.log(error)
+                alert("Une erreur est survenue");
             }); 
+        }
     }
 }
 </script>

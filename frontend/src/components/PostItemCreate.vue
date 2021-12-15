@@ -2,11 +2,12 @@
     <b-row class="shadow p-3">
         <ProfileImage imageHeight="65" class="text-center px-2"/>
 
-        <b-form class="col px-2">
+        <b-form class="col px-2" @submit.stop.prevent="createPost">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
                 max-rows="30"
+                v-model="description"
             ></b-form-textarea>
             
             <div class="d-flex align-items-center justify-content-between mt-3" >
@@ -31,12 +32,38 @@
 <script>
 import BaseButton from '../components/BaseButton.vue';
 import ProfileImage from '../components/ProfileImage.vue';
+import { apiFetch } from '../utils/ApiFetch';
 
 export default {
     name: 'PostItemCreate',
     components: {
         BaseButton,
         ProfileImage
+    },
+    data() {
+        return {
+            description: ''
+        }
+    },
+    methods: {
+        createPost() { 
+            if (this.description != '') {
+                const description = this.description;
+                const userId = localStorage.getItem("userId")
+                console.log("userId:", userId)
+                const body = { 
+                    "userId": Number(userId),
+                    "description": description
+                }
+                 apiFetch
+                    .post('/posts/', body)
+                    .then(res => console.log(res))
+                    .catch(error => {
+                        console.log(error)
+                        alert("Une erreur est survenue");
+                    });     
+            }               
+        }
     } 
 }
 </script>
