@@ -11,9 +11,12 @@
                             <!-- changer adresse image dynamiquement -->
                             <ProfileImage imageHeight="65" /> 
 
-                            <div class="px-3 d-flex flex-wrap">
+                            <div class="px-3 d-flex align-items-end flex-wrap">
                                 <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
-                                <p class="text-secondary pr-2 d-none">admin</p>
+                                <p class="text-secondary pr-2 d-flex align-items-end" :class="{ 'd-none' : !post.User.admin }">
+                                    admin
+                                    <b-icon icon="person-check-fill" class="text-dark pl-2" font-scale="1.5" title="admin"></b-icon>
+                                </p>
                                 <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow() }} </p>
                             </div>
                         </div>
