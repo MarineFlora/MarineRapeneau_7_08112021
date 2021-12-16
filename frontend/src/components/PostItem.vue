@@ -30,8 +30,11 @@
                 <!-- CONTENU PUBLICATION -->
                 <b-row>
                     <b-col class="py-3">
-                        <b-card-text>
-                            {{ post.description }}
+                        <b-card-text class="post-content">
+                            <div class="d-flex justify-content-center mb-3">
+                                <b-img :src="post.imageUrl" alt="" class="post-image" ></b-img>
+                            </div>
+                            <p>{{ post.description }}</p>
                         </b-card-text> 
                     </b-col>   
                 </b-row>
@@ -93,26 +96,40 @@ export default {
         }
     },
     mounted() {
-        if (!localStorage.getItem('userToken')) {
-            router.push({ name: 'Login' });
-        } else {
-        apiFetch
-            .get("/posts/")
-            .then(data => { 
-                this.posts = data.posts;
-              
-                console.log("PostItem-this.posts:", this.posts)
-            })
-            .catch(error => {
-                console.log(error)
-                alert("Une erreur est survenue");
-            }); 
-        };
+        this.loadPosts();
           
+    
+    },
+    methods: {
+        loadPosts() {
+            if (!localStorage.getItem('userToken')) {
+            router.push({ name: 'Login' });
+            } else {
+            apiFetch
+                .get("/posts/")
+                .then(data => { 
+                    this.posts = data.posts;
+                    console.log("PostItem-this.posts:", this.posts)
+                })
+                .catch(error => {
+                    console.log(error)
+                    alert("Une erreur est survenue");
+                }); 
+            }
+        }
     }
 
 }
 </script>
 
-<style>
+<style lang="scss">
+.post-content {
+    white-space: pre-wrap;
+}
+.post-image {
+   width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
 </style>

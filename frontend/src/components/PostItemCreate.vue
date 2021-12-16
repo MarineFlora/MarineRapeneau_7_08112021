@@ -19,7 +19,7 @@
                 <div class="col d-flex align-items-center justify-content-start px-0 d-flex add-media" title="ajouter une image ou un gif">
                     <b-icon icon="image" class="text-primary"></b-icon>
                     <label for="image_uploads" class="mt-2 px-2 add-media text-secondary">médias</label>
-                    <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png, .gif" multiple class="d-none">
+                    <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png, .gif" class="d-none">
                 </div> 
                     
                 <BaseButton button-title="Publier" class="col btn-sm btn-pages"/> 
@@ -55,16 +55,17 @@ export default {
                     "userId": Number(userId),
                     "description": description
                 }
-                 apiFetch
+                apiFetch
                     .post('/posts/', body)
                     .then(res => console.log(res))
                     .catch(error => {
-                        console.log(error)
+                        console.log(error);
                         alert("Une erreur est survenue");
                     });     
             }               
         }
-    } 
+    }     
+    
 }
 </script>
 
