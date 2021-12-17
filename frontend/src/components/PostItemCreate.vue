@@ -22,7 +22,6 @@
                     accept=".jpg, .jpeg, .png, .gif" 
                     class="input-file" 
                     @change="updateMediaDisplay" 
-                    multiple
                 >  
             </div>  
             
@@ -85,10 +84,10 @@ export default {
             if (currentFiles.length === 0) {
                 filesStatus.textContent = 'aucun fichier sélectionné';
                 previewMedia.appendChild(filesStatus);
-            } else if (currentFiles.length > 4) {
+            }/* else if (currentFiles.length > 4) {
                 filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
                 previewMedia.appendChild(filesStatus);
-            }
+            }*/
             else {
                 let list = document.createElement('ol');
                 list.style.cssText = 'display:flex; flex-wrap:wrap;';
