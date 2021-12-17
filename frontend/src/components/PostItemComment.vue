@@ -2,7 +2,7 @@
         <!-- 1 COMMENTAIRE -->
         <b-row class="mb-3" align-v="start">
             <!-- changer adresse image dynamiquement -->
-            <ProfileImage imageHeight="45" />
+            <ProfileImage imageHeight="40" />
 
             <b-col class="px-3">
                 <b-row class="px-3" align-v="center">

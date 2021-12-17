@@ -58,10 +58,6 @@ export default {
 }
 
 // classes page posts
-.add-media{
-    font-size: 0.9rem;
-    cursor: pointer;
-}
 
 .comments p, .comments a {
     font-size: 0.9rem;

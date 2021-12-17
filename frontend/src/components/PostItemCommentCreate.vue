@@ -1,6 +1,6 @@
 <template>
     <b-row class="pl-3 mt-3">
-        <ProfileImage imageHeight="45" />
+        <ProfileImage imageHeight="40" />
 
         <b-form class="col ">
             <b-form-textarea                            

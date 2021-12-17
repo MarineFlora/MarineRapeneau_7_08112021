@@ -9,7 +9,7 @@
                     <b-col cols="11" class="px-0" >
                         <div class="d-flex align-items-center">
                             <!-- changer adresse image dynamiquement -->
-                            <ProfileImage imageHeight="65" /> 
+                            <ProfileImage imageHeight="60" /> 
 
                             <div class="px-3 d-flex align-items-end flex-wrap">
                                 <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>

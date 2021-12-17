@@ -1,8 +1,9 @@
 <template>
     <b-row class="shadow p-3">
-        <ProfileImage imageHeight="65" class="text-center px-2"/>
+       
+        <ProfileImage imageHeight="60" class="text-center px-2"/>
 
-        <b-form class="col px-2" @submit.stop.prevent="createPost">
+        <b-form class="col px-2 overflow-hidden" @submit.stop.prevent="createPost">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
@@ -10,21 +11,29 @@
                 v-model="description"
             ></b-form-textarea>
             
-            <div class="d-flex align-items-center justify-content-between mt-3" >
-                <!--  <div class="col d-flex align-items-center px-0 d-flex add-media">
-                    <b-icon icon="image" font-scale="1.5"  class="text-primary"></b-icon>
-                    <b-form-file v-model="file" class="mx-1 add-media upload-input" placeholder="ajouter médias" size="sm" multiple></b-form-file>
-                </div>!-->
-                    <!--  VERSION de l'input file sans bootstrapvue pour design correct... à tester !-->
-                <div class="col d-flex align-items-center justify-content-start px-0 d-flex add-media" title="ajouter une image ou un gif">
-                    <b-icon icon="image" class="text-primary"></b-icon>
-                    <label for="image_uploads" class="mt-2 px-2 add-media text-secondary">médias</label>
-                    <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png, .gif" class="d-none">
-                </div> 
-                    
-                <BaseButton button-title="Publier" class="col btn-sm btn-pages"/> 
+            
+            <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
+                <b-icon icon="images" class="text-primary"></b-icon>
+                <label for="image-uploads" class="my-0 px-2 text-secondary add-media" role="button">médias</label>
+                <input 
+                    type="file" 
+                    id="image-uploads"
+                    name="image-uploads" 
+                    accept=".jpg, .jpeg, .png, .gif" 
+                    class="input-file" 
+                    @change="updateMediaDisplay" 
+                    multiple
+                >  
+            </div>  
+            
+            <div class="preview-media text-secondary font-italic add-media mb-3">
+                <p>aucun fichier sélectionné</p>
+            </div>   
+
+            <div class="d-flex justify-content-end">
+                <BaseButton button-title="Publier" class="btn-sm btn-pages"/> 
             </div>
-                    
+            
         </b-form>
     </b-row>
 </template>
@@ -63,11 +72,80 @@ export default {
                         alert("Une erreur est survenue");
                     });     
             }               
+        },
+        updateMediaDisplay() {
+            const previewMedia = document.querySelector('.preview-media');
+            const input = document.querySelector('.input-file');
+            while(previewMedia.firstChild) {
+                previewMedia.removeChild(previewMedia.firstChild);
+            }
+
+            let currentFiles = input.files;
+            let filesStatus = document.createElement('p');
+            if (currentFiles.length === 0) {
+                filesStatus.textContent = 'aucun fichier sélectionné';
+                previewMedia.appendChild(filesStatus);
+            } else if (currentFiles.length > 4) {
+                filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
+                previewMedia.appendChild(filesStatus);
+            }
+            else {
+                let list = document.createElement('ol');
+                list.style.cssText = 'display:flex; flex-wrap:wrap;';
+                previewMedia.appendChild(list);
+                for (let i = 0; i < currentFiles.length; i++) {
+                    let listItem = document.createElement('li');
+                    listItem.style.margin = '0.6rem';
+                    let fileName = document.createElement('p');
+
+                    if (this.validFileType(currentFiles[i])) {
+                       fileName.textContent = currentFiles[i].name;
+                        let image = document.createElement('img');
+                        image.src = window.URL.createObjectURL(currentFiles[i]);
+                        listItem.appendChild(image);
+                        listItem.appendChild(fileName);
+                    } else {
+                        fileName.textContent = currentFiles[i].name + ': Format de fichier incorrect. Merci de choisir un format png, jpg, jpeg ou gif.';
+                        listItem.appendChild(fileName);
+                    }
+                    
+                    list.appendChild(listItem);
+                }
+            }
+                    
+        },
+        validFileType(file) {
+            const fileTypes = [
+            'image/jpeg',
+            'image/jpeg',
+            'image/png',
+            'image/gif'
+            ]
+
+            for (let i = 0; i < fileTypes.length; i++) {
+                if (file.type === fileTypes[i]) {
+                return true;
+                }
+            }
+            return false;
         }
-    }     
-    
+    }  
 }
 </script>
 
-<style>
+<style lang="scss">
+.input-file {
+    opacity: 0;
+}
+
+form img {
+    height: 60px;
+}
+
+.add-media{
+    font-size: 0.9rem;
+}
+
+
+
 </style>

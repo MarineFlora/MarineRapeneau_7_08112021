@@ -8,11 +8,24 @@ class ApiFetch {
 
     // headers
     // à améliorer ensuite : ajouter condition si FormData headers = {} + pas JSON.stringify
-    headers () {
+    headers (options = {}) {
+       /* if ()
+
         return {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('userToken')
-        }
+        }*/
+        
+            const contentType = options.isFormData
+              ? {}
+              : {
+                  'Content-Type': 'application/json'
+                }
+        
+            return {
+              ...contentType,
+              Authorization: 'Bearer ' + localStorage.getItem('userToken')
+            }
     }
 
     // requête POST, envoi données
@@ -20,7 +33,7 @@ class ApiFetch {
         return fetch(this.baseUrl + path, {
             method: 'POST',
             headers: this.headers(options),
-            body: JSON.stringify(body)
+            body: options.isFormData ? body : JSON.stringify(body),
         })
             .then((res) => res.json())
     }
