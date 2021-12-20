@@ -39,4 +39,4 @@ const fileFilter = (req, file, callback) => {
 };
 
 // exports du multer configuré
-module.exports = multer({ storage, fileFilter }).single('image-uploads');
+module.exports = multer({ storage, fileFilter }).single('image');

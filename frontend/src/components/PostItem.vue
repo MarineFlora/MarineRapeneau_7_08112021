@@ -66,7 +66,7 @@
         
     </div>
     <div v-else>
-        <p>aucune publication disponible pour le moment... </p>
+        <p class="my-4">aucune publication disponible pour le moment... </p>
     </div>
     
 
@@ -132,9 +132,9 @@ export default {
     white-space: pre-wrap;
 }
 .post-image {
-   width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 25rem;
 }
 </style>

@@ -14,19 +14,19 @@
             
             <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                 <b-icon icon="images" class="text-primary"></b-icon>
-                <label for="image-uploads" class="my-0 px-2 text-secondary add-media" role="button">médias</label>
+                <label for="image" class="my-0 px-2 text-secondary add-media" role="button">ajouter médias</label>
                 <input 
                     type="file" 
-                    id="image-uploads"
-                    name="image-uploads" 
+                    id="image"
+                    name="image" 
                     accept=".jpg, .jpeg, .png, .gif" 
                     class="input-file" 
-                    @change="updateMediaDisplay" 
+                    @change="updateMediaDisplay"  
                 >  
             </div>  
             
             <div class="preview-media text-secondary font-italic add-media mb-3">
-                <p>aucun fichier sélectionné</p>
+                <p></p>
             </div>   
 
             <div class="d-flex justify-content-end">
@@ -55,25 +55,37 @@ export default {
     },
     methods: {
         createPost() { 
-            if (this.description != '') {
-                const description = this.description;
-                const userId = localStorage.getItem("userId");
-                console.log("userId:", userId);
-                const body = { 
-                    "userId": Number(userId),
-                    "description": description
-                }
-                apiFetch
-                    .post('/posts/', body)
-                    .then(res => {
-                        console.log(res)
-                       
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        alert("Une erreur est survenue");
-                    });     
-            }               
+            const description = this.description;
+            const userId = localStorage.getItem("userId");
+
+            const selectedFile = document.querySelector(".input-file");
+            const image = selectedFile.files[0]
+
+            const isFormData = !!image
+
+            let body = { 
+                "userId": Number(userId),
+                "description": description
+            }
+        
+            if (isFormData) {
+            const formData = new FormData();
+            formData.append("image", image);
+            formData.append("post", JSON.stringify(body))
+            body = formData
+            }
+
+            apiFetch
+                .post('/posts/', body, { isFormData })
+                .then(res => {
+                    console.log("fetch res:", res)
+                    // rechargement des posts ?
+                })
+                .catch(error => {
+                    console.log(error);
+                    alert("Une erreur est survenue");
+                });     
+                           
         },
         updateMediaDisplay() {
             const previewMedia = document.querySelector('.preview-media');
