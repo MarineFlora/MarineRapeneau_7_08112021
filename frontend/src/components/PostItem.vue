@@ -1,6 +1,6 @@
-<template>
+<template>  
     <div v-if="posts.length">
-        
+
         <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.id">
             <!-- POST SANS COMMENTAIRES -->
             <div class="pb-3 border border-left-0 border-top-0 border-right-0">
@@ -63,10 +63,12 @@
             <PostItemCommentCreate />
         
         </b-card>
+        
     </div>
     <div v-else>
-        <p>chargement des publications... </p>
+        <p>aucune publication disponible pour le moment... </p>
     </div>
+    
 
 </template>
 
@@ -95,33 +97,33 @@ export default {
         return {
             posts: [],
             dayjs: dayjs,
-           
         }
     },
     mounted() {
         this.loadPosts();
-          
-    
     },
     methods: {
         loadPosts() {
-            if (!localStorage.getItem('userToken')) {
-            router.push({ name: 'Login' });
-            } else {
             apiFetch
                 .get("/posts/")
                 .then(data => { 
                     this.posts = data.posts;
+                    if (data.error) {
+                        this.logOut();
+                    }
                     console.log("PostItem-this.posts:", this.posts)
+                    console.log("error:", data.error)
                 })
                 .catch(error => {
                     console.log(error)
                     alert("Une erreur est survenue");
                 }); 
-            }
+        },
+        logOut() {
+            localStorage.clear();
+            router.push({ name: 'Login' });
         }
     }
-
 }
 </script>
 

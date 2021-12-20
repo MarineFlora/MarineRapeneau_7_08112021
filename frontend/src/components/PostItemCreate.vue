@@ -3,7 +3,7 @@
        
         <ProfileImage imageHeight="60" class="text-center px-2"/>
 
-        <b-form class="col px-2 overflow-hidden" @submit.stop.prevent="createPost">
+        <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
@@ -57,15 +57,18 @@ export default {
         createPost() { 
             if (this.description != '') {
                 const description = this.description;
-                const userId = localStorage.getItem("userId")
-                console.log("userId:", userId)
+                const userId = localStorage.getItem("userId");
+                console.log("userId:", userId);
                 const body = { 
                     "userId": Number(userId),
                     "description": description
                 }
                 apiFetch
                     .post('/posts/', body)
-                    .then(res => console.log(res))
+                    .then(res => {
+                        console.log(res)
+                       
+                    })
                     .catch(error => {
                         console.log(error);
                         alert("Une erreur est survenue");
@@ -84,7 +87,8 @@ export default {
             if (currentFiles.length === 0) {
                 filesStatus.textContent = 'aucun fichier sélectionné';
                 previewMedia.appendChild(filesStatus);
-            }/* else if (currentFiles.length > 4) {
+            }/* // si plusieurs fichiers
+            else if (currentFiles.length > 4) {
                 filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
                 previewMedia.appendChild(filesStatus);
             }*/

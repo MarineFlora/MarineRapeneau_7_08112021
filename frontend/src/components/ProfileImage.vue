@@ -4,7 +4,7 @@
         :src="require('../assets/images/user-empty.png')" 
         rounded="circle"
         alt="avatar user"
-        class="mb-2"
+        class="my-2"
     ></b-img>
 </template>
 
