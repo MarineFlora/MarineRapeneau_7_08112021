@@ -105,8 +105,8 @@ export default {
                 previewMedia.appendChild(filesStatus);
             }*/
             else {
-                let list = document.createElement('ol');
-                list.style.cssText = 'display:flex; flex-wrap:wrap;';
+                let list = document.createElement('ul');
+                list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none;';
                 previewMedia.appendChild(list);
                 for (let i = 0; i < currentFiles.length; i++) {
                     let listItem = document.createElement('li');

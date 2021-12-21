@@ -13,10 +13,12 @@
 
                             <div class="px-3 d-flex align-items-end flex-wrap">
                                 <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
-                                <p class="text-secondary pr-2 d-flex align-items-end" :class="{ 'd-none' : !post.User.admin }">
-                                    admin
-                                    <b-icon icon="person-check-fill" class="text-dark pl-2" font-scale="1.5" title="admin"></b-icon>
-                                </p>
+                                <div class="text-secondary pr-2 d-flex align-items-end">
+                                    <p :class="{ 'd-none': !post.User.admin }">
+                                        admin
+                                        <b-icon icon="person-check-fill" class="text-dark pl-2" font-scale="1.5" title="admin"></b-icon>
+                                    </p>
+                                </div>
                                 <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow() }} </p>
                             </div>
                         </div>
@@ -24,10 +26,21 @@
                     <b-col cols="1" class="px-0 d-flex justify-content-end">
                         <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
                         <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
-                            <b-dropdown-item href="#">Modifier</b-dropdown-item>
-                            <b-dropdown-item href="#">Supprimer</b-dropdown-item>
+                            <b-dropdown-item href="#" >Modifier</b-dropdown-item>
+                            <b-dropdown-item href="#" v-b-modal="'modal-' +  post.id">Supprimer</b-dropdown-item>
                             <b-dropdown-item href="/about">Signaler</b-dropdown-item>
                         </b-dropdown>
+
+                        <!-- confirmation de suppression -->
+                        <b-modal 
+                            :id="'modal-' + post.id" 
+                            title="Voulez-vous vraiment supprimer ce post ?" 
+                            ok-title = "supprimer" 
+                            @ok="deletePost(`${post.id}`)"
+                        >
+                            <p>La publication {{ post.id }} sera supprimée définitivement. </p>
+                        </b-modal>
+
                     </b-col>
                 </b-row>
                 <!-- CONTENU PUBLICATION -->
@@ -73,10 +86,12 @@
 </template>
 
 <script>
-import ProfileImage from '../components/ProfileImage.vue';
-import PostItemLike from '../components/PostItemLike.vue';
-import PostItemComment from '../components/PostItemComment.vue';
-import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
+import ProfileImage from './ProfileImage.vue';
+import PostItemLike from './PostItemLike.vue';
+import PostItemComment from './PostItemComment.vue';
+import PostItemCommentCreate from './PostItemCommentCreate.vue';
+import BaseButton from './BaseButton.vue';
+
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import dayjs from 'dayjs' ;
@@ -90,13 +105,14 @@ export default {
         ProfileImage,
         PostItemLike,
         PostItemComment,
-        PostItemCommentCreate
+        PostItemCommentCreate,
+        BaseButton
     },
    
     data() {
         return {
             posts: [],
-            dayjs: dayjs,
+            dayjs: dayjs
         }
     },
     mounted() {
@@ -119,9 +135,22 @@ export default {
                     alert("Une erreur est survenue");
                 }); 
         },
+
         logOut() {
             localStorage.clear();
             router.push({ name: 'Login' });
+        },
+        
+        deletePost(option) {
+            apiFetch
+                .delete("/posts/" + option)
+                .then(res => {
+                    console.log("delete res:", res)
+                })
+                .catch(error => {
+                    console.log(error)
+                    alert("Une erreur est survenue");
+                }); 
         }
     }
 }
@@ -137,4 +166,10 @@ export default {
     max-width: 100%;
     max-height: 25rem;
 }
+
+@media (max-width: 576px) {
+        .post-image {
+            max-height: 20rem;
+        }
+    }
 </style>

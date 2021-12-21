@@ -63,10 +63,10 @@
                             icon="power" 
                             font-scale="2" 
                             class="logout-icon"
-                            v-b-modal.my-modal
+                            v-b-modal.modal-logout
                         ></b-icon>
 
-                        <b-modal id="my-modal" hide-footer>
+                        <b-modal id="modal-logout" hide-footer>
                             <b-row class="text-center flex-column align-items-center">
                                 <h4 class="pb-3">Voulez-vous vraiment quitter votre espace personnel ?</h4>
                                 <div @click="logOut" >

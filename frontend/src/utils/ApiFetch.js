@@ -33,7 +33,7 @@ class ApiFetch {
         return fetch(this.baseUrl + path, {
             method: 'POST',
             headers: this.headers(options),
-            body: options.isFormData ? body : JSON.stringify(body),
+            body: options.isFormData ? body : JSON.stringify(body)
         })
             .then((res) => res.json())
     }
@@ -42,6 +42,25 @@ class ApiFetch {
         return fetch(this.baseUrl + path, {
             method: 'GET',
             headers: this.headers(options),
+            body: JSON.stringify(body)
+        })
+            .then((res) => res.json())
+    }
+
+    put (path, body, options = {}) {
+        return fetch(this.baseUrl + path, {
+            method: 'PUT',
+            headers: this.headers(options),
+            body: options.isFormData ? body : JSON.stringify(body)
+        })
+            .then((res) => res.json())
+    }
+
+
+    delete (path, body) {
+        return fetch(this.baseUrl + path, {
+            method: 'DELETE',
+            headers: this.headers(),
             body: JSON.stringify(body)
         })
             .then((res) => res.json())
