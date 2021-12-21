@@ -10,7 +10,7 @@
                 <PostItemCreate />
                
 
-                <!-- UNE PUBLICATION + COMMENTAIRES associés -->
+                <!-- PUBLICATIONS + COMMENTAIRES associés -->
                 <PostItem />
                           
                 <b-row class="my-4 mx-0">

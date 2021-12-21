@@ -26,7 +26,7 @@
                     <b-col cols="1" class="px-0 d-flex justify-content-end">
                         <!-- paramètres du post -->
                         <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
-                            <b-dropdown-item v-if="isCreator(post.userId)">Modifier</b-dropdown-item>
+                            <b-dropdown-item v-if="isCreator(post.userId)" v-b-modal="'modal-modify-' +  post.id">Modifier</b-dropdown-item>
                             <b-dropdown-item v-b-modal="'modal-' +  post.id" v-if="isCreator(post.userId) || isAdmin()" class="delete-option">Supprimer</b-dropdown-item>
                             <b-dropdown-item href="/about">Signaler</b-dropdown-item>
                         </b-dropdown>
@@ -39,6 +39,42 @@
                             @ok="deletePost(`${post.id}`)"
                         >
                             <p>La publication {{ post.id }} sera supprimée définitivement. </p>
+                        </b-modal>
+
+                        <!-- modal de modification du post -->
+                        <b-modal 
+                            :id="'modal-modify-' + post.id" 
+                            title="Modifier la publication" 
+                            ok-title = "modifier" 
+                            @ok="modifyPost()"
+                        >
+                            <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost">
+                                <b-form-textarea                            
+                                    rows="2"
+                                    max-rows="10"
+                                    v-model="post.description"
+                                ></b-form-textarea>
+                                
+                                
+                                <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
+                                    <b-icon icon="images" class="text-primary"></b-icon>
+                                    <label for="image-modify" class="my-0 px-2 text-secondary add-media" role="button">modifier médias</label>
+                                    <input 
+                                        type="file" 
+                                        id="image-modify"
+                                        name="image" 
+                                        accept=".jpg, .jpeg, .png, .gif" 
+                                        class="input-file"     
+                                    >  
+                                </div>  
+                                
+                                <div class=" text-secondary font-italic  mb-3">
+                                <!-- afficher preview new image à la place, ça répète le gros bloc de create aussi!!! séparer update Media input dans un composant ?!-->
+                                    <b-img :src="post.imageUrl" alt="" ></b-img>
+                                </div>   
+
+                                
+                            </b-form>
                         </b-modal>
 
                     </b-col>
@@ -118,6 +154,7 @@ export default {
     mounted() {
         this.loadPosts();
     },
+
     methods: {
         loadPosts() {
             apiFetch
@@ -146,6 +183,7 @@ export default {
                 .delete("/posts/" + option)
                 .then(res => {
                     console.log("delete res:", res)
+                    this.loadPosts();
                 })
                 .catch(error => {
                     console.log(error)
@@ -164,15 +202,11 @@ export default {
             if (isAdmin) {
                 return true
             }
-        }
+        },
+        // en cours
+        modifyPost() { 
 
-             /*   modifyPost() { 
-            // 1. qd je clique ouvre pop up/modal
-            // 2. reprend le contenu description, modifiable input + texte dedans deja
-            // 3. reprend image deja dans le post
-
-
-            /*const description = this.description;
+          /*  const description = this.description;
             const userId = localStorage.getItem("userId");
 
             const selectedFile = document.querySelector(".input-file");
@@ -196,18 +230,13 @@ export default {
                 .post('/posts/', body, { isFormData })
                 .then(res => {
                     console.log("fetch res:", res)
-                    // rechargement des posts ?
+                   
                 })
                 .catch(error => {
                     console.log(error);
                     alert("Une erreur est survenue");
-                }); 
-                           
-        },*/
-      /*  getPostId() {
-            let params = new URL(window.location).searchParams;
-            const id = params.get("id");
-        },*/
+                });   */         
+        },
     }
 }
 </script>

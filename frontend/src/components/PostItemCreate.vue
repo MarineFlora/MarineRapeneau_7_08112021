@@ -25,7 +25,7 @@
                 >  
             </div>  
             
-            <div class="preview-media text-secondary font-italic add-media mb-3">
+            <div class="preview-media text-secondary font-italic add-media">
                 <p></p>
             </div>   
 
@@ -106,7 +106,7 @@ export default {
             }*/
             else {
                 let list = document.createElement('ul');
-                list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none;';
+                list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none; margin:0';
                 previewMedia.appendChild(list);
                 for (let i = 0; i < currentFiles.length; i++) {
                     let listItem = document.createElement('li');
