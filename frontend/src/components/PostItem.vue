@@ -14,7 +14,7 @@
                             <div class="px-3 d-flex align-items-end flex-wrap">
                                 <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
                                 <div class="text-secondary pr-2 d-flex align-items-end">
-                                    <p :class="{ 'd-none': !post.User.admin }">
+                                    <p v-if="post.User.admin">
                                         admin
                                         <b-icon icon="person-check-fill" class="text-dark pl-2" font-scale="1.5" title="admin"></b-icon>
                                     </p>
@@ -24,10 +24,10 @@
                         </div>
                     </b-col>
                     <b-col cols="1" class="px-0 d-flex justify-content-end">
-                        <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
+                        <!-- paramètres du post -->
                         <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
-                            <b-dropdown-item href="#" >Modifier</b-dropdown-item>
-                            <b-dropdown-item href="#" v-b-modal="'modal-' +  post.id">Supprimer</b-dropdown-item>
+                            <b-dropdown-item v-if="isCreator(post.userId)">Modifier</b-dropdown-item>
+                            <b-dropdown-item v-b-modal="'modal-' +  post.id" v-if="isCreator(post.userId) || isAdmin()" class="delete-option">Supprimer</b-dropdown-item>
                             <b-dropdown-item href="/about">Signaler</b-dropdown-item>
                         </b-dropdown>
 
@@ -112,7 +112,7 @@ export default {
     data() {
         return {
             posts: [],
-            dayjs: dayjs
+            dayjs: dayjs,
         }
     },
     mounted() {
@@ -140,7 +140,7 @@ export default {
             localStorage.clear();
             router.push({ name: 'Login' });
         },
-        
+
         deletePost(option) {
             apiFetch
                 .delete("/posts/" + option)
@@ -151,7 +151,63 @@ export default {
                     console.log(error)
                     alert("Une erreur est survenue");
                 }); 
+        },
+        // fonctions pour accès aux paramètres modifier/supprimer des posts
+        isCreator(option) {
+            const userId = localStorage.getItem("userId");
+            if (option == userId) {
+               return true
+            }
+        },
+        isAdmin() {
+            const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+            if (isAdmin) {
+                return true
+            }
         }
+
+             /*   modifyPost() { 
+            // 1. qd je clique ouvre pop up/modal
+            // 2. reprend le contenu description, modifiable input + texte dedans deja
+            // 3. reprend image deja dans le post
+
+
+            /*const description = this.description;
+            const userId = localStorage.getItem("userId");
+
+            const selectedFile = document.querySelector(".input-file");
+            const image = selectedFile.files[0]
+
+            const isFormData = !!image
+
+            let body = { 
+                "userId": Number(userId),
+                "description": description
+            }
+        
+            if (isFormData) {
+            const formData = new FormData();
+            formData.append("image", image);
+            formData.append("post", JSON.stringify(body))
+            body = formData
+            }
+
+            apiFetch
+                .post('/posts/', body, { isFormData })
+                .then(res => {
+                    console.log("fetch res:", res)
+                    // rechargement des posts ?
+                })
+                .catch(error => {
+                    console.log(error);
+                    alert("Une erreur est survenue");
+                }); 
+                           
+        },*/
+      /*  getPostId() {
+            let params = new URL(window.location).searchParams;
+            const id = params.get("id");
+        },*/
     }
 }
 </script>

@@ -159,6 +159,8 @@ export default {
                         } else {
                             localStorage.setItem('userToken', res.token);
                             localStorage.setItem('userId', res.userId);
+                            localStorage.setItem('isAdmin', res.isAdmin);
+                            
                             router.push({ name: 'LatestPosts' });
                         }
                     })

@@ -82,7 +82,9 @@ export default {
                         } else {
                             localStorage.setItem('userToken', res.token);
                             localStorage.setItem('userId', res.userId);
+                            localStorage.setItem('isAdmin', res.isAdmin);
                             console.log("userToken:", res.token);  
+                            console.log("user:", res.user); 
                             router.push({ name: 'LatestPosts' }); 
                         } 
                     })
