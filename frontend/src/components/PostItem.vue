@@ -117,7 +117,10 @@
         
     </div>
     <div v-else>
-        <p class="my-4">aucune publication disponible pour le moment... </p>
+        <p class="my-4">
+            <b-spinner label="Loading..."></b-spinner>
+            chargement des publications... 
+        </p>
     </div>
     
 
@@ -172,7 +175,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
-                    alert("Une erreur est survenue");
+                    //alert("Une erreur est survenue");
                 }); 
         },
 
@@ -190,7 +193,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
-                    alert("Une erreur est survenue");
+                   // alert("Une erreur est survenue");
                 }); 
         },
         // fonctions pour accès aux paramètres modifier/supprimer des posts
@@ -233,13 +236,15 @@ export default {
                 .put('/posts/' + id, body, { isFormData })
                 .then(res => {
                     console.log("fetch res:", res)
+                    console.log("error fetch:", res.error)
                    // this.loadPosts();
                 })
                 .catch(error => {
-                    console.log(error); 
+                    console.log("error catch fetch:", error);
                     alert("Une erreur est survenue"); 
                     // Problème
-                    // erreur une fois sur 2 si text ou image changée ou les 2...ou aléatoire...
+                    // erreur une fois sur 2 si text ou image changée ou les 2...ou aléatoire... 
+                    // parfois pas d'alerte
                     // le changement est quand même réalisé et s'affiche sur la page
                     // page se réactualise au lieu de juste composant
                 });           

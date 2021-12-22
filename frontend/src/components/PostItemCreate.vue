@@ -80,13 +80,14 @@ export default {
                 .then(res => {
                     console.log("fetch res:", res)
                     // rechargement des posts ?
+                    location.reload();
                 })
                 .catch(error => {
                     console.log(error);
                     alert("Une erreur est survenue");
-                });     
-                           
+                });                
         },
+
         updateMediaDisplay() {
             const previewMedia = document.querySelector('.preview-media');
             const input = document.querySelector('.input-file');
