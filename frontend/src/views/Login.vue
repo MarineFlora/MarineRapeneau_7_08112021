@@ -13,8 +13,8 @@
                                 @focus="addClassFocus('#email')"
                                 @blur="removeClassFocus('#email')"
                                 type="email" 
-                                title="email"
                                 class="px-4 input pt-3"
+                                autocomplete=email
                             ></b-form-input>
                         </div>
                     </b-form-group>
@@ -27,8 +27,8 @@
                             @focus="addClassFocus('#password')"
                             @blur="removeClassFocus('#password')"
                             type="password"
-                            title="mot de passe"
                             class="px-4 input pt-3"
+                            autocomplete=current-password
                         ></b-form-input>
                         
                      </div>    
@@ -50,8 +50,8 @@
 <script> 
 import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
-import router from '../router/index'
-import { apiFetch } from '../utils/ApiFetch'
+import router from '../router/index';
+import { apiFetch } from '../utils/ApiFetch';
 
 export default {
     name: 'Login',
@@ -81,7 +81,9 @@ export default {
                         // sinon recupérer token pour headers auth et envoyer à la page d'accueil
                         } else {
                             localStorage.setItem('userToken', res.token);
-                            console.log(res.token);  
+                            localStorage.setItem('userId', res.userId);
+                            localStorage.setItem('isAdmin', res.isAdmin);
+                            console.log("userToken:", res.token);  
                             router.push({ name: 'LatestPosts' }); 
                         } 
                     })

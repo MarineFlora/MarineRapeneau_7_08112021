@@ -13,7 +13,6 @@ const fs = require('fs');
 exports.createPost = async (req, res, next) => {
     let postObject = req.body;
     if (req.file) {
-        // reconverti chaine JSON en objet javascript
         postObject = JSON.parse(req.body.post);
         postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     } 
@@ -85,7 +84,7 @@ exports.deletePost = (req, res, next) => {
 
 /* ---------- récupération de toutes les publications ---------- */
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll({ include: db.User })
+    Post.findAll({ include: db.User, order: [ ['id', 'DESC'] ] })
         .then(posts => res.status(200).json({ posts }))
         .catch(error => res.status(404).json({ error }));
 };

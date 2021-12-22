@@ -24,8 +24,7 @@
                         to="/user-profile" 
                         @mouseover="hoverProfile = true" 
                         @mouseleave="hoverProfile = false" 
-                        v-b-tooltip.hover.v-primary 
-                        title="profil">
+                        v-b-tooltip.hover.v-primary="'profil'">
                             <b-icon 
                                 v-if="!hoverProfile" 
                                 icon="person" 
@@ -44,8 +43,7 @@
                         to="/about" 
                         @mouseover="hoverInfo = true" 
                         @mouseleave="hoverInfo = false" 
-                        v-b-tooltip.hover.v-primary 
-                        title="à propos">
+                        v-b-tooltip.hover.v-primary="'à propos'">
                             <b-icon 
                                 v-if="!hoverInfo" 
                                 icon="info-circle" 
@@ -60,20 +58,20 @@
                             ></b-icon>
                     </b-nav-item>
 
-                    <b-nav-item v-b-tooltip.hover.v-primary title="se déconnecter">
+                    <b-nav-item v-b-tooltip.hover.v-primary="'se déconnecter'">
                         <b-icon 
                             icon="power" 
                             font-scale="2" 
                             class="logout-icon"
-                            v-b-modal.my-modal
+                            v-b-modal.modal-logout
                         ></b-icon>
 
-                        <b-modal id="my-modal" hide-footer>
+                        <b-modal id="modal-logout" hide-footer>
                             <b-row class="text-center flex-column align-items-center">
                                 <h4 class="pb-3">Voulez-vous vraiment quitter votre espace personnel ?</h4>
-                                <router-link :to="{name: 'Login'}">
-                                    <BaseButton button-title="se déconnecter"/> 
-                                </router-link>
+                                <div @click="logOut" >
+                                    <BaseButton button-title="se déconnecter" /> 
+                                </div>
                             </b-row>
                         </b-modal>
                     </b-nav-item>
@@ -86,6 +84,7 @@
 
 <script> 
 import BaseButton from '../components/BaseButton.vue';
+import router from '../router/index';
 
 export default {
     name: 'TheHeader',
@@ -97,6 +96,12 @@ export default {
             hoverProfile: false,
             hoverInfo: false, 
         };
+    },
+    methods: {
+        logOut() {
+            localStorage.clear();
+            router.push({ name: 'Login' });
+        }
     }        
 }
 </script>
