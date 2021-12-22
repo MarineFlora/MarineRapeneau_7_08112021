@@ -14,7 +14,7 @@
             
             <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                 <b-icon icon="images" class="text-primary"></b-icon>
-                <label for="image" class="my-0 px-2 text-secondary add-media" role="button">ajouter médias</label>
+                <label for="image" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">ajouter médias</label>
                 <input 
                     type="file" 
                     id="image"
