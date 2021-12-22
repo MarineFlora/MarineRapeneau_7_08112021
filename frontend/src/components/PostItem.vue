@@ -45,35 +45,37 @@
                         <b-modal 
                             :id="'modal-modify-' + post.id" 
                             title="Modifier la publication" 
-                            ok-title = "modifier" 
-                            @ok="modifyPost()"
+                            hide-footer 
                         >
-                            <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost">
+                            <b-form class="col p-2 overflow-hidden" @submit.stop.event="modifyPost(`${post.id}`)">
+                                <!-- modif description -->
                                 <b-form-textarea                            
                                     rows="2"
                                     max-rows="10"
                                     v-model="post.description"
+                                    class="modify-description"
                                 ></b-form-textarea>
-                                
-                                
+                                <!-- input file -->
                                 <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                                     <b-icon icon="images" class="text-primary"></b-icon>
-                                    <label for="image-modify" class="my-0 px-2 text-secondary add-media" role="button">modifier médias</label>
+                                    <label for="image-modify" class="my-0 px-2 text-secondary add-media" role="button">modifier/ajouter médias</label>
                                     <input 
                                         type="file" 
                                         id="image-modify"
                                         name="image" 
                                         accept=".jpg, .jpeg, .png, .gif" 
-                                        class="input-file"     
+                                        class="input-file-modify"  
+                                        @change="updateMediaDisplay"     
                                     >  
                                 </div>  
-                                
-                                <div class=" text-secondary font-italic  mb-3">
-                                <!-- afficher preview new image à la place, ça répète le gros bloc de create aussi!!! séparer update Media input dans un composant ?!-->
+                                <!-- preview img -->
+                                <div class="preview-media-modify text-secondary font-italic">
                                     <b-img :src="post.imageUrl" alt="" ></b-img>
                                 </div>   
 
-                                
+                                <div class="d-flex justify-content-end">
+                                    <BaseButton button-title="Modifier" class="btn-sm btn-pages"/> 
+                                </div>
                             </b-form>
                         </b-modal>
 
@@ -149,6 +151,7 @@ export default {
         return {
             posts: [],
             dayjs: dayjs,
+          
         }
     },
     mounted() {
@@ -178,9 +181,9 @@ export default {
             router.push({ name: 'Login' });
         },
 
-        deletePost(option) {
+        deletePost(id) {
             apiFetch
-                .delete("/posts/" + option)
+                .delete("/posts/" + id)
                 .then(res => {
                     console.log("delete res:", res)
                     this.loadPosts();
@@ -204,12 +207,12 @@ export default {
             }
         },
         // en cours
-        modifyPost() { 
+        modifyPost(id) { 
 
-          /*  const description = this.description;
+            const description = document.querySelector(".modify-description").value
             const userId = localStorage.getItem("userId");
 
-            const selectedFile = document.querySelector(".input-file");
+            const selectedFile = document.querySelector(".input-file-modify");
             const image = selectedFile.files[0]
 
             const isFormData = !!image
@@ -227,16 +230,78 @@ export default {
             }
 
             apiFetch
-                .post('/posts/', body, { isFormData })
+                .put('/posts/' + id, body, { isFormData })
                 .then(res => {
                     console.log("fetch res:", res)
-                   
+                   // this.loadPosts();
                 })
                 .catch(error => {
-                    console.log(error);
-                    alert("Une erreur est survenue");
-                });   */         
+                    console.log(error); 
+                    alert("Une erreur est survenue"); 
+                    // Problème
+                    // erreur une fois sur 2 si text ou image changée ou les 2...ou aléatoire...
+                    // le changement est quand même réalisé et s'affiche sur la page
+                    // page se réactualise au lieu de juste composant
+                });           
         },
+        updateMediaDisplay() {
+            const previewMedia = document.querySelector('.preview-media-modify');
+            const input = document.querySelector('.input-file-modify');
+            while(previewMedia.firstChild) {
+                previewMedia.removeChild(previewMedia.firstChild);
+            }
+
+            let currentFiles = input.files;
+            let filesStatus = document.createElement('p');
+            if (currentFiles.length === 0) {
+                filesStatus.textContent = 'aucun fichier sélectionné';
+                previewMedia.appendChild(filesStatus);
+            }/* // si plusieurs fichiers
+            else if (currentFiles.length > 4) {
+                filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
+                previewMedia.appendChild(filesStatus);
+            }*/
+            else {
+                let list = document.createElement('ul');
+                list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none; margin:0';
+                previewMedia.appendChild(list);
+                for (let i = 0; i < currentFiles.length; i++) {
+                    let listItem = document.createElement('li');
+                    listItem.style.margin = '0.6rem';
+                    let fileName = document.createElement('p');
+
+                    if (this.validFileType(currentFiles[i])) {
+                       fileName.textContent = currentFiles[i].name;
+                        let image = document.createElement('img');
+                        image.src = window.URL.createObjectURL(currentFiles[i]);
+                        listItem.appendChild(image);
+                        listItem.appendChild(fileName);
+                    } else {
+                        fileName.textContent = currentFiles[i].name + ': Format de fichier incorrect. Merci de choisir un format png, jpg, jpeg ou gif.';
+                        listItem.appendChild(fileName);
+                    }
+                    
+                    list.appendChild(listItem);
+                }
+            }
+                    
+        },
+        validFileType(file) {
+            const fileTypes = [
+            'image/jpeg',
+            'image/jpeg',
+            'image/png',
+            'image/gif'
+            ]
+
+            for (let i = 0; i < fileTypes.length; i++) {
+                if (file.type === fileTypes[i]) {
+                return true;
+                }
+            }
+            return false;
+        }
+        
     }
 }
 </script>
@@ -253,8 +318,12 @@ export default {
 }
 
 @media (max-width: 576px) {
-        .post-image {
-            max-height: 20rem;
-        }
+    .post-image {
+        max-height: 20rem;
     }
+}
+
+.input-file-modify {
+    opacity: 0;
+}
 </style>
