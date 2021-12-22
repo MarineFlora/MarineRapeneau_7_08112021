@@ -15,8 +15,8 @@
                                 @focus="addClassFocus('#firstName')"
                                 @blur="removeClassFocus('#firstName')"
                                 type="text" 
-                                title="Prénom"
                                 class="px-4 input pt-3"
+                                autocomplete=given-name
                             ></b-form-input>
                         </div>
                     </b-form-group>    
@@ -30,8 +30,8 @@
                                 @focus="addClassFocus('#lastName')"
                                 @blur="removeClassFocus('#lastName')"
                                 type="text" 
-                                title="Nom"
                                 class="px-4 input pt-3"
+                                autocomplete=family-name
                             ></b-form-input>
                         </div>
                     </b-form-group>
@@ -45,8 +45,8 @@
                                 @focus="addClassFocus('#email')"
                                 @blur="removeClassFocus('#email')"
                                 type="email" 
-                                title="email"
                                 class="px-4 input pt-3"
+                                autocomplete=email
                             ></b-form-input>
                         </div>
                     </b-form-group>
@@ -60,8 +60,8 @@
                                 @focus="addClassFocus('#password')"
                                 @blur="removeClassFocus('#password')"
                                 type="password"
-                                title="mot de passe"
                                 class="px-4 input pt-3"
+                                autocomplete=current-password
                             ></b-form-input>
                             <b-form-invalid-feedback v-if="!$v.form.password.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
                         </div>    

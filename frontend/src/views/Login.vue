@@ -13,8 +13,8 @@
                                 @focus="addClassFocus('#email')"
                                 @blur="removeClassFocus('#email')"
                                 type="email" 
-                                title="email"
                                 class="px-4 input pt-3"
+                                autocomplete=email
                             ></b-form-input>
                         </div>
                     </b-form-group>
@@ -27,8 +27,8 @@
                             @focus="addClassFocus('#password')"
                             @blur="removeClassFocus('#password')"
                             type="password"
-                            title="mot de passe"
                             class="px-4 input pt-3"
+                            autocomplete=current-password
                         ></b-form-input>
                         
                      </div>    
@@ -84,7 +84,6 @@ export default {
                             localStorage.setItem('userId', res.userId);
                             localStorage.setItem('isAdmin', res.isAdmin);
                             console.log("userToken:", res.token);  
-                            console.log("user:", res.user); 
                             router.push({ name: 'LatestPosts' }); 
                         } 
                     })
