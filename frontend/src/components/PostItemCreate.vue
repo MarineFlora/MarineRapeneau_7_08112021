@@ -3,14 +3,13 @@
        
         <ProfileImage imageHeight="60" class="text-center px-2"/>
 
-        <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost">
+        <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost"  enctype="multipart/form-data">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
                 max-rows="30"
                 v-model="description"
             ></b-form-textarea>
-            
             
             <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                 <b-icon icon="images" class="text-primary"></b-icon>
@@ -22,6 +21,7 @@
                     accept=".jpg, .jpeg, .png, .gif" 
                     class="input-file" 
                     @change="updateMediaDisplay"  
+                    multiple
                 >  
             </div>  
             
@@ -58,10 +58,10 @@ export default {
             const description = this.description;
             const userId = localStorage.getItem("userId");
 
-            const selectedFile = document.querySelector(".input-file");
-            const image = selectedFile.files[0]
+            const inputFile = document.querySelector(".input-file");
+            const images = inputFile.files;
 
-            const isFormData = !!image
+            const isFormData = !!images
 
             let body = { 
                 "userId": Number(userId),
@@ -70,7 +70,9 @@ export default {
         
             if (isFormData) {
             const formData = new FormData();
-            formData.append("image", image);
+            for (let i = 0; i < images.length; i++) {
+                 formData.append("image", images[i]);
+            }
             formData.append("post", JSON.stringify(body))
             body = formData
             }
@@ -80,7 +82,7 @@ export default {
                 .then(res => {
                     console.log("fetch res:", res)
                     // rechargement des posts ?
-                    location.reload();
+                   // location.reload();
                 })
                 .catch(error => {
                     console.log(error);
@@ -100,19 +102,19 @@ export default {
             if (currentFiles.length === 0) {
                 filesStatus.textContent = 'aucun fichier sélectionné';
                 previewMedia.appendChild(filesStatus);
-            }/* // si plusieurs fichiers
-            else if (currentFiles.length > 4) {
+            } else if (currentFiles.length > 4) {
                 filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
                 previewMedia.appendChild(filesStatus);
-            }*/
+            }
             else {
                 let list = document.createElement('ul');
                 list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none; margin:0';
                 previewMedia.appendChild(list);
                 for (let i = 0; i < currentFiles.length; i++) {
                     let listItem = document.createElement('li');
-                    listItem.style.margin = '0.6rem';
+                    listItem.style.cssText = 'width:100px; margin:0.3rem';
                     let fileName = document.createElement('p');
+                    fileName.style.cssText = 'white-space: nowrap; overflow:hidden; text-overflow:ellipsis';
 
                     if (this.validFileType(currentFiles[i])) {
                        fileName.textContent = currentFiles[i].name;
@@ -155,13 +157,11 @@ export default {
 }
 
 form img {
-    height: 60px;
+    width: inherit;
 }
 
 .add-media{
     font-size: 0.9rem;
 }
-
-
 
 </style>
