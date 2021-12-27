@@ -38,7 +38,7 @@
                             ok-title = "supprimer" 
                             @ok="deletePost(`${post.id}`)"
                         >
-                            <p>La publication {{ post.id }} sera supprimée définitivement. </p>
+                            <p>La publication sera supprimée définitivement. </p>
                         </b-modal>
 
                         <!-- modal de modification du post -->
@@ -81,17 +81,20 @@
 
                     </b-col>
                 </b-row>
+                
                 <!-- CONTENU PUBLICATION -->
-                <b-row>
+                <b-row >
                     <b-col class="py-3">
                         <b-card-text class="post-content">
-                            <div class="d-flex justify-content-center mb-3">
-                                <b-img :src="post.imageUrl" alt="" class="post-image" ></b-img>
-                            </div>
+
+                            <!-- disposition des images selon leur nombre -->
+                            <PostItemImagesDisplay :post="post"/>
+
                             <p>{{ post.description }}</p>
                         </b-card-text> 
                     </b-col>   
                 </b-row>
+
                 <!-- COMMENTAIRES ET LIKES INFO-->
                 <b-row>
                     <b-col cols="9" class="d-flex align-items-center">
@@ -132,6 +135,7 @@ import PostItemLike from './PostItemLike.vue';
 import PostItemComment from './PostItemComment.vue';
 import PostItemCommentCreate from './PostItemCommentCreate.vue';
 import BaseButton from './BaseButton.vue';
+import PostItemImagesDisplay from './PostItemImagesDisplay.vue';
 
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
@@ -147,26 +151,26 @@ export default {
         PostItemLike,
         PostItemComment,
         PostItemCommentCreate,
-        BaseButton
+        BaseButton,
+        PostItemImagesDisplay
     },
    
     data() {
         return {
             posts: [],
             dayjs: dayjs,
-          
         }
     },
     mounted() {
         this.loadPosts();
     },
-
     methods: {
         loadPosts() {
             apiFetch
                 .get("/posts/")
                 .then(data => { 
                     this.posts = data.posts;
+                   
                     if (data.error) {
                         this.logOut();
                     }
@@ -209,7 +213,7 @@ export default {
                 return true
             }
         },
-        // en cours
+        
         modifyPost(id) { 
 
             const description = document.querySelector(".modify-description").value
@@ -261,11 +265,11 @@ export default {
             if (currentFiles.length === 0) {
                 filesStatus.textContent = 'aucun fichier sélectionné';
                 previewMedia.appendChild(filesStatus);
-            }/* // si plusieurs fichiers
+            }
             else if (currentFiles.length > 4) {
                 filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
                 previewMedia.appendChild(filesStatus);
-            }*/
+            }
             else {
                 let list = document.createElement('ul');
                 list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none; margin:0';
@@ -314,18 +318,6 @@ export default {
 <style lang="scss">
 .post-content {
     white-space: pre-wrap;
-}
-.post-image {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 25rem;
-}
-
-@media (max-width: 576px) {
-    .post-image {
-        max-height: 20rem;
-    }
 }
 
 .input-file-modify {
