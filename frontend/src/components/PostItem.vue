@@ -35,7 +35,8 @@
                         <b-modal 
                             :id="'modal-' + post.id" 
                             title="Voulez-vous vraiment supprimer ce post ?" 
-                            ok-title = "supprimer" 
+                            ok-title="supprimer" 
+                            cancel-title= "annuler"
                             @ok="deletePost(`${post.id}`)"
                         >
                             <p>La publication sera supprimée définitivement. </p>
@@ -45,9 +46,11 @@
                         <b-modal 
                             :id="'modal-modify-' + post.id" 
                             title="Modifier la publication" 
-                            hide-footer 
+                            ok-title="modifier"
+                            cancel-title="annuler"
+                            @ok="modifyPost(`${post.id}`)"
                         >
-                            <b-form class="col p-2 overflow-hidden" @submit.stop.event="modifyPost(`${post.id}`)">
+                            <b-form class="col p-2 overflow-hidden" >
                                 <!-- modif description -->
                                 <b-form-textarea                            
                                     rows="2"
@@ -58,24 +61,29 @@
                                 <!-- input file -->
                                 <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                                     <b-icon icon="images" class="text-primary"></b-icon>
-                                    <label for="image-modify" class="my-0 px-2 text-secondary add-media" role="button">modifier/ajouter médias</label>
+                                    <label for="image-modify" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">modifier médias</label>
                                     <input 
                                         type="file" 
                                         id="image-modify"
                                         name="image" 
                                         accept=".jpg, .jpeg, .png, .gif" 
-                                        class="input-file-modify"  
-                                        @change="updateMediaDisplay"     
+                                        class="input-file-modify" 
+                                        @change="updateMediaDisplay"  
+                                        multiple
                                     >  
-                                </div>  
+                                </div>    
                                 <!-- preview img -->
                                 <div class="preview-media-modify text-secondary font-italic">
-                                    <b-img :src="post.imageUrl" alt="" ></b-img>
-                                </div>   
+                                <div>
+                                    <b-img :src="JSON.parse(post.imageUrl)[0]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[0]"></b-img>
+                                    <b-img :src="JSON.parse(post.imageUrl)[1]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[1]"></b-img>
+                                    <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[2]"></b-img>
+                                    <b-img :src="JSON.parse(post.imageUrl)[3]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[3]"></b-img>
+                                    </div>
+                                    <b-link @click="deleteImages(`${post.id}`)" v-if="JSON.parse(post.imageUrl).length >= 1">supprimer les images</b-link>
+                                </div>  
+                               
 
-                                <div class="d-flex justify-content-end">
-                                    <BaseButton button-title="Modifier" class="btn-sm btn-pages"/> 
-                                </div>
                             </b-form>
                         </b-modal>
 
@@ -213,45 +221,52 @@ export default {
                 return true
             }
         },
-        
+        // à ajouter : pour modifier image
         modifyPost(id) { 
-
-            const description = document.querySelector(".modify-description").value
+             const description = document.querySelector(".modify-description").value
             const userId = localStorage.getItem("userId");
 
             const selectedFile = document.querySelector(".input-file-modify");
-            const image = selectedFile.files[0]
+            const images = selectedFile.files
+            if (description !== '' || images.length !== 0) { 
+                const isFormData = !!images
 
-            const isFormData = !!image
+                let body = { 
+                    "userId": Number(userId),
+                    "description": description
+                }
+            
+                if (isFormData) {
+                const formData = new FormData();
+                for (let i = 0; i < images.length; i++) {
+                    formData.append("image", images[i]);
+                }
+                formData.append("post", JSON.stringify(body))
+                body = formData
+                }
 
-            let body = { 
-                "userId": Number(userId),
-                "description": description
+                apiFetch
+                    .put('/posts/' + id, body, { isFormData })
+                    .then(res => {
+                        console.log("fetch res:", res)
+                        console.log("error fetch:", res.error)
+                        //this.loadPosts();
+                    })
+                    .catch(error => {
+                        console.log("error catch fetch:", error);
+                        alert("Une erreur est survenue"); 
+                    });  
+            } else {
+                alert("vous ne pouvez pas envoyer un post vide")
+            }                      
+        },
+        // en cours
+        deleteImages(id) {
+            const postImages = document.querySelector(".preview-media-modify");
+            console.log(postImages)
+            while(postImages.firstChild) {
+                postImages.removeChild(postImages.firstChild);
             }
-        
-            if (isFormData) {
-            const formData = new FormData();
-            formData.append("image", image);
-            formData.append("post", JSON.stringify(body))
-            body = formData
-            }
-
-            apiFetch
-                .put('/posts/' + id, body, { isFormData })
-                .then(res => {
-                    console.log("fetch res:", res)
-                    console.log("error fetch:", res.error)
-                   // this.loadPosts();
-                })
-                .catch(error => {
-                    console.log("error catch fetch:", error);
-                    alert("Une erreur est survenue"); 
-                    // Problème
-                    // erreur une fois sur 2 si text ou image changée ou les 2...ou aléatoire... 
-                    // parfois pas d'alerte
-                    // le changement est quand même réalisé et s'affiche sur la page
-                    // page se réactualise au lieu de juste composant
-                });           
         },
         updateMediaDisplay() {
             const previewMedia = document.querySelector('.preview-media-modify');
@@ -276,11 +291,12 @@ export default {
                 previewMedia.appendChild(list);
                 for (let i = 0; i < currentFiles.length; i++) {
                     let listItem = document.createElement('li');
-                    listItem.style.margin = '0.6rem';
+                    listItem.style.cssText = 'width:100px; margin:0.3rem';
                     let fileName = document.createElement('p');
+                    fileName.style.cssText = 'white-space: nowrap; overflow:hidden; text-overflow:ellipsis';
 
                     if (this.validFileType(currentFiles[i])) {
-                       fileName.textContent = currentFiles[i].name;
+                        fileName.textContent = currentFiles[i].name;
                         let image = document.createElement('img');
                         image.src = window.URL.createObjectURL(currentFiles[i]);
                         listItem.appendChild(image);
@@ -322,5 +338,15 @@ export default {
 
 .input-file-modify {
     opacity: 0;
+}
+
+.preview-media-modify {
+    display: flex; 
+    flex-wrap: wrap;  
+    margin: 0;
+}
+.modify-img {
+    width: 100px;
+    margin: 0.3rem;
 }
 </style>

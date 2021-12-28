@@ -2,15 +2,15 @@
     <b-row class="shadow p-3">
        
         <ProfileImage imageHeight="60" class="text-center px-2"/>
-
-        <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost"  enctype="multipart/form-data">
+        
+        <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost" enctype="multipart/form-data">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
                 max-rows="30"
                 v-model="description"
             ></b-form-textarea>
-            
+            <p class="text-danger">{{ errorMessage }}</p>
             <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                 <b-icon icon="images" class="text-primary"></b-icon>
                 <label for="image" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">ajouter médias</label>
@@ -34,6 +34,7 @@
             </div>
             
         </b-form>
+        
     </b-row>
 </template>
 
@@ -50,7 +51,8 @@ export default {
     },
     data() {
         return {
-            description: ''
+            description: '',
+            errorMessage: ''
         }
     },
     methods: {
@@ -61,33 +63,40 @@ export default {
             const inputFile = document.querySelector(".input-file");
             const images = inputFile.files;
 
-            const isFormData = !!images
+            if (description !== '' || images.length !== 0) { 
+                this.errorMessage= '';
+                const isFormData = !!images
 
-            let body = { 
-                "userId": Number(userId),
-                "description": description
-            }
-        
-            if (isFormData) {
-            const formData = new FormData();
-            for (let i = 0; i < images.length; i++) {
-                 formData.append("image", images[i]);
-            }
-            formData.append("post", JSON.stringify(body))
-            body = formData
-            }
+                let body = { 
+                    "userId": Number(userId),
+                    "description": description
+                }
+            
+                if (isFormData) {
+                const formData = new FormData();
+                for (let i = 0; i < images.length; i++) {
+                    formData.append("image", images[i]);
+                }
+                formData.append("post", JSON.stringify(body))
+                body = formData
+                }
 
-            apiFetch
-                .post('/posts/', body, { isFormData })
-                .then(res => {
-                    console.log("fetch res:", res)
-                    // rechargement des posts ?
-                   // location.reload();
-                })
-                .catch(error => {
-                    console.log(error);
-                    alert("Une erreur est survenue");
-                });                
+                apiFetch
+                    .post('/posts/', body, { isFormData })
+                    .then(res => {
+                        console.log("fetch res:", res)
+                        // rechargement des posts ?
+                    // location.reload();
+                    //this.loadPosts()
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert("Une erreur est survenue");
+                    });  
+            }
+            else {
+                 this.errorMessage="vous ne pouvez pas créer une publication vide";
+            }              
         },
 
         updateMediaDisplay() {

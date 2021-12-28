@@ -46,15 +46,29 @@ exports.createPost = async (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
     Post.findOne({ where: { id: req.params.id } })
         .then((post) => {
-            // on récupère les informations modifiées de la publication
-            const postObject = req.file ?
+             // Problème : si je modifie le texte mais pas l'image enlève quand même l'image
+             
+                postObject = JSON.parse(req.body.post);
+                let imageUrlList = [];
+                for (let i = 0; i < req.files.length; i++) {
+                    let fileUrl;
+                    fileUrl =`${req.protocol}://${req.get('host')}/images/${req.files[i].filename}`;
+                    imageUrlList.push(fileUrl);
+                }
+                postObject.imageUrl = JSON.stringify(imageUrlList)
+             
+            console.log(postObject)
+       /*     // on récupère les informations modifiées de la publication
+           const postObject = req.files ?
             // traitement si le fichier image existe
             {
                 ...JSON.parse(req.body.post), 
-                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.files[0].filename}`
             // sinon on traite les autres élements du corps de la requête
             } : { ...req.body };
-
+            console.log("postObject", postObject)*/
+            
+            //const postObject = { ...req.body };
             // vérifier autorisation avant maj DB
             if (req.token.userId === post.userId) {
                 Post.update({ ...postObject }, { where: { id: req.params.id } })
