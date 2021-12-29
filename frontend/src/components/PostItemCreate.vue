@@ -10,7 +10,9 @@
                 max-rows="30"
                 v-model="description"
             ></b-form-textarea>
+
             <p class="text-danger">{{ errorMessage }}</p>
+            
             <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                 <b-icon icon="images" class="text-primary"></b-icon>
                 <label for="image" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">ajouter médias</label>
@@ -49,6 +51,9 @@ export default {
         BaseButton,
         ProfileImage
     },
+    props: {
+        loadPosts: { type: Function },
+    },
     data() {
         return {
             description: '',
@@ -85,9 +90,7 @@ export default {
                     .post('/posts/', body, { isFormData })
                     .then(res => {
                         console.log("fetch res:", res)
-                        // rechargement des posts ?
-                    // location.reload();
-                    //this.loadPosts()
+                        this.loadPosts();
                     })
                     .catch(error => {
                         console.log(error);
@@ -98,7 +101,6 @@ export default {
                  this.errorMessage="vous ne pouvez pas créer une publication vide";
             }              
         },
-
         updateMediaDisplay() {
             const previewMedia = document.querySelector('.preview-media');
             const input = document.querySelector('.input-file');
