@@ -25,19 +25,9 @@
                 <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
                     <b-dropdown-item v-if="isCreator(post.userId)" v-b-modal="'modal-modify-' +  post.id">Modifier</b-dropdown-item>
                     <b-dropdown-item v-b-modal="'modal-' +  post.id" v-if="isCreator(post.userId) || isAdmin()" class="delete-option">Supprimer</b-dropdown-item>
-                    <b-dropdown-item href="/about">Signaler</b-dropdown-item>
+                    <b-dropdown-item to="/about">
+                    Signaler</b-dropdown-item>
                 </b-dropdown>
-
-                <!-- confirmation de suppression -->
-                <b-modal 
-                    :id="'modal-' + post.id" 
-                    title="Voulez-vous vraiment supprimer ce post ?" 
-                    ok-title="supprimer" 
-                    cancel-title= "annuler"
-                    @ok="deletePost(`${post.id}`)"
-                >
-                    <p>La publication sera supprimée définitivement. </p>
-                </b-modal>
 
                 <!-- modal de modification du post -->
                 <b-modal 
@@ -80,6 +70,17 @@
                         </div>  
                         
                     </b-form>
+                </b-modal>
+
+                <!-- confirmation de suppression -->
+                <b-modal 
+                    :id="'modal-' + post.id" 
+                    title="Voulez-vous vraiment supprimer ce post ?" 
+                    ok-title="supprimer" 
+                    cancel-title= "annuler"
+                    @ok="deletePost(`${post.id}`)"
+                >
+                    <p>La publication sera supprimée définitivement. </p>
                 </b-modal>
 
             </b-col>
@@ -141,18 +142,6 @@ export default {
         }
     },
     methods: {
-        deletePost(id) {
-            apiFetch
-                .delete("/posts/" + id)
-                .then(res => {
-                    console.log("delete res:", res)
-                    this.loadPosts();
-                })
-                .catch(error => {
-                    console.log(error)
-                   // alert("Une erreur est survenue");
-                }); 
-        },
         // fonctions pour accès aux paramètres modifier/supprimer des posts
         isCreator(option) {
             const userId = localStorage.getItem("userId");
@@ -166,7 +155,18 @@ export default {
                 return true
             }
         },
-        // à ajouter : pour modifier image
+        deletePost(id) {
+            apiFetch
+                .delete("/posts/" + id)
+                .then(res => {
+                    console.log("delete res:", res)
+                    this.loadPosts();
+                })
+                .catch(error => {
+                    console.log(error)
+                   // alert("Une erreur est survenue");
+                }); 
+        },
         modifyPost(id) { 
             const description = document.querySelector(".modify-description").value
             const userId = localStorage.getItem("userId");

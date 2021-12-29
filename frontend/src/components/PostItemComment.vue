@@ -20,9 +20,9 @@
                             <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>
                             </template>
                         
-                            <b-dropdown-item href="#">Modifier</b-dropdown-item>
-                            <b-dropdown-item href="#">Supprimer</b-dropdown-item>
-                            <b-dropdown-item href="/about">Signaler</b-dropdown-item>
+                            <b-dropdown-item to="#">Modifier</b-dropdown-item>
+                            <b-dropdown-item to="#">Supprimer</b-dropdown-item>
+                            <b-dropdown-item to="/about">Signaler</b-dropdown-item>
                         </b-dropdown>
                     </b-col>
                 </b-row>
