@@ -12,7 +12,7 @@
             ></b-form-textarea>
 
             <p class="text-danger">{{ errorMessage }}</p>
-            
+
             <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
                 <b-icon icon="images" class="text-primary"></b-icon>
                 <label for="image" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">ajouter médias</label>
@@ -94,11 +94,11 @@ export default {
                     })
                     .catch(error => {
                         console.log(error);
-                        alert("Une erreur est survenue");
+                        this.errorMessage="une erreur est survenue";
                     });  
             }
             else {
-                 this.errorMessage="vous ne pouvez pas créer une publication vide";
+                this.errorMessage="vous ne pouvez pas créer une publication vide";
             }              
         },
         updateMediaDisplay() {

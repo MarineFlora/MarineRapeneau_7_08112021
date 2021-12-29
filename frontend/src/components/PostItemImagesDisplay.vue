@@ -168,18 +168,6 @@ export default {
       
     },
     props: ['post'],
- /*  mounted() {
-       this.displayPostImages();
-   },
-   methods: {
-       // ajouter les élements dans la fonction pour pouvoir faire un boucle ?
-       displayPostImages() {
-           let imageList = document.querySelector('.post-images-list');
-           if(JSON.parse(post.imageUrl).length === 2) {
-               let imageCol = document.createEmlement('b-col')
-           }
-       }
-   } */
 }
 </script>
 

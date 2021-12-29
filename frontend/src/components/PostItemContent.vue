@@ -77,7 +77,6 @@
                             <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[2]"></b-img>
                             <b-img :src="JSON.parse(post.imageUrl)[3]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[3]"></b-img>
                             </div>
-                            <b-link @click="deleteImages(`${post.id}`)" v-if="JSON.parse(post.imageUrl).length >= 1">supprimer les images</b-link>
                         </div>  
                         
                     </b-form>
@@ -138,7 +137,7 @@ export default {
     },
     data() {
         return {
-            dayjs: dayjs,
+            dayjs: dayjs
         }
     },
     methods: {
@@ -169,11 +168,11 @@ export default {
         },
         // à ajouter : pour modifier image
         modifyPost(id) { 
-             const description = document.querySelector(".modify-description").value
+            const description = document.querySelector(".modify-description").value
             const userId = localStorage.getItem("userId");
-
+            
             const selectedFile = document.querySelector(".input-file-modify");
-            const images = selectedFile.files
+            let images = selectedFile.files
             if (description !== '' || images.length !== 0) { 
                 const isFormData = !!images
 
@@ -181,14 +180,14 @@ export default {
                     "userId": Number(userId),
                     "description": description
                 }
-            
+           
                 if (isFormData) {
-                const formData = new FormData();
-                for (let i = 0; i < images.length; i++) {
-                    formData.append("image", images[i]);
-                }
-                formData.append("post", JSON.stringify(body))
-                body = formData
+                    const formData = new FormData();
+                    for (let i = 0; i < images.length; i++) {
+                        formData.append("image", images[i]);
+                    }
+                    formData.append("post", JSON.stringify(body))
+                    body = formData
                 }
 
                 apiFetch
@@ -205,13 +204,6 @@ export default {
             } else {
                 alert("vous ne pouvez pas envoyer un post vide")
             }                      
-        },
-        deleteImages(id) {
-            const postImages = document.querySelector(".preview-media-modify");
-            console.log(postImages)
-            while(postImages.firstChild) {
-                postImages.removeChild(postImages.firstChild);
-            }
         },
         updateMediaDisplay() {
             const previewMedia = document.querySelector('.preview-media-modify');
