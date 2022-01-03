@@ -49,6 +49,15 @@ exports.modifyPost = (req, res, next) => {
             postObject = JSON.parse(req.body.post);
     
             if (req.files.length != 0) {
+                // suppression des anciennes images du chemin local
+                const oldImageUrlList = JSON.parse(post.imageUrl);
+                for (let i = 0; i < oldImageUrlList.length; i++) {
+                    const filename = oldImageUrlList[i].split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err => { console.log(err); }  
+                    ));
+                }
+                
+                // ajout des nouveaux fichiers dans le tableau
                 let imageUrlList = [];
                 for (let i = 0; i < req.files.length; i++) {
                     let fileUrl;
@@ -80,13 +89,19 @@ exports.deletePost = (req, res, next) => {
             // vérifier autorisation avant suppression DB
             // créateur du post et l'admin peuvent supprimer un post
             if (post.userId === req.token.userId || req.token.isAdmin) {
-                const filename = post.imageUrl.split('/images/')[1];
-                // suppression de l'image du chemin local puis de la publication de la DB
-                fs.unlink(`images/${filename}`, () => {
-                    Post.destroy({ where: { id: req.params.id } })
-                        .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
-                        .catch(error => res.status(400).json({ error }));
-                });
+                const imageUrlList = JSON.parse(post.imageUrl);
+                
+                // suppression des images du chemin local
+                for (let i = 0; i < imageUrlList.length; i++) {
+                    const filename = imageUrlList[i].split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err => { console.log(err); }  
+                    ));
+                }
+                // suppression de la publication de la DB
+                Post.destroy({ where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
+                    .catch(error => res.status(400).json({ error }));
+            
             } else {
                 res.status(401).json({ error: "vous n'êtes pas autorisé à supprimer cette publication" });
             }

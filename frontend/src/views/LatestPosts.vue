@@ -26,10 +26,8 @@
                     </b-card>
                 </div>
                 <div v-else>
-                    <p class="my-4">
-                        <b-spinner label="Loading..."></b-spinner>
-                        chargement des publications... 
-                    </p>
+                    <p class="my-4">Pas de publications disponibles pour le moment... 
+                    </br>Et si vous partagiez quelque chose ?</p>
                 </div>    
 
             </b-container>
