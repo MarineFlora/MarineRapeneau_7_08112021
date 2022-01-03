@@ -3,7 +3,7 @@
        
         <ProfileImage imageHeight="60" class="text-center px-2"/>
         
-        <b-form class="col p-2 overflow-hidden" @submit.stop.prevent="createPost" enctype="multipart/form-data">
+        <b-form class="col p-2 overflow-hidden create-form" @submit.prevent="createPost" enctype="multipart/form-data">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
@@ -68,6 +68,9 @@ export default {
             const inputFile = document.querySelector(".input-file");
             const images = inputFile.files;
 
+            const form = document.querySelector(".create-form");
+            //const previewMedia = document.querySelector('.preview-media');
+
             if (description !== '' || images.length !== 0) { 
                 this.errorMessage= '';
                 const isFormData = !!images
@@ -90,6 +93,8 @@ export default {
                     .post('/posts/', body, { isFormData })
                     .then(res => {
                         console.log("fetch res:", res)
+                        this.removePreviewChild();
+                        form.reset();
                         this.loadPosts();
                     })
                     .catch(error => {
@@ -101,12 +106,16 @@ export default {
                 this.errorMessage="vous ne pouvez pas créer une publication vide";
             }              
         },
-        updateMediaDisplay() {
+        removePreviewChild() {
             const previewMedia = document.querySelector('.preview-media');
-            const input = document.querySelector('.input-file');
             while(previewMedia.firstChild) {
                 previewMedia.removeChild(previewMedia.firstChild);
             }
+        },
+        updateMediaDisplay() {
+            const previewMedia = document.querySelector('.preview-media');
+            const input = document.querySelector('.input-file');
+            this.removePreviewChild();
 
             let currentFiles = input.files;
             let filesStatus = document.createElement('p');
