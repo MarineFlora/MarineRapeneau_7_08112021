@@ -90,6 +90,7 @@
         <b-row >
             <b-col class="py-3">
                 <b-card-text class="post-content">
+
                     <!-- disposition des images selon leur nombre -->
                     <PostItemImagesDisplay :post="post"/>
 
@@ -138,7 +139,8 @@ export default {
     },
     data() {
         return {
-            dayjs: dayjs
+            dayjs: dayjs,
+            
         }
     },
     methods: {

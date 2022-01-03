@@ -1,162 +1,53 @@
 <template>
-    <!-- SI 1 seule image -->
-    <b-row 
-        align-h="center" 
-        class="mb-3 post-images-list" 
-        v-if="JSON.parse(post.imageUrl).length === 1" 
-        v-b-modal="'modal-' +JSON.parse(post.imageUrl)[0]"
-    >
-        <b-img 
-            :src="JSON.parse(post.imageUrl)[0]" 
-            alt="" 
-            class="post-image" 
-            fluid 
-            rounded
-        ></b-img>
-        <b-modal 
-            :id="'modal-' +JSON.parse(post.imageUrl)[0]" 
-            hide-footer 
-            size="lg"
-        >
-            <div class="d-flex justify-content-center">
-                <b-img 
-                    :src="JSON.parse(post.imageUrl)[0]" 
-                    alt="" 
-                    class="modal-img"
-                ></b-img>
-            </div>
-        </b-modal>
-    </b-row> 
-
-    <!-- SI 2 images cols=6-->
-    <b-row 
-        align-h="center" 
-        class="mb-3" 
-        v-else-if="JSON.parse(post.imageUrl).length === 2"
-    >
-        <b-col 
-            cols="6" 
-            class="d-flex justify-content-center p-1" 
-            v-b-modal="'modal-' +JSON.parse(post.imageUrl)[0]"
-        >
+<div>
+    <b-row align-h="center" class="mb-3" v-if="imageUrl.length > 1" >
+        <b-col cols="6" class="p-1 d-flex justify-content-center image-col" v-for="value in imageUrl" :key="value">
             <b-img 
-                :src="JSON.parse(post.imageUrl)[0]" 
+                :src="value" 
                 alt="" 
                 class="post-image" 
-                fluid rounded
+                fluid
+                rounded 
+                v-b-modal="'modal-' +value"
             ></b-img>
-        </b-col>
-        <b-modal 
-            :id="'modal-' +JSON.parse(post.imageUrl)[0]" 
-            hide-footer 
-            size="lg"
-        >
-            <div class="d-flex justify-content-center">
-                <b-img 
-                    :src="JSON.parse(post.imageUrl)[0]"
-                    alt="" 
-                    class="modal-img"
-                ></b-img>
-            </div>
-        </b-modal>
 
-        <b-col 
-            cols="6" 
-            class="d-flex justify-content-center p-1" 
-            v-b-modal="'modal-' +JSON.parse(post.imageUrl)[1]"
-        >
+            <b-modal 
+                :id="'modal-' +value" 
+                hide-footer 
+                size="lg"
+            >
+                <div class="d-flex justify-content-center">
+                    <b-img :src="value" alt="" class="modal-img"></b-img>
+                </div>
+            </b-modal>
+        </b-col>
+    </b-row>
+
+    <b-row align-h="center" class="mb-3" v-else >
+        <b-col class="p-1 d-flex justify-content-center">
             <b-img 
-                :src="JSON.parse(post.imageUrl)[1]" 
+                :src="imageUrl[0]" 
                 alt="" 
                 class="post-image" 
-                fluid 
-                rounded
+                fluid
+                rounded 
+                v-b-modal="'modal-' +imageUrl[0]"
             ></b-img>
+
+            <b-modal 
+                :id="'modal-' +imageUrl[0]" 
+                hide-footer 
+                size="lg"
+            >
+                <div class="d-flex justify-content-center">
+                    <b-img :src="imageUrl[0]" alt="" class="modal-img"></b-img>
+                </div>
+            </b-modal>
         </b-col>
-        <b-modal 
-            :id="'modal-' +JSON.parse(post.imageUrl)[1]" 
-            hide-footer 
-            size="lg"
-        >
-            <div class="d-flex justify-content-center">
-                <b-img 
-                    :src="JSON.parse(post.imageUrl)[1]" 
-                    alt="" 
-                    class="modal-img"
-                ></b-img>
-            </div>
-        </b-modal>  
     </b-row>
 
-    <!-- SI 3 images "cols" dernière image enlevé pour prendre la largeur-->
-    <b-row align-h="center" class="mb-3" v-else-if="JSON.parse(post.imageUrl).length === 3">
-        <b-col cols="6" class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[0]">
-            <b-img :src="JSON.parse(post.imageUrl)[0]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[0]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[0]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>
-
-        <b-col  cols="6" class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[1]">
-            <b-img :src="JSON.parse(post.imageUrl)[1]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[1]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[1]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>
-
-        <b-col class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[2]">
-            <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[2]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>
-
-    </b-row>
-
-    <!--  SI 4 images -->
-    <b-row align-h="center" class="mb-3" v-else-if="JSON.parse(post.imageUrl).length === 4">
-        <b-col cols="6" class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[0]">
-            <b-img :src="JSON.parse(post.imageUrl)[0]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[0]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[0]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>
-
-        <b-col cols="6" class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[1]">
-            <b-img :src="JSON.parse(post.imageUrl)[1]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[1]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[1]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>
-
-        <b-col cols="6" class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[2]">
-            <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[2]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>
-
-        <b-col cols="6" class="d-flex justify-content-center p-1" v-b-modal="'modal-' +JSON.parse(post.imageUrl)[3]">
-            <b-img :src="JSON.parse(post.imageUrl)[3]" alt="" class="post-image" fluid rounded></b-img>
-        </b-col>
-        <b-modal :id="'modal-' +JSON.parse(post.imageUrl)[3]" hide-footer size="lg">
-            <div class="d-flex justify-content-center">
-                <b-img :src="JSON.parse(post.imageUrl)[3]" alt="" class="modal-img"></b-img>
-            </div>
-        </b-modal>       
-    </b-row>
+</div>
+ 
        
 </template>
 
@@ -167,25 +58,33 @@ export default {
     components: {
       
     },
-    props: ['post'],
+    data() {
+        return {
+           imageUrl: JSON.parse(this.post.imageUrl),
+        }
+    },
+    props: {
+        post: { type: Object, default: ['post'] }
+    },
+    
 }
 </script>
 
 <style lang="scss">
 .post-image {
-    max-height: 25rem;
-    object-fit: cover;
+    max-height: 20rem;
+    object-fit: contain;
 }
 
 .modal-img {
     object-fit: contain;
     width: 100%;
-    max-height: 510px;
+    max-height: 30rem;
 }
 
 @media (max-width: 576px) {
     .post-image {
-        max-height: 20rem;
+        max-height: 15rem;
     }
 }
 </style>

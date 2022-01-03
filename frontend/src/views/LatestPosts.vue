@@ -44,6 +44,7 @@ import PostItemCreate from '../components/PostItemCreate.vue';
 import PostItemContent from '../components/PostItemContent.vue';
 import PostItemComment from '../components/PostItemComment.vue';
 import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
+import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
 
 export default {
