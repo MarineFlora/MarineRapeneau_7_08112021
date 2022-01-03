@@ -60,12 +60,9 @@
                             >  
                         </div>    
                         <!-- preview img -->
-                        <div class="preview-media-modify text-secondary font-italic">
-                        <div>
-                            <b-img :src="JSON.parse(post.imageUrl)[0]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[0]"></b-img>
-                            <b-img :src="JSON.parse(post.imageUrl)[1]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[1]"></b-img>
-                            <b-img :src="JSON.parse(post.imageUrl)[2]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[2]"></b-img>
-                            <b-img :src="JSON.parse(post.imageUrl)[3]" alt="" class="modify-img" v-if="JSON.parse(post.imageUrl)[3]"></b-img>
+                        <div class="preview-media-modify text-secondary font-italic" >
+                            <div v-for="value in imageUrl" :key="value">
+                                <b-img :src="value" alt="" class="modify-img"></b-img>
                             </div>
                         </div>  
                         
@@ -140,7 +137,7 @@ export default {
     data() {
         return {
             dayjs: dayjs,
-            
+            imageUrl: JSON.parse(this.post.imageUrl)
         }
     },
     methods: {
@@ -172,10 +169,15 @@ export default {
         modifyPost(id) { 
             const description = document.querySelector(".modify-description").value
             const userId = localStorage.getItem("userId");
-            
+            const previewMedia = document.querySelector('.preview-media-modify');
+              
             const selectedFile = document.querySelector(".input-file-modify");
             let images = selectedFile.files
-            if (description !== '' || images.length !== 0) { 
+
+            if (description === '' && !previewMedia.firstChild) {
+                this.loadPosts();
+                alert("vous ne pouvez pas envoyer un post vide")
+            } else { 
                 const isFormData = !!images
 
                 let body = { 
@@ -203,8 +205,6 @@ export default {
                         console.log("error catch fetch:", error);
                         alert("Une erreur est survenue"); 
                     });  
-            } else {
-                alert("vous ne pouvez pas envoyer un post vide")
             }                      
         },
         updateMediaDisplay() {
