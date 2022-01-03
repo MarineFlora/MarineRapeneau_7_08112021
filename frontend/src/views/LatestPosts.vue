@@ -11,7 +11,7 @@
                
                <!-- TOUS LES POSTS -->
                 <div v-if="posts.length">
-                    <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.id">
+                    <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.updatedAt">
                         <!-- CONTENU PUBLICATION -->
                         <PostItemContent :post="post" :loadPosts="loadPosts"/>
 

@@ -64,7 +64,7 @@ export default {
         }
     },
     props: {
-        post: { type: Object, default: ['post'] }
+        post: { type: Object, default: ['post'] },
     },
     
 }
