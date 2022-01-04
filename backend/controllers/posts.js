@@ -12,42 +12,63 @@ const fs = require('fs');
 /* ---------- création d'une publication ---------- */
 exports.createPost = async (req, res, next) => {
     let postObject = req.body;
-    if (req.file) {
-        postObject = JSON.parse(req.body.post);
-        postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    } 
+   
+    if (req.files) {
+        postObject = JSON.parse(req.body.post);
+        let imageUrlList = [];
+        for (let i = 0; i < req.files.length; i++) {
+            let fileUrl;
+            fileUrl =`${req.protocol}://${req.get('host')}/images/${req.files[i].filename}`;
+            imageUrlList.push(fileUrl);
+        }
+        postObject.imageUrl = JSON.stringify(imageUrlList)
+    } 
 
-    // vérifier autorisation avant enregistrement dans la DB
+    // vérifier autorisation avant enregistrement dans la DB
     // si post as JSON (pas d'image), description obligatoire
-    if (req.body.description !== "" && postObject.userId === req.token.userId) { 
-        try {
-            let post = await Post.create({ ...postObject });
-            // renvoi en réponse détails du Post et de son User
-            post = await Post.findOne({ where: { id: post.id }, include: db.User });
-            res.status(201).json({ message: 'Publication enregistrée !', post });
-        } catch (error) {
-            console.log(error);
-            res.status(400).json({ error });
-        }
-    }
-    else {
-        res.status(401).json({ error: "création de post non autorisée" });
-    }
+    if (req.body.description !== "" && postObject.userId === req.token.userId) { 
+        try {
+            let post = await Post.create({ ...postObject });
+            // renvoi en réponse détails du Post et de son User
+            post = await Post.findOne({ where: { id: post.id }, include: db.User });
+            res.status(201).json({ message: 'Publication enregistrée !', post });
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({ error });
+        }
+    }
+    else {
+        res.status(401).json({ error: "création de post non autorisée" });
+    }
 };
 
 /* ---------- modification d'une publication ---------- */
 exports.modifyPost = (req, res, next) => {
     Post.findOne({ where: { id: req.params.id } })
         .then((post) => {
-            // on récupère les informations modifiées de la publication
-            const postObject = req.file ?
-            // traitement si le fichier image existe
-            {
-                ...JSON.parse(req.body.post), 
-                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-            // sinon on traite les autres élements du corps de la requête
-            } : { ...req.body };
-
+            postObject = JSON.parse(req.body.post);
+    
+            if (req.files.length != 0) {
+                // suppression des anciennes images du chemin local
+                const oldImageUrlList = JSON.parse(post.imageUrl);
+                for (let i = 0; i < oldImageUrlList.length; i++) {
+                    const filename = oldImageUrlList[i].split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err => { console.log(err); }  
+                    ));
+                }
+                
+                // ajout des nouveaux fichiers dans le tableau
+                let imageUrlList = [];
+                for (let i = 0; i < req.files.length; i++) {
+                    let fileUrl;
+                    fileUrl =`${req.protocol}://${req.get('host')}/images/${req.files[i].filename}`;
+                    imageUrlList.push(fileUrl);
+                }
+                postObject.imageUrl = JSON.stringify(imageUrlList)
+            } else {
+                postObject.imageUrl = post.imageUrl
+            }
+      
             // vérifier autorisation avant maj DB
             if (req.token.userId === post.userId) {
                 Post.update({ ...postObject }, { where: { id: req.params.id } })
@@ -68,13 +89,19 @@ exports.deletePost = (req, res, next) => {
             // vérifier autorisation avant suppression DB
             // créateur du post et l'admin peuvent supprimer un post
             if (post.userId === req.token.userId || req.token.isAdmin) {
-                const filename = post.imageUrl.split('/images/')[1];
-                // suppression de l'image du chemin local puis de la publication de la DB
-                fs.unlink(`images/${filename}`, () => {
-                    Post.destroy({ where: { id: req.params.id } })
-                        .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
-                        .catch(error => res.status(400).json({ error }));
-                });
+                const imageUrlList = JSON.parse(post.imageUrl);
+                
+                // suppression des images du chemin local
+                for (let i = 0; i < imageUrlList.length; i++) {
+                    const filename = imageUrlList[i].split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err => { console.log(err); }  
+                    ));
+                }
+                // suppression de la publication de la DB
+                Post.destroy({ where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
+                    .catch(error => res.status(400).json({ error }));
+            
             } else {
                 res.status(401).json({ error: "vous n'êtes pas autorisé à supprimer cette publication" });
             }

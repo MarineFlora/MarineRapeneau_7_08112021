@@ -67,7 +67,7 @@
                         </div>    
                     </b-form-group>
 
-                    <p class="text-left text-danger"> {{ errorMessage }} </p>
+                    <p class="text-left text-danger mb-3"> {{ errorMessage }} </p>
 
                     <BaseButton button-title="s'inscrire"/>
                     

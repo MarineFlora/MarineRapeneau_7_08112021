@@ -3,7 +3,7 @@
         <b-container class="maxwidth-page px-md-0">
             <b-navbar class="px-0">
 
-                <b-navbar-brand href="/" class="mx-2">
+                <b-navbar-brand to="/" class="mx-2">
                     <b-img 
                         height="45" 
                         :src="require('../assets/images/logo-white.svg')" 

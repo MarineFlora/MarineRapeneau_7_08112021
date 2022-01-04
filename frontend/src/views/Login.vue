@@ -33,7 +33,7 @@
                         
                      </div>    
                     </b-form-group>
-                    <p class="text-left text-danger"> {{ errorMessage }} </p>
+                    <p class="text-left text-danger mb-3"> {{ errorMessage }} </p>
 
                     <BaseButton button-title="se connecter" />
                 </b-form>                           
@@ -77,7 +77,7 @@ export default {
                     .then((res) => {
                         // si erreur 401 au back-end : message erreur
                         if (!res.token) {
-                            this.errorMessage = 'Identifiants incorrects'
+                            this.errorMessage = res.error
                         // sinon recupérer token pour headers auth et envoyer à la page d'accueil
                         } else {
                             localStorage.setItem('userToken', res.token);
