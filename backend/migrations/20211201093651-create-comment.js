@@ -38,8 +38,8 @@ module.exports = {
             defaultValue: 0
         },
         usersLiked: {
-            type: Sequelize.JSON,
-            defaultValue: []
+            type: Sequelize.TEXT,
+            defaultValue: ''
         },
         createdAt: {
             allowNull: false,

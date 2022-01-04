@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         },
         usersLiked: {
-            type: DataTypes.JSON,
-            defaultValue: []
+            type: DataTypes.TEXT,
+            defaultValue: ''
         }
     }, 
     {

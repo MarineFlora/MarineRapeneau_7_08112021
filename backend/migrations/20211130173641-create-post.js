@@ -30,16 +30,16 @@ module.exports = {
             defaultValue: 0
         },
         usersLiked: {
-            type: Sequelize.JSON,
-            defaultValue: []
+            type: Sequelize.TEXT,
+            defaultValue: ''
         },
         commentsCount: {
             type: Sequelize.INTEGER,
             defaultValue: 0
         },
         usersCommented: {
-            type: Sequelize.JSON,
-            defaultValue: []
+            type: Sequelize.TEXT,
+            defaultValue: ''
         },
         createdAt: {
             allowNull: false,
