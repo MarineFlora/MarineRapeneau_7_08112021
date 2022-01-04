@@ -13,25 +13,15 @@
 
             <p class="text-danger">{{ errorMessage }}</p>
 
-            <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
-                <b-icon icon="images" class="text-primary"></b-icon>
-                <label for="image" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">ajouter médias</label>
-                <input 
-                    type="file" 
-                    id="image"
-                    name="image" 
-                    accept=".jpg, .jpeg, .png, .gif" 
-                    class="input-file" 
-                    @change="updateMediaDisplay({
-                        preview: '.preview-media',
-                        inputFile: '.input-file',
-                    })"  
-                    multiple
-                >  
-            </div>  
+            <PostInput 
+                labelTitle="ajouter médias" 
+                inputImageId="input-image" 
+                inputImageClass="input-file" 
+                previewMedia=".preview-media" 
+                inputFile=".input-file" 
+            />
             
-            <div class="preview-media text-secondary font-italic add-media">
-                <p></p>
+            <div class="preview-media text-secondary font-italic">
             </div>   
 
             <div class="d-flex justify-content-end">
@@ -45,15 +35,16 @@
 
 <script>
 import BaseButton from '../components/BaseButton.vue';
+import PostInput from '../components/PostInput.vue';
 import ProfileImage from '../components/ProfileImage.vue';
 import { apiFetch } from '../utils/ApiFetch';
-import { mapActions } from 'vuex';
 
 export default {
     name: 'PostItemCreate',
     components: {
         BaseButton,
-        ProfileImage
+        ProfileImage,
+        PostInput
     },
     props: {
         loadPosts: { type: Function },
@@ -109,8 +100,7 @@ export default {
                 this.errorMessage="vous ne pouvez pas créer une publication vide";
             }              
         },
-        ...mapActions(['updateMediaDisplay']),
-        
+
         removePreviewChild() {
             const previewMedia = document.querySelector('.preview-media');
             while(previewMedia.firstChild) {
@@ -122,16 +112,5 @@ export default {
 </script>
 
 <style lang="scss">
-.input-file {
-    opacity: 0;
-}
-
-form img {
-    width: inherit;
-}
-
-.add-media{
-    font-size: 0.9rem;
-}
 
 </style>

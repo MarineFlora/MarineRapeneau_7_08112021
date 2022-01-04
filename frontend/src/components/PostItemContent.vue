@@ -21,12 +21,12 @@
                 </div>
             </b-col>
             <b-col cols="1" class="px-0 d-flex justify-content-end">
+            
                 <!-- paramètres du post -->
                 <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
                     <b-dropdown-item v-if="isCreator(post.userId)" v-b-modal="'modal-modify-' +  post.id">Modifier</b-dropdown-item>
                     <b-dropdown-item v-b-modal="'modal-' +  post.id" v-if="isCreator(post.userId) || isAdmin()" class="delete-option">Supprimer</b-dropdown-item>
-                    <b-dropdown-item to="/about">
-                    Signaler</b-dropdown-item>
+                    <b-dropdown-item to="/about"> Signaler</b-dropdown-item>
                 </b-dropdown>
 
                 <!-- modal de modification du post -->
@@ -45,27 +45,20 @@
                             v-model="post.description"
                             class="modify-description"
                         ></b-form-textarea>
+                        
                         <!-- input file -->
-                        <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3" title="ajouter une image ou un gif">
-                            <b-icon icon="images" class="text-primary"></b-icon>
-                            <label for="image-modify" class="my-0 px-2 text-secondary add-media text-nowrap" role="button">modifier médias</label>
-                            <input 
-                                type="file" 
-                                id="image-modify"
-                                name="image" 
-                                accept=".jpg, .jpeg, .png, .gif" 
-                                class="input-file-modify" 
-                                @change="updateMediaDisplay({
-                                    preview: '.preview-media-modify',
-                                    inputFile: '.input-file-modify',
-                                })"  
-                                multiple
-                            >  
-                        </div>    
+                        <PostInput 
+                            labelTitle="modifier médias" 
+                            inputImageId="input-image-modify" 
+                            inputImageClass="input-file-modify" 
+                            previewMedia=".preview-media-modify" 
+                            inputFile=".input-file-modify" 
+                        />
+                        
                         <!-- preview img -->
                         <div class="preview-media-modify text-secondary font-italic" >
                             <div v-for="value in imageUrl" :key="value">
-                                <b-img :src="value" alt="" class="modify-img"></b-img>
+                                <b-img :src="value" alt="" class="post-images"></b-img>
                             </div>
                         </div>  
                         
@@ -117,10 +110,10 @@ import ProfileImage from './ProfileImage.vue';
 import PostItemLike from './PostItemLike.vue';
 import BaseButton from './BaseButton.vue';
 import PostItemImagesDisplay from './PostItemImagesDisplay.vue';
+import PostInput from '../components/PostInput.vue';
 
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
-import { mapActions } from 'vuex';
 
 import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -133,7 +126,8 @@ export default {
         ProfileImage,
         PostItemLike,
         BaseButton,
-        PostItemImagesDisplay
+        PostItemImagesDisplay,
+        PostInput
     },
     props: {
         post: { type: Object, default: ['post'] },
@@ -212,7 +206,6 @@ export default {
                     });  
             }                      
         },
-        ...mapActions(['updateMediaDisplay']),
     }
 }
 </script>
@@ -222,16 +215,12 @@ export default {
     white-space: pre-wrap;
 }
 
-.input-file-modify {
-    opacity: 0;
-}
-
 .preview-media-modify {
     display: flex; 
     flex-wrap: wrap;  
     margin: 0;
 }
-.modify-img {
+.post-images {
     width: 100px;
     margin: 0.3rem;
 }
