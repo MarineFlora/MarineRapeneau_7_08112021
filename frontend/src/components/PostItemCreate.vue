@@ -22,7 +22,10 @@
                     name="image" 
                     accept=".jpg, .jpeg, .png, .gif" 
                     class="input-file" 
-                    @change="updateMediaDisplay"  
+                    @change="updateMediaDisplay({
+                        preview: '.preview-media',
+                        inputFile: '.input-file',
+                    })"  
                     multiple
                 >  
             </div>  
@@ -44,6 +47,7 @@
 import BaseButton from '../components/BaseButton.vue';
 import ProfileImage from '../components/ProfileImage.vue';
 import { apiFetch } from '../utils/ApiFetch';
+import { mapActions } from 'vuex';
 
 export default {
     name: 'PostItemCreate',
@@ -69,7 +73,6 @@ export default {
             const images = inputFile.files;
 
             const form = document.querySelector(".create-form");
-            //const previewMedia = document.querySelector('.preview-media');
 
             if (description !== '' || images.length !== 0) { 
                 this.errorMessage= '';
@@ -106,67 +109,14 @@ export default {
                 this.errorMessage="vous ne pouvez pas créer une publication vide";
             }              
         },
+        ...mapActions(['updateMediaDisplay']),
+        
         removePreviewChild() {
             const previewMedia = document.querySelector('.preview-media');
             while(previewMedia.firstChild) {
                 previewMedia.removeChild(previewMedia.firstChild);
             }
         },
-        updateMediaDisplay() {
-            const previewMedia = document.querySelector('.preview-media');
-            const input = document.querySelector('.input-file');
-            this.removePreviewChild();
-
-            let currentFiles = input.files;
-            let filesStatus = document.createElement('p');
-            if (currentFiles.length === 0) {
-                filesStatus.textContent = 'aucun fichier sélectionné';
-                previewMedia.appendChild(filesStatus);
-            } else if (currentFiles.length > 4) {
-                filesStatus.textContent = 'vous ne pouvez selectionner que 4 images';
-                previewMedia.appendChild(filesStatus);
-            }
-            else {
-                let list = document.createElement('ul');
-                list.style.cssText = 'display:flex; flex-wrap:wrap; list-style:none; margin:0';
-                previewMedia.appendChild(list);
-                for (let i = 0; i < currentFiles.length; i++) {
-                    let listItem = document.createElement('li');
-                    listItem.style.cssText = 'width:100px; margin:0.3rem';
-                    let fileName = document.createElement('p');
-                    fileName.style.cssText = 'white-space: nowrap; overflow:hidden; text-overflow:ellipsis';
-
-                    if (this.validFileType(currentFiles[i])) {
-                       fileName.textContent = currentFiles[i].name;
-                        let image = document.createElement('img');
-                        image.src = window.URL.createObjectURL(currentFiles[i]);
-                        listItem.appendChild(image);
-                        listItem.appendChild(fileName);
-                    } else {
-                        fileName.textContent = currentFiles[i].name + ': Format de fichier incorrect. Merci de choisir un format png, jpg, jpeg ou gif.';
-                        listItem.appendChild(fileName);
-                    }
-                    
-                    list.appendChild(listItem);
-                }
-            }
-                    
-        },
-        validFileType(file) {
-            const fileTypes = [
-            'image/jpeg',
-            'image/jpeg',
-            'image/png',
-            'image/gif'
-            ]
-
-            for (let i = 0; i < fileTypes.length; i++) {
-                if (file.type === fileTypes[i]) {
-                return true;
-                }
-            }
-            return false;
-        }
     }  
 }
 </script>
