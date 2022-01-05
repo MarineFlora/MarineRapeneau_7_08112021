@@ -7,13 +7,9 @@ const config = require('./config/config.js');
 //import des routers
 const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
+const likesRoutes = require('./routes/likes');
 
 const app = express();
-
-// TEST SERVEUR
-/*app.use((req, res) => {
-  res.json({ message: 'Votre requête a bien été reçue !' }); 
-})*/
 
 // middleware pour résoudre problèmes de CORS et permettre l'accès à l'API
 app.use((req, res, next) => {
@@ -32,5 +28,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // enregistrement du routeur avec racine attendue par front-end
 app.use('/api/auth', userRoutes);
 app.use('/api/posts', postsRoutes);
+app.use('/api/posts', likesRoutes);
 
 module.exports = app;

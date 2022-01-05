@@ -12,7 +12,8 @@ const fs = require('fs');
 /* ---------- création d'une publication ---------- */
 exports.createPost = async (req, res, next) => {
     let postObject = req.body;
-   
+    postObject.imageUrl = "[]";
+    
     if (req.files) {
         postObject = JSON.parse(req.body.post);
         let imageUrlList = [];
@@ -46,9 +47,10 @@ exports.createPost = async (req, res, next) => {
 exports.modifyPost = (req, res, next) => {
     Post.findOne({ where: { id: req.params.id } })
         .then((post) => {
-            postObject = JSON.parse(req.body.post);
-    
-            if (req.files.length != 0) {
+            let postObject = req.body;
+
+            if (req.files && req.files.length != 0) {
+                postObject = JSON.parse(req.body.post);
                 // suppression des anciennes images du chemin local
                 const oldImageUrlList = JSON.parse(post.imageUrl);
                 for (let i = 0; i < oldImageUrlList.length; i++) {
@@ -56,7 +58,6 @@ exports.modifyPost = (req, res, next) => {
                     fs.unlink(`images/${filename}`, (err => { console.log(err); }  
                     ));
                 }
-                
                 // ajout des nouveaux fichiers dans le tableau
                 let imageUrlList = [];
                 for (let i = 0; i < req.files.length; i++) {
@@ -64,11 +65,12 @@ exports.modifyPost = (req, res, next) => {
                     fileUrl =`${req.protocol}://${req.get('host')}/images/${req.files[i].filename}`;
                     imageUrlList.push(fileUrl);
                 }
-                postObject.imageUrl = JSON.stringify(imageUrlList)
+                postObject.imageUrl = JSON.stringify(imageUrlList);
             } else {
-                postObject.imageUrl = post.imageUrl
+                postObject.imageUrl = post.imageUrl;
             }
-      
+            console.log("lastpostObject", postObject);
+            
             // vérifier autorisation avant maj DB
             if (req.token.userId === post.userId) {
                 Post.update({ ...postObject }, { where: { id: req.params.id } })

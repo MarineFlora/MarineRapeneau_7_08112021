@@ -85,7 +85,7 @@
                 <b-card-text class="post-content">
 
                     <!-- disposition des images selon leur nombre -->
-                    <PostItemImagesDisplay :post="post"/>
+                    <PostItemImagesDisplay :post="post" v-if="imageUrl.length > 0"/>
 
                     <p>{{ post.description }}</p>
                 </b-card-text> 
@@ -171,14 +171,13 @@ export default {
             const previewMedia = document.querySelector('.preview-media-modify');
               
             const selectedFile = document.querySelector(".input-file-modify");
-            let images = selectedFile.files
+            let images = selectedFile.files 
 
             if (description === '' && !previewMedia.firstChild) {
                 this.loadPosts();
                 alert("vous ne pouvez pas envoyer un post vide")
             } else { 
-                const isFormData = !!images
-
+                const isFormData = images.length > 0; 
                 let body = { 
                     "userId": Number(userId),
                     "description": description
