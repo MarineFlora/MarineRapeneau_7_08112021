@@ -29,17 +29,9 @@ module.exports = {
             type: Sequelize.INTEGER,
             defaultValue: 0
         },
-        usersLiked: {
-            type: Sequelize.TEXT,
-            defaultValue: ''
-        },
         commentsCount: {
             type: Sequelize.INTEGER,
             defaultValue: 0
-        },
-        usersCommented: {
-            type: Sequelize.TEXT,
-            defaultValue: ''
         },
         createdAt: {
             allowNull: false,

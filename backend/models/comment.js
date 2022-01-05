@@ -30,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         likesCount: {
             type: DataTypes.INTEGER,
             defaultValue: 0
-        },
-        usersLiked: {
-            type: DataTypes.TEXT,
-            defaultValue: ''
         }
     }, 
     {
