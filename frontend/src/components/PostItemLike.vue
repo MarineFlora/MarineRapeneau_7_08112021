@@ -35,27 +35,40 @@ export default {
         
     },
     props: {
-        likeScale: String
+        likeScale: String,
+        post: { 
+            type: Object, 
+            default() {
+                return { post: ['post'] }
+            }   
+        }
     },
     data() {
         return {
             liked: false,
-            likesCount: null
+            likesCount: this.post.likesCount
         }
     },
-    mounted() {
-        apiFetch
-            .get("/posts/")
-            .then(data => {
-                this.likesCount = data.posts[0].likesCount; // !! test, à changer
-            }) 
-            .catch(error => {
-                if (!localStorage.getItem('userToken')) {
-                    router.push({ name: 'Login' });
-                } else {
-                    alert("Une erreur est survenue"); 
-                }
-            });
+    methods: {
+      /*  getLikesCount() {
+            apiFetch
+                .get(`/posts/${this.post.id}/like`)
+                .then(res => {
+                    console.log("res like fetch:", res)
+                    //this.likesCount = res.posts[0].likesCount; // !! test, à changer
+                }) 
+                .catch(error => {
+                    if (!localStorage.getItem('userToken')) {
+                        router.push({ name: 'Login' });
+                    } else {
+                      //  alert("Une erreur est survenue"); 
+                       console.log("error:", error)
+                    }
+                });
+        },*/
+        LikeOnePost() {
+            
+        }
     }
     
 }

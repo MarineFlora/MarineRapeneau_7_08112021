@@ -99,7 +99,7 @@
                 <p class="text-secondary mx-2">{{ post.commentsCount }} commentaires</p>
             </b-col>
 
-            <PostItemLike likeScale="1.3"/>
+            <PostItemLike :post="post" likeScale="1.3" />
         </b-row>
     </div> 
 
