@@ -30,3 +30,10 @@ exports.likeOnePost = async (req, res, next) => {
         res.status(400).json({ error });
     }
 };
+
+/* ---------- récuperation de tous les likes sur 1 Post ---------- */
+exports.getAllLikesOfPost = (req, res, next) => {
+    Like.findAll({ where: { postId: req.params.postId } , include: db.User })
+        .then(likes => res.status(200).json({ likes }))
+        .catch(error => res.status(404).json({ error }));
+}
