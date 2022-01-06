@@ -21,18 +21,43 @@
                 ></b-icon>  
             </transition>
         </div>
-        <p class="text-secondary mx-2">{{ likesCount }}</p>
+
+        <!-- retour total likes + affichage des users qui ont aimé lors du click-->
+        <b-link 
+            class="text-secondary mx-2" 
+            v-b-modal="'modal-like-' +  post.id"
+            title="aimé par"
+        >
+            {{ likesCount }}
+        </b-link>
+        
+        <b-modal 
+            :id="'modal-like-' + post.id" 
+            title="Aimé par" 
+            ok-title="modifier"
+            hide-footer
+        >
+        <div class="d-flex" v-for="like in likesList" :key="">
+            <ProfileImage imageHeight="50" /> 
+            <div class="px-3 my-2">
+                <p class="font-weight-bold">{{ like.User.firstName }} {{ like.User.lastName }}</p>
+                <p>{{ like.User.userDescription }}</p>
+            </div>
+        </div>
+        </b-modal>
+
     </b-col>
 </template>
 
 <script>
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
+import ProfileImage from './ProfileImage.vue';
 
 export default {
     name: 'PostItemLike',
     components: {
-        
+        ProfileImage
     },
     props: {
         likeScale: String,
@@ -46,11 +71,13 @@ export default {
     data() {
         return {
             liked: false,
-            likesCount: this.post.likesCount
+            likesCount: Number,
+            likesList: []
         }
     },
     mounted() {
         this.getUserLike();
+        this.getLikesCount();
     },
     methods: {
         // permutation coeurs plein/vide
@@ -75,15 +102,19 @@ export default {
                     console.log("LikeOnePost fetch res:", res)
                     this.getLikesCount();
                 })
-                .catch(error => {
-                    console.log(error);
-                });  
+                .catch(error => console.log(error));  
         },
         // recuperation et affichage total likes du post 
         getLikesCount() {
             apiFetch
                 .get(`/posts/${this.post.id}/likes`)
-                .then((res) => this.likesCount = res.likes.length)
+                .then((res) => {
+                    this.likesCount = res.likes.length;
+                    if (this.likesCount == 0) {
+                        this.likesCount = "";
+                    }
+                    this.likesList = res.likes;
+                })
                 .catch(error => console.log(error));
         },
         // recuperation et affichage du statut du like du post par l'user connecté
