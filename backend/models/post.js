@@ -28,18 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 0
         },
-        usersLiked: {
-            type: DataTypes.JSON,
-            defaultValue: []
-        },
         commentsCount: {
             type: DataTypes.INTEGER,
             defaultValue: 0
-        },
-        usersCommented: {
-            type: DataTypes.JSON,
-            defaultValue: []
-        }    
+        }  
     }, 
     {
         sequelize,

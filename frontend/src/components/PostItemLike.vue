@@ -8,7 +8,7 @@
                     title="liker" 
                     class="like-icon" 
                     v-if="!liked" key="1"
-                    @click="liked = true"
+                    @click="LikeOnePost"
                 ></b-icon>
                 <b-icon 
                     icon="suit-heart-fill" 
@@ -17,45 +17,114 @@
                     variant="primary"
                     class="like-icon" 
                     v-else="" key="2"
-                    @click="liked = false"
+                    @click="LikeOnePost"
                 ></b-icon>  
             </transition>
         </div>
-        <p class="text-secondary mx-2">{{ likesCount }}</p>
+
+        <!-- retour total likes + affichage des users qui ont aimé lors du click-->
+        <b-link 
+            class="text-secondary mx-2" 
+            v-b-modal="'modal-like-' +  post.id"
+            title="aimé par"
+        >
+            {{ likesCount }}
+        </b-link>
+        
+        <b-modal 
+            :id="'modal-like-' + post.id" 
+            title="Aimé par" 
+            ok-title="modifier"
+            hide-footer
+        >
+        <div class="d-flex" v-for="like in likesList" :key="">
+            <ProfileImage imageHeight="50" /> 
+            <div class="px-3 my-2">
+                <p class="font-weight-bold">{{ like.User.firstName }} {{ like.User.lastName }}</p>
+                <p>{{ like.User.userDescription }}</p>
+            </div>
+        </div>
+        </b-modal>
+
     </b-col>
 </template>
 
 <script>
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
+import ProfileImage from './ProfileImage.vue';
 
 export default {
     name: 'PostItemLike',
     components: {
-        
+        ProfileImage
     },
     props: {
-        likeScale: String
+        likeScale: String,
+        post: { 
+            type: Object, 
+            default() {
+                return { post: ['post'] }
+            }   
+        }
     },
     data() {
         return {
             liked: false,
-            likesCount: null
+            likesCount: Number,
+            likesList: []
         }
     },
     mounted() {
-        apiFetch
-            .get("/posts/")
-            .then(data => {
-                this.likesCount = data.posts[0].likesCount; // !! test, à changer
-            }) 
-            .catch(error => {
-                if (!localStorage.getItem('userToken')) {
-                    router.push({ name: 'Login' });
-                } else {
-                    alert("Une erreur est survenue"); 
-                }
-            });
+        this.getUserLike();
+        this.getLikesCount();
+    },
+    methods: {
+        // permutation coeurs plein/vide
+        likeSwap(condition) {
+            if (condition) {
+                this.liked = true;
+            } else {
+                this.liked = false;
+            }
+        },
+        // envoi du like au back-end
+        LikeOnePost() {
+            this.likeSwap(!this.liked);
+
+            const userId = localStorage.getItem("userId");
+            let body = { 
+                "userId": Number(userId),
+            }
+            apiFetch
+                .post(`/posts/${this.post.id}/like`, body)
+                .then(res => {
+                    console.log("LikeOnePost fetch res:", res)
+                    this.getLikesCount();
+                })
+                .catch(error => console.log(error));  
+        },
+        // recuperation et affichage total likes du post 
+        getLikesCount() {
+            apiFetch
+                .get(`/posts/${this.post.id}/likes`)
+                .then((res) => {
+                    this.likesCount = res.likes.length;
+                    if (this.likesCount == 0) {
+                        this.likesCount = "";
+                    }
+                    this.likesList = res.likes;
+                })
+                .catch(error => console.log(error));
+        },
+        // recuperation et affichage du statut du like du post par l'user connecté
+        getUserLike() {
+            apiFetch
+                .get(`/posts/${this.post.id}/like`)
+                .then((res) => this.likeSwap(res.like))
+                .catch(error => console.log(error));
+        },
+        
     }
     
 }

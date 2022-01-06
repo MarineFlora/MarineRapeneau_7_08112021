@@ -37,10 +37,6 @@ module.exports = {
             type: Sequelize.INTEGER,
             defaultValue: 0
         },
-        usersLiked: {
-            type: Sequelize.JSON,
-            defaultValue: []
-        },
         createdAt: {
             allowNull: false,
             type: Sequelize.DATE

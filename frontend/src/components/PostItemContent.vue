@@ -85,7 +85,7 @@
                 <b-card-text class="post-content">
 
                     <!-- disposition des images selon leur nombre -->
-                    <PostItemImagesDisplay :post="post"/>
+                    <PostItemImagesDisplay :post="post" v-if="imageUrl.length > 0"/>
 
                     <p>{{ post.description }}</p>
                 </b-card-text> 
@@ -99,7 +99,7 @@
                 <p class="text-secondary mx-2">{{ post.commentsCount }} commentaires</p>
             </b-col>
 
-            <PostItemLike likeScale="1.3"/>
+            <PostItemLike :post="post" likeScale="1.3" />
         </b-row>
     </div> 
 
@@ -171,14 +171,13 @@ export default {
             const previewMedia = document.querySelector('.preview-media-modify');
               
             const selectedFile = document.querySelector(".input-file-modify");
-            let images = selectedFile.files
+            let images = selectedFile.files 
 
             if (description === '' && !previewMedia.firstChild) {
                 this.loadPosts();
                 alert("vous ne pouvez pas envoyer un post vide")
             } else { 
-                const isFormData = !!images
-
+                const isFormData = images.length > 0; 
                 let body = { 
                     "userId": Number(userId),
                     "description": description
