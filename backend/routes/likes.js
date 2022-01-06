@@ -7,6 +7,6 @@ const auth = require('../middleware/auth');
 
 router.post('/:postId/like', auth, likesCtrl.likeOnePost);
 router.get('/:postId/likes', auth, likesCtrl.getAllLikesOfPost)
-
+router.get('/:postId/like', auth, likesCtrl.getOneLikeOfPost)
 
 module.exports = router;

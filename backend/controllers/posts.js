@@ -24,7 +24,7 @@ exports.createPost = async (req, res, next) => {
         }
         postObject.imageUrl = JSON.stringify(imageUrlList)
     } 
-
+    
     // vérifier autorisation avant enregistrement dans la DB
     // si post as JSON (pas d'image), description obligatoire
     if (req.body.description !== "" && postObject.userId === req.token.userId) { 
@@ -69,7 +69,6 @@ exports.modifyPost = (req, res, next) => {
             } else {
                 postObject.imageUrl = post.imageUrl;
             }
-            console.log("lastpostObject", postObject);
             
             // vérifier autorisation avant maj DB
             if (req.token.userId === post.userId) {

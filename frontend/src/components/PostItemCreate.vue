@@ -67,13 +67,13 @@ export default {
 
             if (description !== '' || images.length !== 0) { 
                 this.errorMessage= '';
-                const isFormData = !!images
+                const isFormData = images.length > 0; 
 
                 let body = { 
                     "userId": Number(userId),
                     "description": description
                 }
-            
+
                 if (isFormData) {
                 const formData = new FormData();
                 for (let i = 0; i < images.length; i++) {
