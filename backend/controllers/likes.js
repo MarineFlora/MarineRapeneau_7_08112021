@@ -10,10 +10,9 @@ const { Post, Like } = db.sequelize.models;
 /* ---------- ajout/suppression d'un like à une publication ---------- */
 exports.likeOnePost = async (req, res, next) => {
     try {
-        const userIdBody = req.body.userId;
         const post = await Post.findOne({ where: { id: req.params.postId } });
 
-        let existingLike = await Like.findOne({ where: { userId: userIdBody, postId: req.params.postId } });
+        let existingLike = await Like.findOne({ where: { userId: req.token.userId, postId: req.params.postId } });
         // si user a déjà liké, supprimer le like et enlever -1 au total de likes du post
         if (existingLike) {
             await existingLike.destroy();
@@ -22,7 +21,7 @@ exports.likeOnePost = async (req, res, next) => {
         } 
         // sinon, ajouter le like et ajouter +1 au total de likes du post
         else {
-            await Like.create({ userId: userIdBody, postId: req.params.postId });
+            await Like.create({ userId: req.token.userId, postId: req.params.postId });
             await Post.update({ likesCount: post.likesCount +1 }, { where: { id: req.params.postId } }); 
             res.status(201).json({ message: 'Like ajouté!'});
         }

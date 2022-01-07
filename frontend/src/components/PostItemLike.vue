@@ -93,12 +93,8 @@ export default {
         likeOnePost() {
             this.likeSwap(!this.liked);
 
-            const userId = localStorage.getItem("userId");
-            let body = { 
-                "userId": Number(userId),
-            };
             apiFetch
-                .post(`/posts/${this.post.id}/like`, body)
+                .post(`/posts/${this.post.id}/like`)
                 .then(res => {
                     console.log("LikeOnePost fetch res:", res)
                     this.getLikesInfos();
