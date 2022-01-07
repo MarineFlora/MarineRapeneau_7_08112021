@@ -8,7 +8,7 @@
                     title="liker" 
                     class="like-icon" 
                     v-if="!liked" key="1"
-                    @click="LikeOnePost"
+                    @click="likeOnePost"
                 ></b-icon>
                 <b-icon 
                     icon="suit-heart-fill" 
@@ -17,7 +17,7 @@
                     variant="primary"
                     class="like-icon" 
                     v-else="" key="2"
-                    @click="LikeOnePost"
+                    @click="likeOnePost"
                 ></b-icon>  
             </transition>
         </div>
@@ -25,8 +25,10 @@
         <!-- retour total likes + affichage des users qui ont aimé lors du click-->
         <b-link 
             class="text-secondary mx-2" 
+            :class="`likes-total-${post.id}`"
             v-b-modal="'modal-like-' +  post.id"
             title="aimé par"
+            @click="getLikesInfos"
         >
             {{ likesCount }}
         </b-link>
@@ -71,13 +73,12 @@ export default {
     data() {
         return {
             liked: false,
-            likesCount: Number,
+            likesCount: this.post.likesCount,
             likesList: []
         }
     },
     mounted() {
         this.getUserLike();
-        this.getLikesCount();
     },
     methods: {
         // permutation coeurs plein/vide
@@ -88,31 +89,29 @@ export default {
                 this.liked = false;
             }
         },
-        // envoi du like au back-end
-        LikeOnePost() {
+        // envoi du like au back-end et maj infos
+        likeOnePost() {
             this.likeSwap(!this.liked);
 
             const userId = localStorage.getItem("userId");
             let body = { 
                 "userId": Number(userId),
-            }
+            };
             apiFetch
                 .post(`/posts/${this.post.id}/like`, body)
                 .then(res => {
                     console.log("LikeOnePost fetch res:", res)
-                    this.getLikesCount();
+                    this.getLikesInfos();
                 })
                 .catch(error => console.log(error));  
         },
-        // recuperation et affichage total likes du post 
-        getLikesCount() {
+        // recuperation et affichage total likes du post après ajout et info "aimé par" 
+        getLikesInfos() {
             apiFetch
                 .get(`/posts/${this.post.id}/likes`)
                 .then((res) => {
                     this.likesCount = res.likes.length;
-                    if (this.likesCount == 0) {
-                        this.likesCount = "";
-                    }
+                    this.hideLikesNumber();
                     this.likesList = res.likes;
                 })
                 .catch(error => console.log(error));
@@ -121,9 +120,21 @@ export default {
         getUserLike() {
             apiFetch
                 .get(`/posts/${this.post.id}/like`)
-                .then((res) => this.likeSwap(res.like))
+                .then((res) => {
+                    this.likeSwap(res.like);
+                    this.hideLikesNumber();
+                })
                 .catch(error => console.log(error));
         },
+        // ajout opacity 0 au nombre quand 0 like
+        hideLikesNumber() {
+            let totalLikesNumber = document.querySelector(`.likes-total-${this.post.id}`);
+            if (this.likesCount == 0) { 
+                totalLikesNumber.style.opacity = "0";
+            } else {
+               totalLikesNumber.style.opacity = "1";
+            }
+        }
         
     }
     
