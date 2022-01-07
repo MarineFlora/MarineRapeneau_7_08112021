@@ -28,11 +28,10 @@ class ApiFetch {
             .then((res) => res.json())
     }
 
-    get (path, body, options = {}) {
+    get (path) {
         return fetch(this.baseUrl + path, {
             method: 'GET',
-            headers: this.headers(options),
-            body: JSON.stringify(body)
+            headers: this.headers(),
         })
             .then((res) => res.json())
     }
@@ -46,11 +45,10 @@ class ApiFetch {
             .then((res) => res.json())
     }
 
-    delete (path, body) {
+    delete (path) {
         return fetch(this.baseUrl + path, {
             method: 'DELETE',
             headers: this.headers(),
-            body: JSON.stringify(body)
         })
             .then((res) => res.json())
     }
