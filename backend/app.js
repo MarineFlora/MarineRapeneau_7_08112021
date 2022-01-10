@@ -2,12 +2,12 @@
 
 const express = require('express');
 const path = require('path');
-const config = require('./config/config.js');
 
 //import des routers
 const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
 const likesRoutes = require('./routes/likes');
+const commentsRoutes = require('./routes/comments');
 
 const app = express();
 
@@ -29,5 +29,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/posts', likesRoutes);
+app.use('/api/posts', commentsRoutes);
 
 module.exports = app;

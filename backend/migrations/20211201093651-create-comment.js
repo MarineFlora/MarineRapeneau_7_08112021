@@ -6,7 +6,7 @@ module.exports = {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
         },
         userId: {
             type: Sequelize.INTEGER,
@@ -14,7 +14,8 @@ module.exports = {
             references: {
                 model: 'Users',
                 key: 'id'
-            }
+            },
+            onDelete: 'CASCADE'
         },
         postId: {
             type: Sequelize.INTEGER,
@@ -22,16 +23,12 @@ module.exports = {
             references: {
                 model: 'Posts',
                 key: 'id'
-            }
+            },
+            onDelete: 'CASCADE'
         },
         description: {
             type: Sequelize.TEXT,
             allowNull: false
-        },
-        imageUrl: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue: ''
         },
         likesCount: {
             type: Sequelize.INTEGER,

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         // Méthode pour définir les associations
         static associate(models) {
             Comment.belongsTo(models.User, { foreignKey: 'userId' }) 
-            Comment.belongsTo(models.Post, { foreignKey: 'postId' }) 
+            Comment.belongsTo(models.Post, { foreignKey: 'postId' }, { onDelete: 'cascade', hooks:true }) 
         }
     };
     Comment.init({
@@ -21,11 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.TEXT,
             allowNull: false
-        },
-        imageUrl: { 
-            type: DataTypes.STRING,
-            allowNull: false,
-            defaultValue: ''
         },
         likesCount: {
             type: DataTypes.INTEGER,

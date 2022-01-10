@@ -6,7 +6,7 @@ module.exports = {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
         },
         userId: {
             type: Sequelize.INTEGER,
@@ -14,7 +14,7 @@ module.exports = {
             references: {
                 model: 'Users',
                 key: 'id'
-            }
+            },
         },
         postId: {
             type: Sequelize.INTEGER,
@@ -22,7 +22,17 @@ module.exports = {
             references: {
                 model: 'Posts',
                 key: 'id'
-            }
+            },
+            onDelete: 'CASCADE'
+        },
+        commentId: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
+            references: {
+                model: 'Comments',
+                key: 'id'
+            },
+            onDelete: 'CASCADE'
         },
         createdAt: {
             allowNull: false,

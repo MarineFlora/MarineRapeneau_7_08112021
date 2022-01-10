@@ -6,7 +6,7 @@ module.exports = {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
         },
         userId: {
             type: Sequelize.INTEGER,
@@ -14,7 +14,7 @@ module.exports = {
             references: {
                 model: 'Users',
                 key: 'id'
-            }
+            },
         },
         description: {
             type: Sequelize.TEXT,
