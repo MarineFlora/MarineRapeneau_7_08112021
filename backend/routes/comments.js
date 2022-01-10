@@ -10,6 +10,6 @@ router.post('/:postId/comment', auth, multer, commentsCtrl.createComment);
 router.put('/:postId/comment/:id', auth, multer, commentsCtrl.modifyComment);
 router.delete('/:postId/comment/:id', auth, commentsCtrl.deleteComment);
 router.get('/:postId/comments', auth, commentsCtrl.getAllCommentsOfPost);
-router.get('/:postId/comment/:id', auth, commentsCtrl.getOneCommentOfPost);
+router.get('/:postId/comment', auth, commentsCtrl.getOneCommentOfPost);
 
 module.exports = router;
