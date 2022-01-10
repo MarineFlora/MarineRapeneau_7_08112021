@@ -15,11 +15,8 @@
                         <!-- CONTENU PUBLICATION -->
                         <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
-                        <!-- COMMENTAIRES d-none si 0 comments ? -->
-                        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3 comments">
-                            <PostItemComment />
-                            <PostItemComment />
-                        </div>
+                        <!-- COMMENTAIRES -->
+                        <PostItemComment :post="post" />
 
                         <!-- AJOUTER UN COMMENTAIRE -->
                         <PostItemCommentCreate />
@@ -85,6 +82,7 @@ export default {
             localStorage.clear();
             router.push({ name: 'Login' });
         },
+        
     }
    
 }

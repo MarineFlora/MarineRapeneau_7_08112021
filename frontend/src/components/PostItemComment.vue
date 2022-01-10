@@ -1,6 +1,7 @@
 <template>
+    <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3 comments" v-if="commentsList.length > 0">
         <!-- 1 COMMENTAIRE -->
-        <b-row class="mb-3" align-v="start">
+        <b-row class="mb-3" align-v="start" v-for="comments in commentsList" :key="comments.updatedAt">
             <!-- changer adresse image dynamiquement -->
             <ProfileImage imageHeight="40" />
 
@@ -8,9 +9,9 @@
                 <b-row class="px-3" align-v="center">
                     <b-col cols="11" class="px-0" >
                         <div class="d-flex align-items-center flex-wrap pr-2">
-                            <p class="font-weight-bold pr-2">Laura Loiseau</p>
+                            <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
                             <b-icon icon="person-check-fill" class="text-dark pr-2" font-scale="1.5" title="admin"></b-icon>
-                            <p class="text-secondary">· 2h</p>
+                            <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow() }}</p>
                         </div>
                     </b-col>
                     <b-col cols="1" class="px-0 d-flex justify-content-end">
@@ -27,7 +28,7 @@
                     </b-col>
                 </b-row>
 
-                <p>trop cool ! :) Lorem ipsum dolor sit amet, consectetur adipiscing elit adipiscing elit adipiscing elit</p>
+                <p>{{ comments.description }}</p>
 
                 <div class="d-flex align-items-center text-secondary mt-1">
                     <b-link class="p-0 text-secondary col">Répondre</b-link>
@@ -35,17 +36,56 @@
                 </div>
             </b-col>
         </b-row>
+    </div>
 </template>
 
 <script>
 import ProfileImage from '../components/ProfileImage.vue';
 import PostItemLike from '../components/PostItemLike.vue';
+import { apiFetch } from '../utils/ApiFetch';
+
+import dayjs from 'dayjs' ;
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+require('dayjs/locale/fr');
 
 export default {
     name: 'PostItemComment',
     components: {
         ProfileImage,
         PostItemLike
+    },
+    props: {
+        post: { type: Object, default: ['post'] }
+    },
+    data() {
+        return {
+            commentsList: [],
+            dayjs: dayjs
+        }
+    },
+    mounted() {
+        this.loadPostComments();
+    },
+    methods: {
+        loadPostComments() {
+            apiFetch
+                .get(`/posts/${this.post.id}/comments`)
+                .then(data => {
+                    this.commentsList = data.comments;
+                    console.log("data.comments", data.comments)
+                   
+                  /*  if (data.error) {
+                        this.logOut();
+                    }*/
+                    console.log("PostItem-this.comments:", this.commentsList)
+                    console.log("error:", data.error)
+                })
+                .catch(error => {
+                    console.log(error)
+                    alert("Une erreur est survenue");
+                }); 
+        }
     } 
 }
 </script>

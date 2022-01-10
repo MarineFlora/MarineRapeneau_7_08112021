@@ -96,7 +96,9 @@
         <b-row>
             <b-col cols="9" class="d-flex align-items-center">
                 <b-icon icon="chat-square" font-scale="1.3"></b-icon>
-                <p class="text-secondary mx-2">{{ post.commentsCount }} commentaires</p>
+                <p class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</p>
+                <p class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</p>
+                <p class="text-secondary mx-2" v-if="post.commentsCount == 1">{{ post.commentsCount }} commentaire</p>
             </b-col>
 
             <PostItemLike :post="post" likeScale="1.3" />
