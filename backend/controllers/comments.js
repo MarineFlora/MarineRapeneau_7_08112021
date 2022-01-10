@@ -22,9 +22,9 @@ exports.createComment = async (req, res, next) => {
 /* ---------- modification d'un commentaire ---------- */ 
 exports.modifyComment = async (req, res, next) => {
     try {
-        const comment = await Comment.findOne({ where: { id: req.params.id } })
+        const comment = await Comment.findOne({ where: { id: req.params.commentId } })
         if (req.token.userId === comment.userId) {
-            await comment.update(req.body, { where: { id: req.params.id } })
+            await comment.update(req.body, { where: { id: req.params.commentId } })
             res.status(200).json({ message: 'Commentaire modifié !'})  
         } else {
             throw "vous n'êtes pas autorisé à modifier ce commentaire" ;
@@ -37,12 +37,12 @@ exports.modifyComment = async (req, res, next) => {
 /* ---------- suppression d'un commentaire ---------- */ 
 exports.deleteComment = async (req, res, next) => {
     try {
-        const comment = await Comment.findOne({ where: { id: req.params.id } })
+        const comment = await Comment.findOne({ where: { id: req.params.commentId } })
         const post = await Post.findOne({ where: { id: req.params.postId } });
 
         if (comment.userId === req.token.userId || req.token.isAdmin) {
             await post.update({ commentsCount: post.commentsCount -1 }, { where: { id: req.params.postId } })
-            await comment.destroy({ where: { id: req.params.id } })
+            await comment.destroy({ where: { id: req.params.commentId } })
             res.status(200).json({ message: 'Commentaire supprimé !'})
         } else {
            throw "vous n'êtes pas autorisé à supprimer ce commentaire";

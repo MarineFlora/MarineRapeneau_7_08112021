@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Like.belongsTo(models.User, { foreignKey: 'userId' })
             Like.belongsTo(models.Post, { foreignKey: 'postId' })
+            Like.belongsTo(models.Comment, { foreignKey: 'commentId' })
         }
     };
     Like.init({
@@ -17,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         postId: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        commentId: {
+            type: DataTypes.INTEGER,
+            allowNull: true
         }
     }, 
     {
