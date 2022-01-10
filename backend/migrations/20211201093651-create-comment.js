@@ -28,11 +28,6 @@ module.exports = {
             type: Sequelize.TEXT,
             allowNull: false
         },
-        imageUrl: {
-            type: Sequelize.STRING,
-            allowNull: false,
-            defaultValue: ''
-        },
         likesCount: {
             type: Sequelize.INTEGER,
             defaultValue: 0
