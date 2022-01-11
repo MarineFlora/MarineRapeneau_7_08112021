@@ -16,10 +16,8 @@
                         <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
                         <!-- COMMENTAIRES -->
-                        <PostItemComment :post="post" />
-
-                        <!-- AJOUTER UN COMMENTAIRE -->
-                        <PostItemCommentCreate :post="post" />
+                        <PostItemComment :post="post" :loadPosts="loadPosts"/>
+                       
                     </b-card>
                 </div>
                 <div v-else>
@@ -38,7 +36,7 @@ import BaseButton from '../components/BaseButton.vue';
 import PostItemCreate from '../components/PostItemCreate.vue';
 import PostItemContent from '../components/PostItemContent.vue';
 import PostItemComment from '../components/PostItemComment.vue';
-import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
+
 import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
 
@@ -50,7 +48,7 @@ export default {
         PostItemCreate,
         PostItemContent,
         PostItemComment,
-        PostItemCommentCreate
+       
     },
     data() {
         return {

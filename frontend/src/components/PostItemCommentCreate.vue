@@ -31,7 +31,8 @@ export default {
         ProfileImage
     },
     props: {
-        post: { type: Object, default: ['post'] }
+        post: { type: Object, default: ['post'] },
+        loadPostComments: { type: Function },
     },
     data() {
         return {
@@ -51,10 +52,9 @@ export default {
                 apiFetch
                     .post(`/posts/${this.post.id}/comment`, body)
                     .then(res => {
-                        console.log("fetch res comment creéa:", res)
+                        console.log("res création comment:", res)
                         this.commentDescription = "";
-                       // form.reset();
-                       // this.loadComments();
+                        this.loadPostComments();
                     })
                     .catch(error => {
                         console.log(error);
