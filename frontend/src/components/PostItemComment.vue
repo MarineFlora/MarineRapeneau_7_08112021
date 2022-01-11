@@ -73,11 +73,7 @@ export default {
                 .get(`/posts/${this.post.id}/comments`)
                 .then(data => {
                     this.commentsList = data.comments;
-                    console.log("data.comments", data.comments)
-                   
-                  /*  if (data.error) {
-                        this.logOut();
-                    }*/
+                
                     console.log("PostItem-this.comments:", this.commentsList)
                     console.log("error:", data.error)
                 })

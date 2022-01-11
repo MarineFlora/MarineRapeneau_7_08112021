@@ -2,12 +2,15 @@
     <b-row class="pl-3 mt-3">
         <ProfileImage imageHeight="40" />
 
-        <b-form class="col ">
+        <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea                            
                 placeholder="Ecrivez un commentaire" 
                 rows="1"
                 max-rows="10"
+                v-model="commentDescription"
             ></b-form-textarea>
+
+            <p class="text-danger">{{ errorMessage }}</p>
 
             <div class="d-flex justify-content-end mt-3">
                 <BaseButton button-title="Répondre" class="btn-sm btn-pages"/> 
@@ -19,12 +22,48 @@
 <script>
 import BaseButton from '../components/BaseButton.vue';
 import ProfileImage from '../components/ProfileImage.vue';
+import { apiFetch } from '../utils/ApiFetch';
 
 export default {
     name: 'PostItemCommentCreate',
     components: {
         BaseButton,
         ProfileImage
+    },
+    props: {
+        post: { type: Object, default: ['post'] }
+    },
+    data() {
+        return {
+            commentDescription: '',
+            errorMessage: ''
+        }
+    },
+    methods: {
+        createComment() {
+            const commentDescription = this.commentDescription;
+            if (commentDescription !== '') {
+                this.errorMessage = '';
+                let body = { 
+                    "description": commentDescription
+                }
+
+                apiFetch
+                    .post(`/posts/${this.post.id}/comment`, body)
+                    .then(res => {
+                        console.log("fetch res comment creéa:", res)
+                        this.commentDescription = "";
+                       // form.reset();
+                       // this.loadComments();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.errorMessage="une erreur est survenue";
+                    });  
+            } else {
+                this.errorMessage="vous ne pouvez pas ajouter de commentaire vide";
+            } 
+        }
     } 
 }
 </script>

@@ -11,6 +11,7 @@ const { Comment, Post } = db.sequelize.models;
 exports.createComment = async (req, res, next) => {
     try {
         const post = await Post.findOne({ where: { id: req.params.postId } });
+        console.log("req.body", req.body)
         await Comment.create({ ...req.body, postId: req.params.postId, userId: req.token.userId } ) 
         await post.update({ commentsCount: post.commentsCount +1 }, { where: { id: req.params.postId } })
         res.status(201).json({ message: 'Commentaire ajouté!'})
@@ -54,7 +55,7 @@ exports.deleteComment = async (req, res, next) => {
 
 /* ---------- récupération de tous les commentaires du post---------- */
 exports.getAllCommentsOfPost = (req, res, next) => {
-    Comment.findAll({ where: { postId: req.params.postId }, include: db.User, order: [ ['id', 'DESC'] ] })
+    Comment.findAll({ where: { postId: req.params.postId }, include: db.User })
         .then(comments => res.status(200).json({ comments }))
         .catch(error => res.status(404).json({ error }));
 }

@@ -19,7 +19,7 @@
                         <PostItemComment :post="post" />
 
                         <!-- AJOUTER UN COMMENTAIRE -->
-                        <PostItemCommentCreate />
+                        <PostItemCommentCreate :post="post" />
                     </b-card>
                 </div>
                 <div v-else>
