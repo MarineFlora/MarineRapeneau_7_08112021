@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Post.belongsTo(models.User, { foreignKey: 'userId' })
             Post.hasMany(models.Comment) 
-            Post.hasMany(models.Like)
+            Post.hasMany(models.LikePost)
         }
     };
     Post.init({

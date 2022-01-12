@@ -9,11 +9,9 @@
                 <b-col class="px-3">
                     <b-row class="px-3" align-v="center">
                         <b-col cols="11" class="px-0" >
-                            <div class="d-flex align-items-center flex-wrap pr-2">
+                            <div class="d-flex align-items-end flex-wrap pr-2">
                                 <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
-                                
                                 <b-icon v-if="comments.User.admin" icon="person-check-fill" class="text-dark px-1" font-scale="1.5" title="admin"></b-icon> 
-                            
                                 <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow() }}</p>
                             </div>
                         </b-col>
@@ -34,8 +32,8 @@
                     <p>{{ comments.description }}</p>
 
                     <div class="d-flex align-items-center text-secondary mt-1">
-                        <b-link class="p-0 text-secondary col">Répondre</b-link>
-                        <PostItemLike likeScale="0.9" class="px-0"/>
+                        <b-link class="p-0 text-secondary ">Répondre</b-link>
+                        <PostItemCommentLike :post="post" :comments="comments" likeScale="1" class="px-0" />
                     </div>
                 </b-col>
             </b-row>
@@ -46,7 +44,7 @@
 
 <script>
 import ProfileImage from '../components/ProfileImage.vue';
-import PostItemLike from '../components/PostItemLike.vue';
+import PostItemCommentLike from '../components/PostItemCommentLike.vue';
 import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
 import { apiFetch } from '../utils/ApiFetch';
 
@@ -59,7 +57,7 @@ export default {
     name: 'PostItemComment',
     components: {
         ProfileImage,
-        PostItemLike,
+        PostItemCommentLike,
         PostItemCommentCreate
     },
     props: {
@@ -93,5 +91,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.comments p, .comments a {
+    font-size: 0.94rem;
+}
 </style>

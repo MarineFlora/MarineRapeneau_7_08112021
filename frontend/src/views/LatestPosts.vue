@@ -99,10 +99,6 @@ export default {
     max-width: 720px !important;
 }
 
-// classes page posts
 
-.comments p, .comments a {
-    font-size: 0.9rem;
-}
 
 </style>

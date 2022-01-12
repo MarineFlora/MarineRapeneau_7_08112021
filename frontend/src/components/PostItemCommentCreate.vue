@@ -3,7 +3,8 @@
         <ProfileImage imageHeight="40" />
 
         <b-form class="col " @submit.prevent="createComment">
-            <b-form-textarea                            
+            <b-form-textarea       
+                id="comment-form"                     
                 placeholder="Ecrivez un commentaire" 
                 rows="1"
                 max-rows="10"
