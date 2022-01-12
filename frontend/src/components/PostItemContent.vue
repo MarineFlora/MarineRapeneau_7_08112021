@@ -26,10 +26,30 @@
             <b-col cols="1" class="px-0 d-flex justify-content-end">
             
                 <!-- paramètres du post -->
-                <b-dropdown size="sm" variant="outline-primary" offset="-130rem" v-b-tooltip.hover.v-primary.left="'paramètres'">
-                    <b-dropdown-item v-if="isCreator(post.userId)" v-b-modal="'modal-modify-' + post.id">Modifier</b-dropdown-item>
-                    <b-dropdown-item v-b-modal="'modal-' + post.id" v-if="isCreator(post.userId) || isAdmin()" class="delete-option">Supprimer</b-dropdown-item>
-                    <b-dropdown-item to="/about"> Signaler</b-dropdown-item>
+                <b-dropdown 
+                    size="sm" 
+                    variant="outline-primary" 
+                    offset="-160rem"
+                    v-b-tooltip.hover.v-primary.left="'paramètres'"
+                >
+                    <b-dropdown-item 
+                        v-if="isCreator(post.userId)" 
+                        v-b-modal="'modal-modify-' + post.id"
+                    >Modifier la publication
+                    </b-dropdown-item>
+
+                    <b-dropdown-item 
+                        v-b-modal="'modal-' + post.id" 
+                        v-if="isCreator(post.userId) || isAdmin()" 
+                        class="delete-option">
+                    Supprimer la publication
+                    </b-dropdown-item>
+
+                    <b-dropdown-item 
+                        v-if="!isCreator(post.userId)" 
+                        to="/about"
+                    >Signaler la publication aux modérateurs
+                    </b-dropdown-item>
                 </b-dropdown>
 
                 <!-- modal de modification du post -->
@@ -39,6 +59,7 @@
                     ok-title="modifier"
                     cancel-title="annuler"
                     @ok="modifyPost(`${post.id}`)"
+                    centered
                 >
                     <b-form class="col p-2 overflow-hidden" >
                         <!-- modif description -->
@@ -75,6 +96,7 @@
                     ok-title="supprimer" 
                     cancel-title= "annuler"
                     @ok="deletePost(`${post.id}`)"
+                    centered
                 >
                     <p>La publication sera supprimée définitivement. </p>
                 </b-modal>
