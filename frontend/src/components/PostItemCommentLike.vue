@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-end align-items-center pl-3">
+    <div class="d-flex justify-content-end align-items-center px-2">
         <div class="like">
             <transition name="like-fill" mode="out-in">
                 <b-icon 
@@ -24,7 +24,7 @@
 
         <!-- retour total likes + affichage des users qui ont aimé lors du click-->
         <b-link 
-            class="text-secondary mx-1" 
+            class="text-secondary mx-1 likes-count" 
             :class="`likes-comment-total-${comments.id}`"
             v-b-modal="'modal-comment-like-' +  comments.id"
             title="aimé par"
@@ -158,5 +158,7 @@ export default {
 .like-icon { 
     cursor: pointer;
 }
-
+.likes-count {
+    font-size: 0.85rem !important;
+}
 </style>

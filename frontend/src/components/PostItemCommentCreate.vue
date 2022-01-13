@@ -4,7 +4,7 @@
 
         <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea       
-                id="comment-form"                     
+                :class="'comment-form-' + post.id"                     
                 placeholder="Ecrivez un commentaire" 
                 rows="1"
                 max-rows="10"

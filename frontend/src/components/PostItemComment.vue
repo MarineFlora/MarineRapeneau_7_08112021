@@ -1,9 +1,9 @@
 <template>
     <div>
         <!-- COMMENTAIRES ET LIKES INFO -->
-        <div class="px-3 pb-3 border border-left-0 border-top-0 border-right-0">
+        <div class="pb-3 border border-left-0 border-top-0 border-right-0">
             <b-row>
-                <b-col cols="9" class="d-flex align-items-center">
+                <b-col cols="9" class="d-flex align-items-center comments-info" @click="targetForm">
                     <b-icon icon="chat-square" font-scale="1.3"></b-icon>
                     <p class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</p>
                     <p class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</p>
@@ -16,14 +16,15 @@
             </b-row>
         </div> 
 
-        <!-- 1 COMMENTAIRE -->
-        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3 comments" v-if="commentsList.length > 0">
-            <b-row class="mb-3" align-v="start" v-for="comments in commentsList" :key="comments.id">
+        
+        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3" v-if="commentsList.length > 0">
+             <!-- 1 COMMENTAIRE -->
+            <b-row class="mb-3 comments" align-v="start" v-for="comments in commentsList" :key="comments.id">
                 <!-- changer adresse image dynamiquement -->
                 <ProfileImage imageHeight="40" />
 
-                <b-col class="px-3">
-                    <b-row class="px-3" align-v="center">
+                <b-col >
+                    <b-row class="pl-3" align-v="start">
                         <b-col cols="11" class="px-0" >
                             <div class="d-flex align-items-end flex-wrap pr-2">
                                 <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
@@ -36,9 +37,9 @@
                             <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
                             <b-dropdown 
                                 size="sm" 
-                                variant="link" 
+                                variant="tertairy" 
                                 offset="-160rem" 
-                                no-caret v-b-tooltip.hover.v-primary.left="'paramètres'"
+                                no-caret v-b-tooltip.hover.v-secondary.left="'paramètres'"
                             >
                                 <template #button-content>
                                     <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>
@@ -99,12 +100,10 @@
 
                         </b-col>
                     </b-row>
+                    <div class="d-flex  align-items-end text-secondary">
+                        <p class="p-1 px-2 comment-text">{{ comments.description }}</p>
 
-                    <p>{{ comments.description }}</p>
-
-                    <div class="d-flex align-items-center text-secondary mt-1">
-                        <b-link class="p-0 text-secondary ">Répondre</b-link>
-                        <PostItemCommentLike :post="post" :comments="comments" likeScale="1" class="px-0" />
+                        <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
                     </div>
                 </b-col>
             </b-row>
@@ -182,7 +181,6 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
-                   // alert("Une erreur est survenue");
                 }); 
         },
         modifyComment(id) { 
@@ -204,10 +202,12 @@ export default {
                     })
                     .catch(error => {
                         console.log("error catch fetch:", error);
-                        alert("Une erreur est survenue"); 
                     });  
-            }  
-        }                    
+            }
+        },
+        targetForm() {
+            document.querySelector(`.comment-form-${this.post.id}`).focus();
+        }                
     } 
 }
 </script>
@@ -216,4 +216,17 @@ export default {
 .comments p, .comments a {
     font-size: 0.94rem;
 }
+
+.comments:hover {
+    .comment-text{
+        background-color: #f2f2f2;
+        border-radius: 15px;
+    }
+}
+
+.comments-info:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
 </style>
