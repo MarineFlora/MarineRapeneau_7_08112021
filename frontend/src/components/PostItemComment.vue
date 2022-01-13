@@ -1,7 +1,23 @@
 <template>
     <div>
+        <!-- COMMENTAIRES ET LIKES INFO -->
+        <div class="px-3 pb-3 border border-left-0 border-top-0 border-right-0">
+            <b-row>
+                <b-col cols="9" class="d-flex align-items-center">
+                    <b-icon icon="chat-square" font-scale="1.3"></b-icon>
+                    <p class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</p>
+                    <p class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</p>
+                    <p class="text-secondary mx-2" v-if="post.commentsCount == 1">{{ post.commentsCount }} commentaire</p>
+                </b-col>
+
+                <b-col cols="3" >
+                    <PostItemLike :post="post" likeScale="1.4"/>
+                </b-col>
+            </b-row>
+        </div> 
+
+        <!-- 1 COMMENTAIRE -->
         <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3 comments" v-if="commentsList.length > 0">
-            <!-- 1 COMMENTAIRE -->
             <b-row class="mb-3" align-v="start" v-for="comments in commentsList" :key="comments.id">
                 <!-- changer adresse image dynamiquement -->
                 <ProfileImage imageHeight="40" />
@@ -93,16 +109,17 @@
                 </b-col>
             </b-row>
         </div>
-            <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments"/>
-</div>
+        <!-- création d'un commentaire -->
+        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments"/>
+    </div>
 </template>
 
 <script>
 import ProfileImage from '../components/ProfileImage.vue';
 import PostItemCommentLike from '../components/PostItemCommentLike.vue';
 import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
+import PostItemLike from './PostItemLike.vue';
 import { apiFetch } from '../utils/ApiFetch';
-
 import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -113,15 +130,16 @@ export default {
     components: {
         ProfileImage,
         PostItemCommentLike,
-        PostItemCommentCreate
+        PostItemCommentCreate,
+        PostItemLike
     },
     props: {
-        post: { type: Object, default: ['post'] }
+        post: { type: Object, default: ['post'] }, 
     },
     data() {
         return {
             commentsList: [],
-            dayjs: dayjs
+            dayjs: dayjs,
         }
     },
     mounted() {
@@ -133,7 +151,7 @@ export default {
                 .get(`/posts/${this.post.id}/comments`)
                 .then(data => {
                     this.commentsList = data.comments;
-                
+                    this.post.commentsCount = data.comments.length 
                     console.log("PostItem-this.comments:", this.commentsList)
                     console.log("error:", data.error)
                 })

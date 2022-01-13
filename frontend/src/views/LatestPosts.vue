@@ -11,8 +11,9 @@
                
                <!-- TOUS LES POSTS -->
                 <div v-if="posts.length">
+                    <!-- 1 POST -->
                     <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.updatedAt">
-                        <!-- CONTENU PUBLICATION -->
+                        <!-- CONTENU POST -->
                         <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
                         <!-- COMMENTAIRES -->

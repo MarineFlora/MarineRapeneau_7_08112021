@@ -1,6 +1,6 @@
 <template>  
     <!-- POST SANS COMMENTAIRES -->
-    <div class="pb-3 border border-left-0 border-top-0 border-right-0">
+    <div>
         <!-- USER + TIME -->
         <b-row class="px-3" align-v="center">
             <b-col cols="11" class="px-0" >
@@ -117,33 +117,18 @@
             </b-col>   
         </b-row>
 
-        <!-- COMMENTAIRES ET LIKES INFO-->
-        <b-row>
-            <b-col cols="9" class="d-flex align-items-center">
-                <b-icon icon="chat-square" font-scale="1.3"></b-icon>
-                <p class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</p>
-                <p class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</p>
-                <p class="text-secondary mx-2" v-if="post.commentsCount == 1">{{ post.commentsCount }} commentaire</p>
-            </b-col>
-
-            <b-col cols="3" >
-                <PostItemLike :post="post" likeScale="1.4"/>
-            </b-col>
-        </b-row>
+        
     </div> 
 
 </template>
 
 <script>
 import ProfileImage from './ProfileImage.vue';
-import PostItemLike from './PostItemLike.vue';
 import BaseButton from './BaseButton.vue';
 import PostItemImagesDisplay from './PostItemImagesDisplay.vue';
 import PostInput from '../components/PostInput.vue';
-
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
-
 import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -153,7 +138,6 @@ export default {
     name: 'PostItemContent',
     components: {
         ProfileImage,
-        PostItemLike,
         BaseButton,
         PostItemImagesDisplay,
         PostInput
