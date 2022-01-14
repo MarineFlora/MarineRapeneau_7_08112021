@@ -2,15 +2,15 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Like extends Model {
+    class LikeComment extends Model {
         // Méthode pour définir les associations
         static associate(models) {
-            Like.belongsTo(models.User, { foreignKey: 'userId' })
-            Like.belongsTo(models.Post, { foreignKey: 'postId' }, { onDelete: 'cascade', hooks:true })
-            Like.belongsTo(models.Comment, { foreignKey: 'commentId' }, { onDelete: 'cascade', hooks:true })
+            LikeComment.belongsTo(models.User, { foreignKey: 'userId' })
+            LikeComment.belongsTo(models.Post, { foreignKey: 'postId' }, { onDelete: 'cascade', hooks:true })
+            LikeComment.belongsTo(models.Comment, { foreignKey: 'commentId' }, { onDelete: 'cascade', hooks:true })
         }
     };
-    Like.init({
+    LikeComment.init({
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -21,13 +21,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         commentId: {
             type: DataTypes.INTEGER,
-            allowNull: true
+            allowNull: false
         }
     }, 
     {
         sequelize,
-        modelName: 'Like',
+        modelName: 'LikeComment',
     }
     );
-    return Like;
+    return LikeComment;
 };

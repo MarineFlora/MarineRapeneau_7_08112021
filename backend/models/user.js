@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             User.hasMany(models.Post) 
             User.hasMany(models.Comment) 
-            User.hasMany(models.Like)
+            User.hasMany(models.LikePost)
+            User.hasMany(models.LikeComment)
         }
     };
     User.init({

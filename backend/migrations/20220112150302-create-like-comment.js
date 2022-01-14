@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
-    up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Likes', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('LikeComments', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -42,9 +42,9 @@ module.exports = {
             allowNull: false,
             type: Sequelize.DATE
         }
-        });
-    },
-    down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Likes');
-    }
+    });
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('LikeComments');
+  }
 };

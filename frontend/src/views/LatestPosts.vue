@@ -11,18 +11,14 @@
                
                <!-- TOUS LES POSTS -->
                 <div v-if="posts.length">
+                    <!-- 1 POST -->
                     <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.updatedAt">
-                        <!-- CONTENU PUBLICATION -->
+                        <!-- CONTENU POST -->
                         <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
-                        <!-- COMMENTAIRES d-none si 0 comments ? -->
-                        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3 comments">
-                            <PostItemComment />
-                            <PostItemComment />
-                        </div>
-
-                        <!-- AJOUTER UN COMMENTAIRE -->
-                        <PostItemCommentCreate />
+                        <!-- COMMENTAIRES -->
+                        <PostItemComment :post="post" :loadPosts="loadPosts"/>
+                       
                     </b-card>
                 </div>
                 <div v-else>
@@ -41,7 +37,7 @@ import BaseButton from '../components/BaseButton.vue';
 import PostItemCreate from '../components/PostItemCreate.vue';
 import PostItemContent from '../components/PostItemContent.vue';
 import PostItemComment from '../components/PostItemComment.vue';
-import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
+
 import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
 
@@ -53,7 +49,7 @@ export default {
         PostItemCreate,
         PostItemContent,
         PostItemComment,
-        PostItemCommentCreate
+       
     },
     data() {
         return {
@@ -85,6 +81,7 @@ export default {
             localStorage.clear();
             router.push({ name: 'Login' });
         },
+        
     }
    
 }
@@ -103,10 +100,6 @@ export default {
     max-width: 720px !important;
 }
 
-// classes page posts
 
-.comments p, .comments a {
-    font-size: 0.9rem;
-}
 
 </style>
