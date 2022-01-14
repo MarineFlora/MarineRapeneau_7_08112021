@@ -15,9 +15,8 @@
                 </b-col>
             </b-row>
         </div> 
-
         
-        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3" v-if="commentsList.length > 0">
+        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3" v-if="post.commentsCount > 0">
              <!-- 1 COMMENTAIRE -->
             <b-row class="mb-3 comments" align-v="start" v-for="comments in commentsList" :key="comments.id">
                 <!-- changer adresse image dynamiquement -->
@@ -100,14 +99,19 @@
 
                         </b-col>
                     </b-row>
-                    <div class="d-flex  align-items-end text-secondary">
+                    <div class="d-flex align-items-end text-secondary">
                         <p class="p-1 px-2 comment-text">{{ comments.description }}</p>
 
                         <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
                     </div>
                 </b-col>
             </b-row>
+
+            <div class="py-2" :class="'other-comments-' + post.id" v-if="post.commentsCount > 2">
+                <b-link class="text-secondary mx-2" @click="loadPostComments">afficher {{ post.commentsCount -2 }} autres commentaires</b-link> 
+            </div> 
         </div>
+         
         <!-- création d'un commentaire -->
         <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments"/>
     </div>
@@ -141,23 +145,28 @@ export default {
             dayjs: dayjs,
         }
     },
-    mounted() {
-        this.loadPostComments();
+    created() {
+      //  this.loadPostComments();
+      apiFetch
+        .get(`/posts/${this.post.id}/comments/?limit=2`)
+        .then(data => {
+            this.commentsList = data.comments.rows;
+            this.post.commentsCount = data.comments.count ;
+            // supprimer le lien
+        })
+        .catch(error => {console.log(error)}); 
     },
     methods: {
         loadPostComments() {
             apiFetch
                 .get(`/posts/${this.post.id}/comments`)
                 .then(data => {
-                    this.commentsList = data.comments;
-                    this.post.commentsCount = data.comments.length 
-                    console.log("PostItem-this.comments:", this.commentsList)
-                    console.log("error:", data.error)
+                    this.commentsList = data.comments.rows;
+                    this.post.commentsCount = data.comments.count;
+                    console.log("commentsList:", this.commentsList);
                 })
-                .catch(error => {
-                    console.log(error)
-                    alert("Une erreur est survenue");
-                }); 
+                .then(() => { this.removeOtherCommentsLink(); })
+                .catch(error => { console.log(error) }); 
         },
         // fonctions pour accès aux paramètres modifier/supprimer des posts
         isCreator(option) {
@@ -181,6 +190,7 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
+                   alert("erreur")
                 }); 
         },
         modifyComment(id) { 
@@ -207,7 +217,19 @@ export default {
         },
         targetForm() {
             document.querySelector(`.comment-form-${this.post.id}`).focus();
-        }                
+        },
+        removeOtherCommentsLink() {
+            let otherCommentsLink = document.querySelector(`.other-comments-${this.post.id}`);
+            if(otherCommentsLink) {
+                while(otherCommentsLink.firstChild) {
+                    otherCommentsLink.removeChild(otherCommentsLink.firstChild);
+                }
+                let newTitle = document.createElement('p');
+                newTitle.textContent = 'Votre commentaire :';
+                newTitle.classList.add('text-secondary');
+                otherCommentsLink.appendChild(newTitle);
+            }
+        }            
     } 
 }
 </script>
@@ -226,7 +248,7 @@ export default {
 
 .comments-info:hover {
     cursor: pointer;
-    font-weight: bold;
+    text-decoration: underline;
 }
 
 </style>

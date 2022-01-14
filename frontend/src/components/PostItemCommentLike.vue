@@ -133,15 +133,13 @@ export default {
         // ajout opacity 0 au nombre quand 0 like
         hideLikesNumber() {
             let totalLikesNumber = document.querySelector(`.likes-comment-total-${this.comments.id}`);
-            if (this.likesCount == 0) { 
-                totalLikesNumber.style.opacity = "0";
-            } else {
-               totalLikesNumber.style.opacity = "1";
+            if(totalLikesNumber) {
+                this.likesCount == 0 ? 
+                totalLikesNumber.style.cssText = "opacity:0" 
+                : totalLikesNumber.style.cssText = "opacity:1";
             }
         }
-        
     }
-    
 }
 </script>
 

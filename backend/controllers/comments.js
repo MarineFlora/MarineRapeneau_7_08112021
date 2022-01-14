@@ -55,7 +55,19 @@ exports.deleteComment = async (req, res, next) => {
 
 /* ---------- récupération de tous les commentaires du post---------- */
 exports.getAllCommentsOfPost = (req, res, next) => {
-    Comment.findAll({ where: { postId: req.params.postId }, include: db.User })
+    const options = {
+        where: { postId: req.params.postId },
+        include: db.User,
+        order: [['id', 'DESC']]
+    }
+
+    if (req.query.limit) {
+        options.order = [['id', 'DESC']];
+        options.limit = parseInt(req.query.limit);
+    }
+    console.log("req.query.limit",req.query.limit)
+   
+    Comment.findAndCountAll(options)
         .then(comments => res.status(200).json({ comments }))
         .catch(error => res.status(404).json({ error }));
 }
