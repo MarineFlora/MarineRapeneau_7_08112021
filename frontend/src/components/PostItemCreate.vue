@@ -86,8 +86,9 @@ export default {
                 apiFetch
                     .post('/posts/', body, { isFormData })
                     .then(res => {
-                        console.log("fetch res:", res)
+                        console.log("createPost:", res)
                         this.removePreviewChild();
+                        this.description = "";
                         form.reset();
                         this.loadPosts();
                     })
