@@ -7,6 +7,7 @@ module.exports = {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER,
+            onDelete: 'CASCADE'
         },
         userId: {
             type: Sequelize.INTEGER,
@@ -15,6 +16,7 @@ module.exports = {
                 model: 'Users',
                 key: 'id'
             },
+            onDelete: 'CASCADE'
         },
         description: {
             type: Sequelize.TEXT,

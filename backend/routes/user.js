@@ -14,7 +14,7 @@ router.post('/login', userCtrl.login);
 
 // routes de l'utilisateur
 router.get('/user-profile/:userId', userCtrl.getOneUser);
-router.put('/user-profile/:userId', auth, multer, userCtrl.modifyInfosUser);
+router.put('/user-profile/:userId', auth, multer, userCtrl.editUser);
 router.delete('/user-profile/:userId', auth, userCtrl.deleteUser);
 
 

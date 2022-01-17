@@ -82,25 +82,32 @@ exports.login = (req, res, next) => {
     }
 };
 
+// récupérer les information d'un utilsiateur
 exports.getOneUser = (req, res, next) => {
     User.findOne({ where: { id: req.params.userId } })
         .then(user => res.status(200).json({ user }))
         .catch(error => res.status(404).json({ error }));
 }
 
-exports.modifyInfosUser = async (req, res, next) => {
+// modifier les informations
+exports.editUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { id: req.params.userId } });
         if (req.token.userId === user.id) {
+            let userObject = req.body;
+            if (req.body.password) {
+                throw "vous ne pouvez pas modifier votre mot de passe ici, retirez le champ password ou contactez un admin"
+            }
             if (req.files) {
                 userObject = JSON.parse(req.body.user);
                 userObject.profilePhoto = `${req.protocol}://${req.get('host')}/images/${req.files[0].filename}`;
-                // suppression de l'ancienne image du chemin local
-                const oldFilename = user.profilePhoto.split('/images/')[1];
-                fs.unlink(`images/${oldFilename}`, (err => { console.log(err); } ));  
-            } else {
-                userObject = req.body;
-            }
+                // si une image était présente, la supprimer du dossier local
+                if (user.profilePhoto) {
+                    const oldFilename = user.profilePhoto.split('/images/')[1];
+                    fs.unlink(`images/${oldFilename}`, (err => { console.log(err); } ));  
+                }
+            } 
+            
             await user.update({ ...userObject }, { where: { id: req.params.userId } })
             res.status(200).json({ message: 'profil modifié !'})  
         } else {
@@ -111,14 +118,10 @@ exports.modifyInfosUser = async (req, res, next) => {
     }   
 }
 
-
-
+// supprimer l'utilisateur
 exports.deleteUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { id: req.params.userId } });
-        if (!user) {
-           throw "Utilisateur non trouvé !";
-        }
         if (user.id === req.token.userId) {
             if (user.profilePhoto) {
                 const oldFilename = user.profilePhoto.split('/images/')[1];
