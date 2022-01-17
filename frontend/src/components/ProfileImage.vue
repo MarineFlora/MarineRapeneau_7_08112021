@@ -1,7 +1,7 @@
 <template>
     <b-img 
         :height="imageHeight" 
-        :src="require('../assets/images/user-empty.png')" 
+        :src="imageUrl || require('../assets/images/user-empty.png')" 
         rounded="circle"
         alt="avatar user"
         class="my-2"
@@ -16,7 +16,8 @@ export default {
         
     },
     props: {
-        imageHeight: String
+        imageHeight: String,
+        imageUrl: String
     } 
 }
 </script>
