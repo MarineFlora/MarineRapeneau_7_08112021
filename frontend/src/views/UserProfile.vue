@@ -11,54 +11,19 @@
                 </div>
 
                 <div class="d-flex flex-column align-items-center">
+                    <!-- information du profil -->
                     <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
-                    <!-- nom + prénom user -->
                     <p>{{ user.firstName }} {{ user.lastName }}</p>
-                    <!-- job -->
                     <p>{{ user.profession }}</p>
-                    <!-- description de l'user -->
                     <p>{{ user.userDescription }}</p>
-                    <!-- btn editer le profil -->
+
+                    <!--edition du profil -->
                     <div>
                         <BaseButton button-title="Editer le profil" v-b-modal.modal-profile class="my-3" />
                     </div>
-
-                    <b-modal 
-                        id="modal-profile" 
-                        title="Modifier le profil" 
-                        ok-title="modifier"
-                        cancel-title="annuler"
-                        
-                        centered
-                    >
-                        <b-form class="col p-2 overflow-hidden" >
-                            <b-form-group class="pb-1">
-                                <h6>Image de profil</h6>
-                                <ProfileImage imageHeight="60"/>
-                            </b-form-group>
-
-                            <b-form-group class="pb-1">
-                                <div class="d-flex">
-                                    <h6>Prénom</h6>
-                                    <b-form-input> </b-form-input>
-
-                                    <h6>Nom</h6>
-                                    <b-form-input> </b-form-input>
-                                </div>
-                            </b-form-group>
-
-                            <b-form-group class="pb-1">
-                                <h6>Profession</h6>
-                                <b-form-input> </b-form-input>
-                            </b-form-group>
-
-                            <b-form-group class="pb-1">
-                                <h6>Décrivez-vous en quelques mots</h6>
-                                <b-form-textarea rows="1"></b-form-textarea>
-                            </b-form-group>
-                        </b-form>
-                    </b-modal>    
-                </div>
+                    
+                    <UserProfileEdit :user="user" />
+                </div> 
 
                 <div class="d-flex flex-column align-items-end">
                     <!-- lien supprimer le compte -->
@@ -79,6 +44,7 @@
 import TheHeader from '../components/TheHeader.vue';
 import ProfileImage from '../components/ProfileImage.vue';
 import BaseButton from '../components/BaseButton.vue';
+import UserProfileEdit from '../components/UserProfileEdit.vue';
 
 import { apiFetch } from '../utils/ApiFetch';
 
@@ -87,7 +53,8 @@ export default {
     components: {
         TheHeader,
         ProfileImage,
-        BaseButton
+        BaseButton,
+        UserProfileEdit 
     }, 
     data() {
         return {
@@ -98,7 +65,7 @@ export default {
         this.loadUserProfile();
     },
     methods: {
-        loadUserProfile() {
+        loadUserProfile(){
             const userId = localStorage.getItem("userId");
             apiFetch
                 .get(`/auth/user-profile/${userId}`)
@@ -107,6 +74,46 @@ export default {
                 })
                 .catch(error => console.log(error)); 
         },
+        editUser(){
+             const description = document.querySelector(".modify-description").value
+            const userId = localStorage.getItem("userId");
+            const previewMedia = document.querySelector('.preview-media-modify');
+              
+            const selectedFile = document.querySelector(".input-file-modify");
+            let images = selectedFile.files 
+
+            if (description === '' && !previewMedia.firstChild) {
+                this.loadPosts();
+                alert("vous ne pouvez pas envoyer un post vide")
+            } else { 
+                const isFormData = images.length > 0; 
+                let body = { 
+                    "userId": Number(userId),
+                    "description": description
+                }
+           
+                if (isFormData) {
+                    const formData = new FormData();
+                    for (let i = 0; i < images.length; i++) {
+                        formData.append("image", images[i]);
+                    }
+                    formData.append("post", JSON.stringify(body))
+                    body = formData
+                }
+
+                apiFetch
+                    .put('/posts/' + id, body, { isFormData })
+                    .then(res => {
+                        console.log("fetch res:", res)
+                        console.log("error fetch:", res.error)
+                        this.loadPosts();
+                    })
+                    .catch(error => {
+                        console.log("error catch fetch:", error);
+                        alert("Une erreur est survenue"); 
+                    });  
+            }      
+        }
     }
 }
 </script>
