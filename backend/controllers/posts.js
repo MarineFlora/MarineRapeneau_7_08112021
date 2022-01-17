@@ -69,9 +69,9 @@ exports.modifyPost = (req, res, next) => {
             } else {
                 postObject.imageUrl = post.imageUrl;
             }
-            
+    
             // vérifier autorisation avant maj DB
-            if (req.token.userId === post.userId) {
+            if (req.token.userId === postObject.userId) {
                 Post.update({ ...postObject }, { where: { id: req.params.id } })
                     .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
                     .catch(error => res.status(400).json({ error }));  

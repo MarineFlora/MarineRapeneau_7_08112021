@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 
 // Importation config database avec ORM Sequelize
 const db = require('../models/index');
+// import file system, accès aux opérations liées au systeme de fichier
+const fs = require('fs');
 
 // Importation modèle User
 const { User } = db.sequelize.models;
@@ -87,8 +89,27 @@ exports.getOneUser = (req, res, next) => {
         .catch(error => res.status(404).json({ error }));
 }
 
-exports.modifyInfosUser = (req, res, next) => {
-    
+exports.modifyInfosUser = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ where: { id: req.params.userId } });
+        if (req.token.userId === user.id) {
+            if (req.files) {
+                userObject = JSON.parse(req.body.user);
+                userObject.profilePhoto = `${req.protocol}://${req.get('host')}/images/${req.files[0].filename}`;
+                // suppression de l'ancienne image du chemin local
+                const oldFilename = user.profilePhoto.split('/images/')[1];
+                fs.unlink(`images/${oldFilename}`, (err => { console.log(err); } ));  
+            } else {
+                userObject = req.body;
+            }
+            await user.update({ ...userObject }, { where: { id: req.params.userId } })
+            res.status(200).json({ message: 'profil modifié !'})  
+        } else {
+            throw "vous n'êtes pas autorisé à modifier ce profil" ;
+        }
+    } catch (error) {
+        res.status(400).json({ error });
+    }   
 }
 
 exports.deleteUser = (req, res, next) => {
