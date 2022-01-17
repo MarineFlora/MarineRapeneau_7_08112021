@@ -25,7 +25,6 @@ const newToken = user => {
     return { userId: user.id, isAdmin: user.admin, token }
 };
 
-
 // fonction pour enregistrement de nouveaux utilisateurs
 exports.signup = (req, res, next) => {
     // vérifier validation regex mot de passe
@@ -112,6 +111,25 @@ exports.modifyInfosUser = async (req, res, next) => {
     }   
 }
 
-exports.deleteUser = (req, res, next) => {
 
+
+exports.deleteUser = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ where: { id: req.params.userId } });
+        if (!user) {
+           throw "Utilisateur non trouvé !";
+        }
+        if (user.id === req.token.userId) {
+            if (user.profilePhoto) {
+                const oldFilename = user.profilePhoto.split('/images/')[1];
+                fs.unlink(`images/${oldFilename}`, (err => { console.log(err); } )); 
+            }  
+            await user.destroy();
+            res.status(200).json({ message: 'profil utilisateur supprimé !'})
+        } else {
+           throw "vous n'êtes pas autorisé à supprimer cet utilisateur";
+        }   
+    } catch (error) {
+        res.status(400).json({ error });
+    } 
 }
