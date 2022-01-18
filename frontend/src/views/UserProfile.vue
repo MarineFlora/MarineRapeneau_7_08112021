@@ -19,7 +19,7 @@
 
                     <!--edition du profil -->
                     <div>
-                        <BaseButton button-title="Editer le profil" v-b-modal.modal-profile class="my-3" />
+                        <BaseButton button-title="Editer le profil" v-b-modal.modal-edit-profile class="my-3" />
                     </div>
                     
                     <UserProfileEdit :user="user" :loadUserProfile="loadUserProfile" />
@@ -27,7 +27,51 @@
 
                 <div class="d-flex flex-column align-items-end">
                     <!-- lien supprimer le compte -->
-                    <b-link class="text-dark"> supprimer le compte</b-link>
+                    <b-link class="text-dark" v-b-modal.modal-user-remove> supprimer le compte</b-link>
+
+                    <!-- confirmation de suppression -->
+                    <b-modal 
+                        id="modal-user-remove" 
+                        title="Voulez-vous vraiment supprimer votre profil ?" 
+                        hide-footer
+                        centered
+                    >
+                        <p class="mb-5">Réfléchissez bien, le profil sera supprimé définitivement. </p>
+                        <div class="d-flex justify-content-end">
+                            <b-button 
+                                v-b-modal.modal-user-remove-2 
+                                variant="primary"
+                            >oui, je supprime mon compte</b-button>
+                        </div>
+                    </b-modal>
+
+                    <b-modal 
+                        id="modal-user-remove-2" 
+                        title="Toujours sûr de vouloir nous quitter ?" 
+                        hide-footer
+                        centered
+                    >
+                        <p class="mb-5">Pour supprimer définitivement votre compte, cliquez sur "supprimer".</p> 
+                        <div class="d-flex justify-content-end">
+                            <b-button 
+                                v-b-modal.modal-user-remove-3 
+                                variant="primary" 
+                                @click="deleteProfile()"
+                            >supprimer</b-button>
+                        </div>   
+                    </b-modal>
+
+                    <b-modal 
+                        id="modal-user-remove-3" 
+                        title="A bientôt !" 
+                        ok-title="OK" 
+                        ok-only
+                        @ok="logOut()"
+                        centered
+                    >
+                        <p>Nous vous remercions d'avoir utilisé le réseau social de Groupomania, à bientôt !</p>    
+                    </b-modal>
+
                     <!-- lien changer le mdp ? -->
                     <b-link class="text-dark">changer le mot de passe</b-link>
                 </div>
@@ -47,6 +91,7 @@ import BaseButton from '../components/BaseButton.vue';
 import UserProfileEdit from '../components/UserProfileEdit.vue';
 
 import { apiFetch } from '../utils/ApiFetch';
+import router from '../router/index';
 
 export default {
     name: 'UserProfile',
@@ -73,47 +118,22 @@ export default {
                     this.user = data.user;
                 })
                 .catch(error => console.log(error)); 
+        }, 
+        deleteProfile() {
+            apiFetch
+                .delete(`/auth/user-profile/${this.user.id}`)
+                .then(res => {
+                    console.log("delete res:", res)
+                })
+                .catch(error => {
+                    console.log(error)
+                }); 
         },
-        editUser(){
-             const description = document.querySelector(".modify-description").value
-            const userId = localStorage.getItem("userId");
-            const previewMedia = document.querySelector('.preview-media-modify');
-              
-            const selectedFile = document.querySelector(".input-file-modify");
-            let images = selectedFile.files 
-
-            if (description === '' && !previewMedia.firstChild) {
-                this.loadPosts();
-                alert("vous ne pouvez pas envoyer un post vide")
-            } else { 
-                const isFormData = images.length > 0; 
-                let body = { 
-                    "userId": Number(userId),
-                    "description": description
-                }
-           
-                if (isFormData) {
-                    const formData = new FormData();
-                    for (let i = 0; i < images.length; i++) {
-                        formData.append("image", images[i]);
-                    }
-                    formData.append("post", JSON.stringify(body))
-                    body = formData
-                }
-
-                apiFetch
-                    .put('/posts/' + id, body, { isFormData })
-                    .then(res => {
-                        console.log("fetch res:", res)
-                        console.log("error fetch:", res.error)
-                        this.loadPosts();
-                    })
-                    .catch(error => {
-                        console.log("error catch fetch:", error);
-                        alert("Une erreur est survenue"); 
-                    });  
-            }      
-        }
+        logOut() {
+            localStorage.clear();
+            router.push({ name: 'Login' });
+        },     
+        
     }
 }
 </script>

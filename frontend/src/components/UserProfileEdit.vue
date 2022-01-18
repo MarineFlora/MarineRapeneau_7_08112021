@@ -1,6 +1,6 @@
 <template> 
     <b-modal 
-        id="modal-profile" 
+        id="modal-edit-profile" 
         title="Modifier le profil" 
         ok-title="modifier"
         cancel-title="annuler"
@@ -100,8 +100,7 @@ export default {
             let currentFile = inputImage.files;
             profileImage.src = window.URL.createObjectURL(currentFile[0]);
         },
-        editProfile() {    
-            const userId = localStorage.getItem("userId");            
+        editProfile() {               
             const selectedFile = document.getElementById("edit-profile-input");
             let profileImage = selectedFile.files;
             const isFormData = profileImage.length > 0;
@@ -115,7 +114,7 @@ export default {
             }
 
             apiFetch
-                .put(`/auth/user-profile/${userId}`, body, { isFormData })
+                .put(`/auth/user-profile/${this.user.id}`, body, { isFormData })
                 .then(res => {
                     console.log("fetch res:", res)
                     this.loadUserProfile();
@@ -123,7 +122,8 @@ export default {
                 .catch(error => {
                     console.log("error:", error);
                 });  
-        }
+        },
+        
     }
 }
 </script>
