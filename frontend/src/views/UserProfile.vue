@@ -1,5 +1,5 @@
 <template>
-    <div class="user-profile text-left">
+    <div class="user-profile">
         <TheHeader />
         <main>
             <b-container class="maxwidth-page">
@@ -15,14 +15,14 @@
                     <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
                     <p>{{ user.firstName }} {{ user.lastName }}</p>
                     <p>{{ user.profession }}</p>
-                    <p>{{ user.userDescription }}</p>
+                    <p class="py-3">{{ user.userDescription }}</p>
 
                     <!--edition du profil -->
                     <div>
                         <BaseButton button-title="Editer le profil" v-b-modal.modal-profile class="my-3" />
                     </div>
                     
-                    <UserProfileEdit :user="user" />
+                    <UserProfileEdit :user="user" :loadUserProfile="loadUserProfile" />
                 </div> 
 
                 <div class="d-flex flex-column align-items-end">
@@ -125,4 +125,5 @@ export default {
     background-color: lighten($primary,20%);
     border-radius: 10px;
 }
+
 </style>
