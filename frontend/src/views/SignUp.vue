@@ -94,7 +94,7 @@ import { apiFetch } from '../utils/ApiFetch';
 // regex patterns pour validation champs
 const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
 const emailValid = helpers.regex('emailValid', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
-const nameValid = helpers.regex('nameValid', /^[a-z ,'-é]+$/i);
+const nameValid = helpers.regex('nameValid', /^[a-z\u00C0-\u00FF ,'-]+$/i);
 
 export default {
     name: 'SignUp',
