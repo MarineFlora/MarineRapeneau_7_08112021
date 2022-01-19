@@ -7,7 +7,7 @@
                 <h1 class="my-4 font-weight-bold">Dernières publications</h1>
 
                 <!-- CREER UN POST -->
-                <PostItemCreate :loadPosts="loadPosts"/>
+                <PostItemCreate :loadPosts="loadPosts" />
                
                <!-- TOUS LES POSTS -->
                 <div v-if="posts.length">

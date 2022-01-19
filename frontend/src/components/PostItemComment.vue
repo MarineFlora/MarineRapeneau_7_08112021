@@ -20,7 +20,7 @@
              <!-- 1 COMMENTAIRE -->
             <b-row class="mb-3 comments" align-v="start" v-for="comments in commentsList" :key="comments.id">
                 <!-- changer adresse image dynamiquement -->
-                <ProfileImage imageHeight="40" />
+                <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
 
                 <b-col >
                     <b-row class="pl-3" align-v="start">

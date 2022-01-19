@@ -56,6 +56,7 @@
                 ></b-form-input>
             </b-form-group>
         </b-form>
+   
     </b-modal>    
 
 
@@ -82,10 +83,11 @@ export default {
                 lastName: "",
                 profession: "",
                 userDescription: ""
-            }
+            },
         }
     },
     watch: {
+        // pour bon retour des infos dans les inputs modifiables
         user: function() { 
             this.form.firstName = this.user.firstName;
             this.form.lastName = this.user.lastName;
