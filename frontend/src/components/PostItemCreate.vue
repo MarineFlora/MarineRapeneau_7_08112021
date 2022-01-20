@@ -1,7 +1,7 @@
 <template>
-    <b-row class="shadow p-3">
+    <b-row class="shadow p-3 ">
        
-        <ProfileImage imageHeight="60" class="text-center px-2"/>
+        <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
         
         <b-form class="col p-2 overflow-hidden create-form" @submit.prevent="createPost" enctype="multipart/form-data">
             <b-form-textarea                            
@@ -52,13 +52,14 @@ export default {
     data() {
         return {
             description: '',
-            errorMessage: ''
+            errorMessage: '',
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     methods: {
         createPost() { 
             const description = this.description;
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id;
 
             const inputFile = document.querySelector(".input-file");
             const images = inputFile.files;

@@ -149,19 +149,20 @@ export default {
     data() {
         return {
             dayjs: dayjs,
-            imageUrl: JSON.parse(this.post.imageUrl)
+            imageUrl: JSON.parse(this.post.imageUrl),
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     methods: {
         // fonctions pour accès aux paramètres modifier/supprimer des posts
         isCreator(option) {
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id
             if (option == userId) {
                return true
             }
         },
         isAdmin() {
-            const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+            const isAdmin = this.userData.admin;
             if (isAdmin) {
                 return true
             }
@@ -175,12 +176,11 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
-                   // alert("Une erreur est survenue");
                 }); 
         },
         modifyPost(id) { 
             const description = document.querySelector(".modify-description").value
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id;
             const previewMedia = document.querySelector('.preview-media-modify');
               
             const selectedFile = document.querySelector(".input-file-modify");

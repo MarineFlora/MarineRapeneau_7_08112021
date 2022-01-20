@@ -20,6 +20,5 @@ export default {
 <style lang="scss">
 footer {
   font-size: 0.9rem;
- // border-radius: 0.8rem 0.8rem 0 0;
 }
 </style>

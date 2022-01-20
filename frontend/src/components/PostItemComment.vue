@@ -143,16 +143,15 @@ export default {
         return {
             commentsList: [],
             dayjs: dayjs,
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     created() {
-      //  this.loadPostComments();
       apiFetch
         .get(`/posts/${this.post.id}/comments/?limit=2`)
         .then(data => {
             this.commentsList = data.comments.rows;
             this.post.commentsCount = data.comments.count ;
-            // supprimer le lien
         })
         .catch(error => {console.log(error)}); 
     },
@@ -170,13 +169,13 @@ export default {
         },
         // fonctions pour accès aux paramètres modifier/supprimer des posts
         isCreator(option) {
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id;
             if (option == userId) {
                return true
             }
         },
         isAdmin() {
-            const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+            const isAdmin = this.userData.admin;
             if (isAdmin) {
                 return true
             }

@@ -119,6 +119,9 @@ export default {
                 .put(`/auth/user-profile/${this.user.id}`, body, { isFormData })
                 .then(res => {
                     console.log("fetch res:", res)
+                    if(!res.error) {
+                        localStorage.setItem('userData', JSON.stringify(res.user));
+                    }
                     this.loadUserProfile();
                 })
                 .catch(error => {

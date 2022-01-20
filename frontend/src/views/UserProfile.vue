@@ -103,7 +103,8 @@ export default {
     }, 
     data() {
         return {
-            user: {}
+            user: {},
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     mounted() {
@@ -111,7 +112,7 @@ export default {
     },
     methods: {
         loadUserProfile(){
-            const userId = localStorage.getItem("userId");
+           const userId = this.userData.id;
             apiFetch
                 .get(`/auth/user-profile/${userId}`)
                 .then(data => { 

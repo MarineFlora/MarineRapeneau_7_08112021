@@ -22,7 +22,7 @@ const newToken = user => {
         `${process.env.JWT_KEY}`,
         { expiresIn: '24h' }
     )
-    return { userId: user.id, isAdmin: user.admin, token }
+    return { user, userId: user.id, isAdmin: user.admin, token }
 };
 
 // fonction pour enregistrement de nouveaux utilisateurs
@@ -109,7 +109,7 @@ exports.editUser = async (req, res, next) => {
             } 
             
             await user.update({ ...userObject }, { where: { id: req.params.userId } })
-            res.status(200).json({ message: 'profil modifié !'})  
+            res.status(200).json({ message: 'profil modifié !', user})  
         } else {
             throw "vous n'êtes pas autorisé à modifier ce profil" ;
         }
