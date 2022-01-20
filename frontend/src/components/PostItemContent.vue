@@ -19,7 +19,7 @@
                                 title="admin"
                             ></b-icon>
                         </p>
-                        <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow() }} </p>
+                        <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow(true) }} </p>
                     </div>
                 </div>
             </b-col>
@@ -112,7 +112,7 @@
                     <!-- disposition des images selon leur nombre -->
                     <PostItemImagesDisplay :post="post" v-if="imageUrl.length > 0"/>
 
-                    <p>{{ post.description }}</p>
+                    <p class="text-justify">{{ post.description }}</p>
                 </b-card-text> 
             </b-col>   
         </b-row>

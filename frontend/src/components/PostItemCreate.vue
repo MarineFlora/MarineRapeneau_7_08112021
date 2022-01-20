@@ -3,7 +3,7 @@
        
         <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
         
-        <b-form class="col p-2 overflow-hidden create-form" @submit.prevent="createPost" enctype="multipart/form-data">
+        <b-form class="col overflow-hidden create-form" @submit.prevent="createPost" enctype="multipart/form-data">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"

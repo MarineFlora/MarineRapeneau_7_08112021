@@ -16,19 +16,21 @@
             </b-row>
         </div> 
         
-        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3" v-if="post.commentsCount > 0">
+        <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="post.commentsCount > 0">
              <!-- 1 COMMENTAIRE -->
-            <b-row class="mb-3 comments" align-v="start" v-for="comments in commentsList" :key="comments.id">
-                <!-- changer adresse image dynamiquement -->
-                <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
-
-                <b-col >
-                    <b-row class="pl-3" align-v="start">
+            <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
+            
+                <div>
+                    <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
+                </div>
+                
+                <b-col class="pr-0">
+                    <b-row class="px-3" align-v="start" >
                         <b-col cols="11" class="px-0" >
                             <div class="d-flex align-items-end flex-wrap pr-2">
                                 <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
                                 <b-icon v-if="comments.User.admin" icon="person-check-fill" class="text-dark px-1" font-scale="1.5" title="admin"></b-icon> 
-                                <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow() }}</p>
+                                <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow(true) }}</p>
                             </div>
                         </b-col>
                         <b-col cols="1" class="px-0 d-flex justify-content-end">
@@ -39,6 +41,7 @@
                                 variant="tertairy" 
                                 offset="-160rem" 
                                 no-caret v-b-tooltip.hover.v-secondary.left="'paramètres'"
+                                class="comment-dropdown"
                             >
                                 <template #button-content>
                                     <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>
@@ -100,12 +103,12 @@
                         </b-col>
                     </b-row>
                     <div class="d-flex align-items-end text-secondary">
-                        <p class="p-1 px-2 comment-text">{{ comments.description }}</p>
+                        <p class="comment-text pr-2">{{ comments.description }}</p>
 
                         <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
                     </div>
                 </b-col>
-            </b-row>
+            </div>
 
             <div class="py-2" :class="'other-comments-' + post.id" v-if="post.commentsCount > 2">
                 <b-link class="text-secondary mx-2" @click="loadPostComments">afficher {{ post.commentsCount -2 }} autres commentaires</b-link> 
@@ -242,12 +245,17 @@ export default {
     .comment-text{
         background-color: #f2f2f2;
         border-radius: 15px;
+        padding: 0 10px;
     }
 }
 
 .comments-info:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.comment-dropdown .dropdown-toggle {
+    padding: 0;
 }
 
 </style>

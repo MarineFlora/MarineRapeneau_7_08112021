@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden mt-3 post-input-file" title="ajouter une image ou un gif">
+    <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden my-2 post-input-file" title="ajouter une image ou un gif">
         <b-icon icon="images" class="text-primary"></b-icon>
         
         <input 

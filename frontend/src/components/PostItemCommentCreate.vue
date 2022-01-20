@@ -1,6 +1,6 @@
 <template>
     <b-row class="pl-3 mt-3">
-        <ProfileImage imageHeight="40" :imageUrl="post.User.profilePhoto" />
+        <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto" />
 
         <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea       
@@ -34,12 +34,12 @@ export default {
     props: {
         post: { type: Object, default: ['post'] },
         loadPostComments: { type: Function },
-
     },
     data() {
         return {
             commentDescription: '',
-            errorMessage: ''
+            errorMessage: '',
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     methods: {

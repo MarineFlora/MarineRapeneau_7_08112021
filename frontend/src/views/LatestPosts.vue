@@ -3,12 +3,12 @@
         <TheHeader />
         <main>
             <b-container class="maxwidth-page">
-            
                 <h1 class="my-4 font-weight-bold">Dernières publications</h1>
-
                 <!-- CREER UN POST -->
                 <PostItemCreate :loadPosts="loadPosts" />
-               
+            </b-container>
+            
+            <b-container class="maxwidth-page p-0 p-sm-3">
                <!-- TOUS LES POSTS -->
                 <div v-if="posts.length">
                     <!-- 1 POST -->
@@ -99,7 +99,5 @@ export default {
 .maxwidth-page {
     max-width: 720px !important;
 }
-
-
 
 </style>

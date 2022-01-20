@@ -5,7 +5,7 @@
         :src="imageUrl || require('../assets/images/user-empty.png')" 
         rounded="circle"
         alt="avatar user"
-        class="my-2 image-cover"
+        class="image-cover"
     ></b-img>
 </template>
 

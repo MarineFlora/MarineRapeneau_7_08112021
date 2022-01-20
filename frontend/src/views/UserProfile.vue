@@ -13,13 +13,15 @@
                 <div class="d-flex flex-column align-items-center">
                     <!-- information du profil -->
                     <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
-                    <h2 class="font-weight-bold">{{ user.firstName }} {{ user.lastName }}</h2>
-                    <p class="font-weight-bold">{{ user.profession }}</p>
+                    <div class="font-weight-bold pt-2">
+                        <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
+                        <p>{{ user.profession }}</p>
+                    </div>
                     <p class="py-3">{{ user.userDescription }}</p>
 
                     <!--edition du profil -->
                     <div>
-                        <BaseButton button-title="Editer le profil" v-b-modal.modal-edit-profile class="my-3" />
+                        <BaseButton button-title="Editer le profil" v-b-modal.modal-edit-profile class="my-2" />
                     </div>
                     
                     <UserProfileEdit :user="user" :loadUserProfile="loadUserProfile" />
@@ -35,7 +37,6 @@
                     </div>
 
                     <!-- lien changer email, password  -->
-                    <b-link class="text-dark font-italic" v-show="accountParams">changer votre adresse email</b-link>
                     <b-link class="text-dark font-italic" v-show="accountParams">changer votre mot de passe</b-link>
 
                     <!-- lien supprimer le compte -->
@@ -160,6 +161,10 @@ export default {
 .arrow-link:hover {
     background-color: lighten($primary,20%);
     border-radius: 10px;
+}
+
+.user-name {
+    font-size: 1.3rem;
 }
 
 </style>
