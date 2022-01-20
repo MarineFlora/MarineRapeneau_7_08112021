@@ -13,8 +13,8 @@
                 <div class="d-flex flex-column align-items-center">
                     <!-- information du profil -->
                     <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
-                    <p>{{ user.firstName }} {{ user.lastName }}</p>
-                    <p>{{ user.profession }}</p>
+                    <h2 class="font-weight-bold">{{ user.firstName }} {{ user.lastName }}</h2>
+                    <p class="font-weight-bold">{{ user.profession }}</p>
                     <p class="py-3">{{ user.userDescription }}</p>
 
                     <!--edition du profil -->
@@ -25,9 +25,21 @@
                     <UserProfileEdit :user="user" :loadUserProfile="loadUserProfile" />
                 </div> 
 
-                <div class="d-flex flex-column align-items-end">
+                <div class="d-flex flex-column align-items-end mt-4 mb-5">
+                    <div>
+                        <b-icon 
+                            icon="shield-lock-fill" 
+                            font-scale="1.2" 
+                        ></b-icon>
+                        <b-link class="text-dark pl-1" @click="showAccountParams">Modifier les paramètres du compte</b-link>
+                    </div>
+
+                    <!-- lien changer email, password  -->
+                    <b-link class="text-dark font-italic" v-show="accountParams">changer votre adresse email</b-link>
+                    <b-link class="text-dark font-italic" v-show="accountParams">changer votre mot de passe</b-link>
+
                     <!-- lien supprimer le compte -->
-                    <b-link class="text-dark" v-b-modal.modal-user-remove> supprimer le compte</b-link>
+                    <b-link class="text-dark font-italic" v-b-modal.modal-user-remove v-if="accountParams"> supprimer le compte</b-link>
 
                     <!-- confirmation de suppression -->
                     <b-modal 
@@ -51,7 +63,8 @@
                         hide-footer
                         centered
                     >
-                        <p class="mb-5">Pour supprimer définitivement votre compte, cliquez sur "supprimer".</p> 
+                        <p class="mb-5">Il est encore temps de faire marche arrière... <br>
+                        Pour supprimer définitivement votre compte, cliquez sur "supprimer".</p> 
                         <div class="d-flex justify-content-end">
                             <b-button 
                                 v-b-modal.modal-user-remove-3 
@@ -72,8 +85,6 @@
                         <p>Nous vous remercions d'avoir utilisé le réseau social de Groupomania, à bientôt !</p>    
                     </b-modal>
 
-                    <!-- lien changer le mdp ? -->
-                    <b-link class="text-dark">changer le mot de passe</b-link>
                 </div>
 
                 <!-- Publications de l'user -->
@@ -104,7 +115,8 @@ export default {
     data() {
         return {
             user: {},
-            userData: JSON.parse(localStorage.getItem("userData"))
+            userData: JSON.parse(localStorage.getItem("userData")),
+            accountParams: false
         }
     },
     mounted() {
@@ -133,7 +145,10 @@ export default {
         logOut() {
             localStorage.clear();
             router.push({ name: 'Login' });
-        },     
+        },  
+        showAccountParams() {
+            this.accountParams ? this.accountParams = false : this.accountParams = true;
+        }   
         
     }
 }
