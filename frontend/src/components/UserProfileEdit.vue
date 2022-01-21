@@ -6,6 +6,7 @@
         cancel-title="annuler"
         centered
         @ok="editProfile"
+        @cancel="resetForm"
     >
         <b-form class="px-2">
             <b-form-group label="Image de profil">
@@ -16,7 +17,7 @@
                         id="edit-profile-input"
                         name="image" 
                         accept=".jpg, .jpeg, .png" 
-                        autocomplete=photo
+                        autocomplete="photo"
                         @change="updateProfilePreview()"
                     >  
                     <label for="edit-profile-input" class="px-1 mb-0 mx-3 text-primary text-nowrap" role="button">changer l'image</label>
@@ -24,54 +25,84 @@
             </b-form-group>
 
             <div class="d-flex justify-content-between">
-                <b-form-group label="Prénom">
-                    <b-form-input 
-                        v-model="form.firstName"
-                        type="text" 
-                        autocomplete=given-name
-                    ></b-form-input>
+                <b-form-group>
+                    <div class="input-div mr-2" id="edit-firstName" >
+                        <h6 class="text-left">Prénom</h6>
+                        <b-form-input
+                            v-model="form.firstName"
+                            @focus="addClassFocus('#edit-firstName')"
+                            @blur="removeClassFocus('#edit-firstName')"
+                            type="text" 
+                            class="px-4 input pt-3"
+                            autocomplete="given-name"
+                            autofocus
+                        ></b-form-input>
+                    </div>
                 </b-form-group>
 
-                <b-form-group label="Nom">
-                    <b-form-input 
-                        v-model="form.lastName"
-                        type="text" 
-                        autocomplete=family-name
-                    ></b-form-input>
+                <b-form-group>
+                    <div class="input-div" id="edit-lastName" >
+                        <h6 class="text-left">Nom</h6>
+                        <b-form-input
+                            v-model="form.lastName"
+                            @focus="addClassFocus('#edit-lastName')"
+                            @blur="removeClassFocus('#edit-lastName')"
+                            type="text" 
+                            class="px-4 input pt-3"
+                            autocomplete="family-name"
+                            autofocus
+                        ></b-form-input>
+                    </div>
                 </b-form-group>
             </div>
 
-            <b-form-group label="Profession" >
-                <b-form-input 
-                    v-model="form.profession"
-                    type="text" 
-                ></b-form-input>
+            <b-form-group>
+                <div class="input-div" id="edit-profession" >
+                    <h6 class="text-left">Profession</h6>
+                    <b-form-input
+                        v-model="form.profession"
+                        @focus="addClassFocus('#edit-profession')"
+                        @blur="removeClassFocus('#edit-profession')"
+                        type="text" 
+                        class="px-4 input pt-3"
+                        autocomplete="family-name"
+                        autofocus
+                    ></b-form-input>
+                </div>
             </b-form-group>
-
-            <b-form-group label="Décrivez-vous en quelques mots">
-                <b-form-input 
-                    v-model="form.userDescription"
-                    type="text" 
-                    maxlength="250"
-                ></b-form-input>
+           
+            <b-form-group>
+                <div class="input-div" id="edit-description" >
+                    <h6 class="text-left">Décrivez-vous en quelques mots</h6>
+                    <b-form-input
+                        v-model="form.userDescription"
+                        @focus="addClassFocus('#edit-description')"
+                        @blur="removeClassFocus('#edit-description')"
+                        type="text" 
+                        class="px-4 input pt-3"
+                        maxlength="250"
+                        autofocus
+                    ></b-form-input>
+                </div>
             </b-form-group>
+        
         </b-form>
    
     </b-modal>    
-
 
 </template> 
 
 <script> 
 import ProfileImage from '../components/ProfileImage.vue';
 import { apiFetch } from '../utils/ApiFetch';
+import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
 
 export default {
     name: 'UserProfileEdit',
     components: {
         ProfileImage
     },
-    
+    mixins: [inputAnimationMixin],
     props: {
         user: { type: Object, default: 'user' },
         loadUserProfile: { type: Function },
@@ -87,12 +118,9 @@ export default {
         }
     },
     watch: {
-        // pour bon retour des infos dans les inputs modifiables
+        // retour des infos dans les inputs modifiables
         user: function() { 
-            this.form.firstName = this.user.firstName;
-            this.form.lastName = this.user.lastName;
-            this.form.profession = this.user.profession;
-            this.form.userDescription = this.user.userDescription;
+            this.getUserData();
         }
     },
     methods: {
@@ -128,7 +156,15 @@ export default {
                     console.log("error:", error);
                 });  
         },
-        
+        getUserData() {
+            this.form.firstName = this.user.firstName;
+            this.form.lastName = this.user.lastName;
+            this.form.profession = this.user.profession;
+            this.form.userDescription = this.user.userDescription;
+        },
+        resetForm() {
+            this.getUserData();
+        }
     }
 }
 </script>

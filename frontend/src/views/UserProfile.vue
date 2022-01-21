@@ -250,25 +250,4 @@ export default {
 .user-name {
     font-size: 1.3rem;
 }
-
- // classes pour animations material design inputs 
-    .input-div {
-        position: relative;
-    }
-
-    .input-div.focus > h6 {
-        top: 0.75rem;
-        font-size: 13px;
-    }
-
-    .input-div > h6 {
-        position: absolute;
-        left: 1.5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6e6e6e;
-        transition: .2s;
-}
-
-
 </style>

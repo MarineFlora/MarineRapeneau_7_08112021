@@ -20,7 +20,7 @@
                     </b-form-group>
 
                     <b-form-group>
-                    <div class="input-div" id="password" >
+                    <div class="input-div" id="password">
                         <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
                             v-model="password"
@@ -110,24 +110,5 @@ export default {
             width: 350px;
         }
     }
-
-    // classes pour animations material design inputs 
-    .input-div {
-        position: relative;
-    }
-
-    .input-div.focus > h6 {
-        top: 0.75rem;
-        font-size: 13px;
-    }
-
-    .input-div > h6 {
-        position: absolute;
-        left: 1.5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6e6e6e;
-        transition: .2s;
-}
 
 </style>
