@@ -37,7 +37,69 @@
                     </div>
 
                     <!-- lien changer email, password  -->
-                    <b-link class="text-dark font-italic" v-show="accountParams">changer votre mot de passe</b-link>
+                    <b-link class="text-dark font-italic" v-b-modal.modal-change-password v-show="accountParams">changer votre mot de passe</b-link>
+
+                    <b-modal 
+                        id="modal-change-password" 
+                        title="Changer de mot de passe" 
+                        ok-title="Enregistrer"
+                        centered
+                        @ok.prevent="changePassword()"
+                    >
+
+                        <b-form class="px-2" >
+
+                            <b-form-group>
+                                <div class="input-div" id="current-password">
+                                    <h6 class="text-left">Mot de passe actuel</h6>
+                                    <b-form-input  
+                                        v-model="$v.passwordChangeForm.currentPassword.$model" 
+                                        @focus="addClassFocus('#current-password')"
+                                        @blur="removeClassFocus('#current-password')"
+                                        type="password"
+                                        class="px-4 input pt-3"
+                                        autocomplete="current-password"
+                                    ></b-form-input> 
+                                    <b-form-invalid-feedback v-if="" class="text-left">Le mot de passe saisi est incorrect</b-form-invalid-feedback>       
+                                </div>    
+                            </b-form-group>
+
+                            <b-form-group>
+                                <div class="input-div" id="new-password">
+                                    <h6 class="text-left">Nouveau mot de passe</h6>
+                                    <b-form-input  
+                                        v-model="$v.passwordChangeForm.newPassword.$model" 
+                                        :state="validateStatePasswordChange('newPassword')"
+                                        @focus="addClassFocus('#new-password')"
+                                        @blur="removeClassFocus('#new-password')"
+                                        type="password"
+                                        class="px-4 input pt-3"
+                                        autocomplete="new-password"
+                                    ></b-form-input>
+                                    <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>         
+                                </div>    
+                            </b-form-group>
+
+                            <b-form-group>
+                                <div class="input-div" id="new-password-confirm">
+                                    <h6 class="text-left">Confirmer le mot de passe</h6>
+                                    <b-form-input  
+                                        v-model="passwordChangeForm.newPasswordConfirm" 
+                                        :state="validateStatePasswordChange('newPasswordConfirm')"
+                                        @focus="addClassFocus('#new-password-confirm')"
+                                        @blur="removeClassFocus('#new-password-confirm')"
+                                        type="password"
+                                        class="px-4 input pt-3"
+                                        autocomplete="new-password"
+                                    ></b-form-input>
+                                    <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPasswordConfirm.sameAsPassword" class="text-left">Les mots de passe ne correspondent pas.</b-form-invalid-feedback>         
+                                </div>    
+                            </b-form-group>
+
+                        </b-form>    
+                        <p class="mb-5">Vous devrez vous reconnecter après la modification de votre mot de passe.</p>
+                        
+                    </b-modal>
 
                     <!-- lien supprimer le compte -->
                     <b-link class="text-dark font-italic" v-b-modal.modal-user-remove v-if="accountParams"> supprimer le compte</b-link>
@@ -105,6 +167,9 @@ import UserProfileEdit from '../components/UserProfileEdit.vue';
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 
+import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
+import inputsValidationMixin from '../mixins/inputsValidationMixin.js'
+
 export default {
     name: 'UserProfile',
     components: {
@@ -113,11 +178,17 @@ export default {
         BaseButton,
         UserProfileEdit 
     }, 
+    mixins: [inputAnimationMixin, inputsValidationMixin],
     data() {
         return {
             user: {},
             userData: JSON.parse(localStorage.getItem("userData")),
-            accountParams: false
+            accountParams: false,
+            passwordChangeForm: {
+                currentPassword: "",
+                newPassword: "",
+                newPasswordConfirm: ""
+            },
         }
     },
     mounted() {
@@ -149,7 +220,20 @@ export default {
         },  
         showAccountParams() {
             this.accountParams ? this.accountParams = false : this.accountParams = true;
-        }   
+        },
+        
+        changePassword() {
+            // verifier que le mot de passe acutel est le bon
+            //fonction back verifyPassword if error : message d'error et invalid (validateSTate ?) sinon ok 
+            this.$v.passwordChangeForm.$touch();
+            // si au moins 1 des inputs n'est pas valide, terminer l'exécution   
+            if (this.$v.passwordChangeForm.$anyError) {
+                return;
+            } else {
+                // changer le mot de passe (back)
+            console.log("password changed!", this.passwordChangeForm)
+            }
+        }
         
     }
 }
@@ -166,5 +250,25 @@ export default {
 .user-name {
     font-size: 1.3rem;
 }
+
+ // classes pour animations material design inputs 
+    .input-div {
+        position: relative;
+    }
+
+    .input-div.focus > h6 {
+        top: 0.75rem;
+        font-size: 13px;
+    }
+
+    .input-div > h6 {
+        position: absolute;
+        left: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6e6e6e;
+        transition: .2s;
+}
+
 
 </style>
