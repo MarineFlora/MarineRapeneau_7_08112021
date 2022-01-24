@@ -65,7 +65,6 @@ exports.getAllCommentsOfPost = (req, res, next) => {
         options.order = [['id', 'DESC']];
         options.limit = parseInt(req.query.limit);
     }
-    console.log("req.query.limit",req.query.limit)
    
     Comment.findAndCountAll(options)
         .then(comments => res.status(200).json({ comments }))
@@ -74,7 +73,7 @@ exports.getAllCommentsOfPost = (req, res, next) => {
 
 /* ---------- récupération du commentaire d'un user sur un post ---------- */
 exports.getOneCommentOfPost = (req, res, next) => {
-    Comment.findOne({ where: { postId: req.params.postId, userId: req.token.userId } , include: db.User })
+    Comment.findOne({ where: { postId: req.params.postId, id: req.params.commentId } , include: db.User })
         .then(comment => res.status(200).json({ comment }))
         .catch(error => res.status(404).json({ error }));
 }

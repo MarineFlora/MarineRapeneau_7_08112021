@@ -152,6 +152,18 @@
 
                 <!-- Publications de l'user -->
                 <h2 class="my-4 mx-2 font-weight-bold">Publications partagées</h2>
+                <div v-if="posts.length">
+                    <!-- 1 POST -->
+                    <b-card class="my-3 p-0 shadow" v-for="post in posts" :key="post.updatedAt">
+                        <!-- CONTENU POST -->
+                        <PostItemContent :post="post" />
+
+                        <!-- COMMENTAIRES -->
+                        <PostItemComment :post="post"/>
+                       
+                    </b-card>
+                </div>
+
 
             </b-container>
         </main>
@@ -163,6 +175,8 @@ import TheHeader from '../components/TheHeader.vue';
 import ProfileImage from '../components/ProfileImage.vue';
 import BaseButton from '../components/BaseButton.vue';
 import UserProfileEdit from '../components/UserProfileEdit.vue';
+import PostItemContent from '../components/PostItemContent.vue';
+import PostItemComment from '../components/PostItemComment.vue';
 
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
@@ -176,7 +190,9 @@ export default {
         TheHeader,
         ProfileImage,
         BaseButton,
-        UserProfileEdit 
+        UserProfileEdit,
+        PostItemContent,
+        PostItemComment, 
     }, 
     mixins: [inputAnimationMixin, inputsValidationMixin],
     data() {
@@ -189,10 +205,12 @@ export default {
                 newPassword: "",
                 newPasswordConfirm: ""
             },
+            posts: []
         }
     },
     mounted() {
         this.loadUserProfile();
+        this.loadUserPosts();
     },
     methods: {
         loadUserProfile(){
@@ -204,6 +222,14 @@ export default {
                 })
                 .catch(error => console.log(error)); 
         }, 
+        loadUserPosts() {
+            apiFetch
+                .get(`/posts/?userId=${this.userData.id}`)
+                .then(data => {
+                    this.posts = data.posts;  
+                })
+                .catch(error => {console.log(error)}); 
+        },
         deleteProfile() {
             apiFetch
                 .delete(`/auth/user-profile/${this.user.id}`)
@@ -224,6 +250,7 @@ export default {
         
         changePassword() {
             // verifier que le mot de passe acutel est le bon
+
             //fonction back verifyPassword if error : message d'error et invalid (validateSTate ?) sinon ok 
             this.$v.passwordChangeForm.$touch();
             // si au moins 1 des inputs n'est pas valide, terminer l'exécution   
@@ -233,7 +260,8 @@ export default {
                 // changer le mot de passe (back)
             console.log("password changed!", this.passwordChangeForm)
             }
-        }
+        },
+        
         
     }
 }
