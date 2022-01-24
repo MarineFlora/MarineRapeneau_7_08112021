@@ -95,7 +95,8 @@
 <script> 
 import ProfileImage from '../components/ProfileImage.vue';
 import { apiFetch } from '../utils/ApiFetch';
-import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
+import inputAnimationMixin from '../mixins/inputAnimationMixin.js';
+import { eventBus } from "../main.js";
 
 export default {
     name: 'UserProfileEdit',
@@ -151,6 +152,7 @@ export default {
                         localStorage.setItem('userData', JSON.stringify(res.user));
                     }
                     this.loadUserProfile();
+                    eventBus.$emit('loadPosts');
                 })
                 .catch(error => {
                     console.log("error:", error);

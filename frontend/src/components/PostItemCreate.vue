@@ -3,7 +3,7 @@
        
         <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
         
-        <b-form class="col overflow-hidden create-form" @submit.prevent="createPost" enctype="multipart/form-data">
+        <b-form class="col overflow-hidden create-form py-1" @submit.prevent="createPost" enctype="multipart/form-data">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
@@ -25,7 +25,7 @@
             </div>   
 
             <div class="d-flex justify-content-end">
-                <BaseButton button-title="Publier" class="btn-sm btn-pages"/> 
+                <BaseButton button-title="Publier" class="btn-sm btn-pages" /> 
             </div>
             
         </b-form>
@@ -38,6 +38,7 @@ import BaseButton from '../components/BaseButton.vue';
 import PostInput from '../components/PostInput.vue';
 import ProfileImage from '../components/ProfileImage.vue';
 import { apiFetch } from '../utils/ApiFetch';
+import { eventBus } from "../main.js";
 
 export default {
     name: 'PostItemCreate',
@@ -45,9 +46,6 @@ export default {
         BaseButton,
         ProfileImage,
         PostInput
-    },
-    props: {
-        loadPosts: { type: Function },
     },
     data() {
         return {
@@ -91,7 +89,7 @@ export default {
                         this.removePreviewChild();
                         this.description = "";
                         form.reset();
-                        this.loadPosts();
+                        eventBus.$emit('loadPosts');
                     })
                     .catch(error => {
                         console.log(error);
@@ -109,6 +107,7 @@ export default {
                 previewMedia.removeChild(previewMedia.firstChild);
             }
         },
+         
     }  
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <b-row class="pl-3 mt-3">
-        <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto" />
+        <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" />
 
         <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea       
