@@ -57,7 +57,7 @@ exports.signup = (req, res, next) => {
 // fonction pour connecter les users existants
 exports.login = (req, res, next) => {
     if ((passwordRegex.test(req.body.password)) == false || (emailRegex.test(req.body.email)) == false) {
-        res.status(400).json({ error: "syntaxe invalide de l'email et/ou du mot de passe" });
+        res.status(400).json({ error: "identifiants incorrects" });
     } else {
         User.findOne({ 
             where: { email: req.body.email }
@@ -89,14 +89,14 @@ exports.getOneUser = (req, res, next) => {
         .catch(error => res.status(404).json({ error }));
 }
 
-// modifier les informations
+// modifier les informations publiques de l'user
 exports.editUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ where: { id: req.params.userId } });
         if (req.token.userId === user.id) {
             let userObject = req.body;
             if (req.body.password) {
-                throw "vous ne pouvez pas modifier votre mot de passe ici, retirez le champ password ou contactez un admin"
+                throw "vous ne pouvez pas modifier votre mot de passe ici, retirez le champ password"
             }
             if (req.files) {
                 userObject = JSON.parse(req.body.user);
@@ -118,6 +118,40 @@ exports.editUser = async (req, res, next) => {
     }   
 }
 
+// modifier le mot de passe
+exports.changePassword = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ where: { id: req.params.userId } });
+        if (req.token.userId === user.id) {
+            const passwordDecrypt = await bcrypt.compare(req.body.currentPassword, user.password)
+            if (!passwordDecrypt) {
+                return res.status(401).json({ error1: "Mot de passe actuel incorrect !" });
+            } 
+
+            const newPasswordDecrypt = await bcrypt.compare(req.body.newPassword, user.password)
+            if (newPasswordDecrypt) {
+                return res.status(401).json({ error: "Le nouveau mot de passe doit être différent de l'ancien" });
+            } 
+
+            if ((passwordRegex.test(req.body.newPassword)) == false) {
+                res.status(400).json({ error: "le nouveau mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
+            } 
+            
+            else {
+                const hash = await bcrypt.hash(req.body.newPassword, 10);
+                await user.update({ password: hash }, { where: { id: req.params.userId } })
+                res.status(201).json({ message: 'mot de passe modifié, veuillez vous reconnecter avec votre nouvel identifiant !', user }) 
+            }
+
+        } else {
+            throw "vous n'êtes pas autorisé à modifier ce profil" ;
+        }
+
+    } catch (error) {
+        res.status(400).json({ error });
+    } 
+}
+
 // supprimer l'utilisateur
 exports.deleteUser = async (req, res, next) => {
     try {
@@ -136,3 +170,5 @@ exports.deleteUser = async (req, res, next) => {
         res.status(400).json({ error });
     } 
 }
+
+

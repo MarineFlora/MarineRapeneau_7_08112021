@@ -20,6 +20,7 @@
 import PostItemContent from '../components/PostItemContent.vue';
 import PostItemComment from '../components/PostItemComment.vue';
 
+import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
 import { eventBus } from "../main.js";
 
@@ -55,6 +56,9 @@ export default {
                 .then(data => { 
                     this.posts = data.posts;
                    
+                   if (data.error) {
+                       this.logOut();
+                   }
                     console.log("PostItem-this.posts:", this.posts);
                     console.log("error:", data.error);
                 })

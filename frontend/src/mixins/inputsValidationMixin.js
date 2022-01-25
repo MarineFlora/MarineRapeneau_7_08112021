@@ -1,7 +1,7 @@
 //--------- Validation des champs de formulaire ---------// 
 
 import { validationMixin } from "vuelidate";
-import { required, sameAs, helpers } from "vuelidate/lib/validators";
+import { required, sameAs, helpers, not } from "vuelidate/lib/validators";
 
 // regex patterns pour validation champs
 const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
@@ -30,20 +30,24 @@ export default {
             },
         },
 
-        passwordChangeForm: {    
+        passwordChangeForm: { 
             currentPassword: {
                 required
             },
             newPassword: {
                 required,
+                notSameAsCurrent: not(sameAs('currentPassword')),
                 passwordValid
             },
             newPasswordConfirm: {
                 required,
-                sameAsPassword: sameAs('newPassword')
+                sameAsPassword: sameAs('newPassword'),
+                notSameAsCurrent: not(sameAs('currentPassword')),
+                passwordValid,
             }
         }
     },
+        
     methods: {
         validateStatePasswordChange(name) {
             const { $dirty, $error } = this.$v.passwordChangeForm[name];
