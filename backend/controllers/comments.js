@@ -58,11 +58,11 @@ exports.getAllCommentsOfPost = (req, res, next) => {
     const options = {
         where: { postId: req.params.postId },
         include: db.User,
-        order: [['id', 'DESC']]
+        order: [['id', 'ASC']]
     }
 
     if (req.query.limit) {
-        options.order = [['id', 'DESC']];
+        options.order = [['id', 'ASC']];
         options.limit = parseInt(req.query.limit);
     }
    

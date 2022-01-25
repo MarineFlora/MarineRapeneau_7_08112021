@@ -164,8 +164,9 @@
 
                 </div>
 
+               
                 <!-- Publications de l'user -->
-                <h2 class="my-4 mx-2 font-weight-bold">Publications partagées</h2>
+                <h2 class="my-4 mx-2 font-weight-bold text-left">Publications partagées</h2>
                 <PostList :userId="this.userData.id" />
 
             </b-container>
