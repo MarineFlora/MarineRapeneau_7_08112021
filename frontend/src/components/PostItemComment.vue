@@ -20,15 +20,17 @@
              <!-- 1 COMMENTAIRE -->
             <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
             
-                <div>
+                <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }">
                     <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
-                </div>
+                </router-link>
                 
                 <b-col class="pr-0">
                     <b-row class="px-3" align-v="start" >
                         <b-col cols="11" class="px-0" >
                             <div class="d-flex align-items-end flex-wrap pr-2">
-                                <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
+                                <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }" style="color: inherit;">
+                                    <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
+                                </router-link>
                                 <b-icon v-if="comments.User.admin" icon="person-check-fill" class="text-dark px-1" font-scale="1.5" title="admin"></b-icon> 
                                 <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow(true) }}</p>
                             </div>

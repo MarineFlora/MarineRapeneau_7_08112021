@@ -10,7 +10,9 @@
                         <ProfileImage imageHeight="60" :imageUrl="post.User.profilePhoto" /> 
                     </router-link>
                     <div class="px-3 d-flex align-items-end flex-wrap">
-                        <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
+                        <router-link :to="{ name: 'UserProfile', params: { userId: post.User.id } }" style="color: inherit;">
+                            <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
+                        </router-link>
                         <p v-if="post.User.admin" class="text-secondary pr-2 d-flex align-items-center">
                             admin
                             <b-icon 
