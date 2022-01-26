@@ -127,9 +127,9 @@
 
 <script>
 import ProfileImage from './ProfileImage.vue';
-import BaseButton from './BaseButton.vue';
 import PostItemImagesDisplay from './PostItemImagesDisplay.vue';
 import PostInput from '../components/PostInput.vue';
+
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import dayjs from 'dayjs' ;
@@ -141,7 +141,6 @@ export default {
     name: 'PostItemContent',
     components: {
         ProfileImage,
-        BaseButton,
         PostItemImagesDisplay,
         PostInput
     },

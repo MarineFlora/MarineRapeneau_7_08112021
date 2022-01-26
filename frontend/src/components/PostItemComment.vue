@@ -118,7 +118,7 @@
         </div>
          
         <!-- création d'un commentaire -->
-        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments"/>
+        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments" :key="commentCreateKey"/>
     </div>
 </template>
 
@@ -149,7 +149,8 @@ export default {
         return {
             commentsList: [],
             dayjs: dayjs,
-            userData: JSON.parse(localStorage.getItem("userData"))
+            userData: JSON.parse(localStorage.getItem("userData")),
+            commentCreateKey: 0,
         }
     },
     created() {
@@ -160,11 +161,18 @@ export default {
                 this.post.commentsCount = data.comments.count ;
             })
             .catch(error => {console.log(error)}); 
+
         eventBus.$on('loadPostComments', () => {
             this.loadPostComments();
         }); 
+        eventBus.$on('forceRerenderCommentCreate', () => {
+            this.forceRerender();
+        }); 
     },
     methods: {
+        forceRerender() {
+            this.commentCreateKey += 1;
+        },
         loadPostComments() {
             apiFetch
                 .get(`/posts/${this.post.id}/comments`)

@@ -50,6 +50,7 @@ import { eventBus } from "../main.js";
                     .get(`/auth/user-profile/${this.userId}`)
                     .then(data => { 
                         this.user = data.user;
+                        // envoi des données à MyProfile qui renvoi en props à MyProfileEdit
                         this.$emit('userInfos', this.user) 
                     })
                     .catch(error => console.log(error)); 

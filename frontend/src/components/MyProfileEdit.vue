@@ -109,7 +109,7 @@ export default {
     },
     data() {
         return {
-             profilePhoto: "",
+            profilePhoto: "",
             form: {
                 firstName: "",
                 lastName: "",
@@ -151,6 +151,8 @@ export default {
                     if(!res.error) {
                         localStorage.setItem('userData', JSON.stringify(res.user));
                     }
+                    // mise à jour des données affiachées sur la page
+                    eventBus.$emit('forceRerenderCommentCreate');
                     eventBus.$emit('loadUserProfile');
                     eventBus.$emit('loadPosts');
                     eventBus.$emit('loadPostComments');

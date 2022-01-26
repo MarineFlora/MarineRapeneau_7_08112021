@@ -6,7 +6,7 @@
             <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
             <!-- COMMENTAIRES DU POST -->
-            <PostItemComment :post="post" :loadPosts="loadPosts"/>
+            <PostItemComment :post="post" />
             
         </b-card>
     </div>

@@ -207,18 +207,11 @@ export default {
     },
     mounted() {
         eventBus.$emit('loadUserProfile');
+        eventBus.$emit('loadPosts');
     },
     methods: {
-        updateUserInfos(data) {
-            this.user = data;
-        },
-        loadUserPosts() {
-            apiFetch
-                .get(`/posts/?userId=${this.userData.id}`)
-                .then(data => {
-                    this.posts = data.posts;  
-                })
-                .catch(error => {console.log(error)}); 
+        updateUserInfos(payload) {
+            this.user = payload;
         },
         logOut() {
             localStorage.clear();
