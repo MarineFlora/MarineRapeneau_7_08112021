@@ -5,9 +5,10 @@
         <b-row class="px-3" align-v="center">
             <b-col cols="11" class="px-0" >
                 <div class="d-flex align-items-center">
-                    <!-- changer adresse image dynamiquement -->
-                    <ProfileImage imageHeight="60" :imageUrl="post.User.profilePhoto" /> 
-
+                    
+                    <router-link :to="{ name: 'UserProfile', params: { userId: post.User.id } }">
+                        <ProfileImage imageHeight="60" :imageUrl="post.User.profilePhoto" /> 
+                    </router-link>
                     <div class="px-3 d-flex align-items-end flex-wrap">
                         <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
                         <p v-if="post.User.admin" class="text-secondary pr-2 d-flex align-items-center">

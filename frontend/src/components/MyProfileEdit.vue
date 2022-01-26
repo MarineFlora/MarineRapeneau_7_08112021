@@ -11,7 +11,7 @@
         <b-form class="px-2">
             <b-form-group label="Image de profil">
                 <div class="d-flex align-items-center overflow-hidden profile-input-file">
-                    <ProfileImage imageHeight="70" :imageUrl="user.profilePhoto" class="profileImage"/>
+                    <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage"/>
                     <input 
                         type="file" 
                         id="edit-profile-input"
@@ -99,17 +99,17 @@ import inputAnimationMixin from '../mixins/inputAnimationMixin.js';
 import { eventBus } from "../main.js";
 
 export default {
-    name: 'UserProfileEdit',
+    name: 'MyProfileEdit',
     components: {
         ProfileImage
     },
     mixins: [inputAnimationMixin],
     props: {
         user: { type: Object, default: 'user' },
-        loadUserProfile: { type: Function },
     },
     data() {
         return {
+             profilePhoto: "",
             form: {
                 firstName: "",
                 lastName: "",
@@ -151,14 +151,16 @@ export default {
                     if(!res.error) {
                         localStorage.setItem('userData', JSON.stringify(res.user));
                     }
-                    this.loadUserProfile();
+                    eventBus.$emit('loadUserProfile');
                     eventBus.$emit('loadPosts');
+                    eventBus.$emit('loadPostComments');
                 })
                 .catch(error => {
                     console.log("error:", error);
                 });  
         },
         getUserData() {
+            this.profilePhoto = this.user.profilePhoto;
             this.form.firstName = this.user.firstName;
             this.form.lastName = this.user.lastName;
             this.form.profession = this.user.profession;

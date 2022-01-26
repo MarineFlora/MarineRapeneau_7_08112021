@@ -59,7 +59,7 @@ export default {
                    if (data.error) {
                        this.logOut();
                    }
-                    console.log("PostItem-this.posts:", this.posts);
+                   // console.log("PostItem-this.posts:", this.posts);
                     console.log("error:", data.error);
                 })
                 .catch(error => {

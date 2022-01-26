@@ -130,6 +130,7 @@ import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 require('dayjs/locale/fr');
+import { eventBus } from "../main.js";
 
 export default {
     name: 'PostItemComment',
@@ -150,13 +151,16 @@ export default {
         }
     },
     created() {
-      apiFetch
-        .get(`/posts/${this.post.id}/comments/?limit=2`)
-        .then(data => {
-            this.commentsList = data.comments.rows;
-            this.post.commentsCount = data.comments.count ;
-        })
-        .catch(error => {console.log(error)}); 
+        apiFetch
+            .get(`/posts/${this.post.id}/comments/?limit=2`)
+            .then(data => {
+                this.commentsList = data.comments.rows;
+                this.post.commentsCount = data.comments.count ;
+            })
+            .catch(error => {console.log(error)}); 
+        eventBus.$on('loadPostComments', () => {
+            this.loadPostComments();
+        }); 
     },
     methods: {
         loadPostComments() {

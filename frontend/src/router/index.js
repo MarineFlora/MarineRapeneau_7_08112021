@@ -4,6 +4,7 @@ import LatestPosts from '../views/LatestPosts.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
 import AboutPage from '../views/AboutPage.vue'
+import MyProfile from '../views/MyProfile.vue'
 import UserProfile from '../views/UserProfile.vue'
 
 Vue.use(VueRouter)
@@ -31,6 +32,11 @@ const routes = [
     },
     {
         path: '/user-profile',
+        name: 'MyProfile',
+        component: MyProfile
+    },
+    {
+        path: '/user-profile/:userId',
         name: 'UserProfile',
         component: UserProfile
     }
