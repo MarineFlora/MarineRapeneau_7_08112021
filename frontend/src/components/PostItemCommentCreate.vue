@@ -1,7 +1,8 @@
 <template>
     <b-row class="pl-3 mt-3">
-        <ProfileImage imageHeight="40" />
-
+        <router-link :to="'/user-profile'">
+            <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" />
+        </router-link>
         <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea       
                 :class="'comment-form-' + post.id"                     
@@ -38,7 +39,8 @@ export default {
     data() {
         return {
             commentDescription: '',
-            errorMessage: ''
+            errorMessage: '',
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     methods: {

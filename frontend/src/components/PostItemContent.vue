@@ -5,11 +5,14 @@
         <b-row class="px-3" align-v="center">
             <b-col cols="11" class="px-0" >
                 <div class="d-flex align-items-center">
-                    <!-- changer adresse image dynamiquement -->
-                    <ProfileImage imageHeight="60" /> 
-
+                    
+                    <router-link :to="{ name: 'UserProfile', params: { userId: post.User.id } }">
+                        <ProfileImage imageHeight="60" :imageUrl="post.User.profilePhoto" /> 
+                    </router-link>
                     <div class="px-3 d-flex align-items-end flex-wrap">
-                        <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
+                        <router-link :to="{ name: 'UserProfile', params: { userId: post.User.id } }" style="color: inherit;">
+                            <h2 class="pr-2">{{ post.User.firstName }} {{ post.User.lastName }}</h2>
+                        </router-link>
                         <p v-if="post.User.admin" class="text-secondary pr-2 d-flex align-items-center">
                             admin
                             <b-icon 
@@ -19,7 +22,7 @@
                                 title="admin"
                             ></b-icon>
                         </p>
-                        <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow() }} </p>
+                        <p class="text-secondary pr-2">· {{ dayjs(post.createdAt).locale('fr').fromNow(true) }} </p>
                     </div>
                 </div>
             </b-col>
@@ -112,7 +115,7 @@
                     <!-- disposition des images selon leur nombre -->
                     <PostItemImagesDisplay :post="post" v-if="imageUrl.length > 0"/>
 
-                    <p>{{ post.description }}</p>
+                    <p class="text-justify">{{ post.description }}</p>
                 </b-card-text> 
             </b-col>   
         </b-row>
@@ -124,9 +127,9 @@
 
 <script>
 import ProfileImage from './ProfileImage.vue';
-import BaseButton from './BaseButton.vue';
 import PostItemImagesDisplay from './PostItemImagesDisplay.vue';
 import PostInput from '../components/PostInput.vue';
+
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import dayjs from 'dayjs' ;
@@ -138,7 +141,6 @@ export default {
     name: 'PostItemContent',
     components: {
         ProfileImage,
-        BaseButton,
         PostItemImagesDisplay,
         PostInput
     },
@@ -149,19 +151,20 @@ export default {
     data() {
         return {
             dayjs: dayjs,
-            imageUrl: JSON.parse(this.post.imageUrl)
+            imageUrl: JSON.parse(this.post.imageUrl),
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     methods: {
         // fonctions pour accès aux paramètres modifier/supprimer des posts
         isCreator(option) {
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id
             if (option == userId) {
                return true
             }
         },
         isAdmin() {
-            const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+            const isAdmin = this.userData.admin;
             if (isAdmin) {
                 return true
             }
@@ -175,12 +178,11 @@ export default {
                 })
                 .catch(error => {
                     console.log(error)
-                   // alert("Une erreur est survenue");
                 }); 
         },
         modifyPost(id) { 
             const description = document.querySelector(".modify-description").value
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id;
             const previewMedia = document.querySelector('.preview-media-modify');
               
             const selectedFile = document.querySelector(".input-file-modify");

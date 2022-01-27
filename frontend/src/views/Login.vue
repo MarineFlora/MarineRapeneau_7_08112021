@@ -4,7 +4,7 @@
             <b-col class="d-sm-flex flex-column align-items-center">
                 <ConnectionHeading sub-heading="Connectez-vous"/>
 
-                <b-form class="form-width my-5" @submit.stop.prevent="login" novalidate>
+                <b-form class="form-width my-5" @submit.prevent="login" novalidate>
                     <b-form-group>
                         <div class="input-div" id="email" >
                             <h6 class="text-left">Email</h6>
@@ -14,13 +14,13 @@
                                 @blur="removeClassFocus('#email')"
                                 type="email" 
                                 class="px-4 input pt-3"
-                                autocomplete=email
+                                autocomplete="email"
                             ></b-form-input>
                         </div>
                     </b-form-group>
 
                     <b-form-group>
-                    <div class="input-div" id="password" >
+                    <div class="input-div" id="password">
                         <h6 class="text-left">Mot de passe</h6>
                         <b-form-input  
                             v-model="password"
@@ -28,7 +28,7 @@
                             @blur="removeClassFocus('#password')"
                             type="password"
                             class="px-4 input pt-3"
-                            autocomplete=current-password
+                            autocomplete="current-password"
                         ></b-form-input>
                         
                      </div>    
@@ -52,6 +52,7 @@ import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
 import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
+import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
 
 export default {
     name: 'Login',
@@ -59,7 +60,7 @@ export default {
         BaseButton,
         ConnectionHeading
     },
-    
+    mixins: [inputAnimationMixin],
     data() {
         return {
             email: '',
@@ -71,44 +72,28 @@ export default {
     methods: {
         login() {
             if (this.email != '' && this.password !== '') {
-                // envoi des données au back
                 apiFetch
                     .post('/auth/login', { email : this.email, password: this.password } )
                     .then((res) => {
                         // si erreur 401 au back-end : message erreur
                         if (!res.token) {
-                            this.errorMessage = res.error
+                            this.errorMessage = res.error;
                         // sinon recupérer token pour headers auth et envoyer à la page d'accueil
                         } else {
                             localStorage.setItem('userToken', res.token);
-                            localStorage.setItem('userId', res.userId);
-                            localStorage.setItem('isAdmin', res.isAdmin);
+                            localStorage.setItem('userData', JSON.stringify(res.user));
                             console.log("userToken:", res.token);  
                             router.push({ name: 'LatestPosts' }); 
                         } 
                     })
                     .catch(error => {
                         console.log(error)
-                        this.errorMessage = 'Problèmes de connexion'
+                        this.errorMessage = 'Problèmes de connexion';
                     })
             } else {
-                this.errorMessage = "Veuillez renseigner les champs de connexion"
+                this.errorMessage = "Veuillez renseigner les champs de connexion";
             }
         },
-        // animation du titre des inputs
-        // ajoute classe 'focus' au focus
-        addClassFocus(element) {
-            let inputDiv = document.querySelector(`${element}`);
-            inputDiv.classList.add("focus");  
-        },
-        // enlève la classe au blur v-on:blur
-        removeClassFocus(element) {
-            let inputDiv = document.querySelector(`${element}`);
-            let input = document.querySelector(`${element} > .input`);
-            if (input.value == "") {
-                inputDiv.classList.remove("focus");
-            }
-        }
     }
 }
      
@@ -125,24 +110,5 @@ export default {
             width: 350px;
         }
     }
-
-    // classes pour animations material design inputs 
-    .input-div {
-        position: relative;
-    }
-
-    .input-div.focus > h6 {
-        top: 0.75rem;
-        font-size: 13px;
-    }
-
-    .input-div > h6 {
-        position: absolute;
-        left: 1.5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #6e6e6e;
-        transition: .2s;
-}
 
 </style>

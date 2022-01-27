@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     class LikeComment extends Model {
         // Méthode pour définir les associations
         static associate(models) {
-            LikeComment.belongsTo(models.User, { foreignKey: 'userId' })
+            LikeComment.belongsTo(models.User, { foreignKey: 'userId' }, { onDelete: 'cascade', hooks:true })
             LikeComment.belongsTo(models.Post, { foreignKey: 'postId' }, { onDelete: 'cascade', hooks:true })
             LikeComment.belongsTo(models.Comment, { foreignKey: 'commentId' }, { onDelete: 'cascade', hooks:true })
         }

@@ -69,9 +69,9 @@ exports.modifyPost = (req, res, next) => {
             } else {
                 postObject.imageUrl = post.imageUrl;
             }
-            
+    
             // vérifier autorisation avant maj DB
-            if (req.token.userId === post.userId) {
+            if (req.token.userId === postObject.userId) {
                 Post.update({ ...postObject }, { where: { id: req.params.id } })
                     .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
                     .catch(error => res.status(400).json({ error }));  
@@ -112,10 +112,22 @@ exports.deletePost = (req, res, next) => {
 
 /* ---------- récupération de toutes les publications ---------- */
 exports.getAllPosts = (req, res, next) => {
-    Post.findAll({ include: db.User, order: [ ['id', 'DESC'] ] })
+    const options = {
+        include: db.User,
+        order: [['id', 'DESC']]
+    }
+
+    if (req.query.userId) {
+        options.where = {
+            userId: parseInt(req.query.userId)
+        }
+    }
+
+    Post.findAll(options)
         .then(posts => res.status(200).json({ posts }))
         .catch(error => res.status(404).json({ error }));
 };
+
 
 /* ---------- récupération d'une publication ---------- */
 exports.getOnePost = (req, res, next) => {

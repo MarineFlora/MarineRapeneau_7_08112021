@@ -5,7 +5,7 @@
                 <b-icon 
                     icon="suit-heart" 
                     :font-scale="likeScale" 
-                    title="j'aime" 
+                    title="j'aime le post" 
                     class="like-icon" 
                     v-if="!liked" key="1"
                     @click="likeOnePost"
@@ -13,7 +13,7 @@
                 <b-icon 
                     icon="suit-heart-fill" 
                     :font-scale="likeScale" 
-                    title="enlever le like" 
+                    title="enlever le j'aime" 
                     variant="primary"
                     class="like-icon" 
                     v-else="" key="2"
@@ -27,7 +27,7 @@
             class="text-secondary mx-2" 
             :class="`likes-total-${post.id}`"
             v-b-modal="'modal-like-' +  post.id"
-            title="aimé par"
+            title="publication aimée par"
             @click="getLikesInfos"
         >
             {{ likesCount }}
@@ -35,17 +35,17 @@
         
         <b-modal 
             :id="'modal-like-' + post.id" 
-            title="Aimé par" 
+            title="Publication aimée par" 
             ok-title="modifier"
             hide-footer
             v-if="this.likesCount > 0"
             centered
         >
-        <div class="d-flex" v-for="like in likesList" :key="">
-            <ProfileImage imageHeight="50" /> 
-            <div class="px-3 my-2">
+        <div class="d-flex mb-3" v-for="like in likesList" :key="">
+            <ProfileImage imageHeight="50" :imageUrl="like.User.profilePhoto" /> 
+            <div class="px-3">
                 <p class="font-weight-bold">{{ like.User.firstName }} {{ like.User.lastName }}</p>
-                <p>{{ like.User.userDescription }}</p>
+                <p class="font-weight-light">{{ like.User.userDescription }}</p>
             </div>
         </div>
         </b-modal>

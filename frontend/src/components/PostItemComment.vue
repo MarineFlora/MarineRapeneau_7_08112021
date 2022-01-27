@@ -16,19 +16,23 @@
             </b-row>
         </div> 
         
-        <div class="border border-left-0 border-right-0 border-top-0 mt-3 px-3" v-if="post.commentsCount > 0">
+        <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="post.commentsCount > 0">
              <!-- 1 COMMENTAIRE -->
-            <b-row class="mb-3 comments" align-v="start" v-for="comments in commentsList" :key="comments.id">
-                <!-- changer adresse image dynamiquement -->
-                <ProfileImage imageHeight="40" />
-
-                <b-col >
-                    <b-row class="pl-3" align-v="start">
+            <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
+            
+                <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }">
+                    <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
+                </router-link>
+                
+                <b-col class="pr-0">
+                    <b-row class="px-3" align-v="start" >
                         <b-col cols="11" class="px-0" >
                             <div class="d-flex align-items-end flex-wrap pr-2">
-                                <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
+                                <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }" style="color: inherit;">
+                                    <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
+                                </router-link>
                                 <b-icon v-if="comments.User.admin" icon="person-check-fill" class="text-dark px-1" font-scale="1.5" title="admin"></b-icon> 
-                                <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow() }}</p>
+                                <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow(true) }}</p>
                             </div>
                         </b-col>
                         <b-col cols="1" class="px-0 d-flex justify-content-end">
@@ -39,6 +43,7 @@
                                 variant="tertairy" 
                                 offset="-160rem" 
                                 no-caret v-b-tooltip.hover.v-secondary.left="'paramètres'"
+                                class="comment-dropdown"
                             >
                                 <template #button-content>
                                     <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>
@@ -100,12 +105,12 @@
                         </b-col>
                     </b-row>
                     <div class="d-flex align-items-end text-secondary">
-                        <p class="p-1 px-2 comment-text">{{ comments.description }}</p>
+                        <p class="comment-text pr-2 text-left">{{ comments.description }}</p>
 
                         <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
                     </div>
                 </b-col>
-            </b-row>
+            </div>
 
             <div class="py-2" :class="'other-comments-' + post.id" v-if="post.commentsCount > 2">
                 <b-link class="text-secondary mx-2" @click="loadPostComments">afficher {{ post.commentsCount -2 }} autres commentaires</b-link> 
@@ -113,7 +118,7 @@
         </div>
          
         <!-- création d'un commentaire -->
-        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments"/>
+        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments" :key="commentCreateKey"/>
     </div>
 </template>
 
@@ -127,6 +132,7 @@ import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 require('dayjs/locale/fr');
+import { eventBus } from "../main.js";
 
 export default {
     name: 'PostItemComment',
@@ -143,20 +149,30 @@ export default {
         return {
             commentsList: [],
             dayjs: dayjs,
+            userData: JSON.parse(localStorage.getItem("userData")),
+            commentCreateKey: 0,
         }
     },
     created() {
-      //  this.loadPostComments();
-      apiFetch
-        .get(`/posts/${this.post.id}/comments/?limit=2`)
-        .then(data => {
-            this.commentsList = data.comments.rows;
-            this.post.commentsCount = data.comments.count ;
-            // supprimer le lien
-        })
-        .catch(error => {console.log(error)}); 
+        apiFetch
+            .get(`/posts/${this.post.id}/comments/?limit=2`)
+            .then(data => {
+                this.commentsList = data.comments.rows;
+                this.post.commentsCount = data.comments.count ;
+            })
+            .catch(error => {console.log(error)}); 
+
+        eventBus.$on('loadPostComments', () => {
+            this.loadPostComments();
+        }); 
+        eventBus.$on('forceRerenderCommentCreate', () => {
+            this.forceRerender();
+        }); 
     },
     methods: {
+        forceRerender() {
+            this.commentCreateKey += 1;
+        },
         loadPostComments() {
             apiFetch
                 .get(`/posts/${this.post.id}/comments`)
@@ -170,13 +186,13 @@ export default {
         },
         // fonctions pour accès aux paramètres modifier/supprimer des posts
         isCreator(option) {
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id;
             if (option == userId) {
                return true
             }
         },
         isAdmin() {
-            const isAdmin = JSON.parse(localStorage.getItem('isAdmin'));
+            const isAdmin = this.userData.admin;
             if (isAdmin) {
                 return true
             }
@@ -243,12 +259,17 @@ export default {
     .comment-text{
         background-color: #f2f2f2;
         border-radius: 15px;
+        padding: 0 10px;
     }
 }
 
 .comments-info:hover {
     cursor: pointer;
     text-decoration: underline;
+}
+
+.comment-dropdown .dropdown-toggle {
+    padding: 0;
 }
 
 </style>

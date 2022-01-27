@@ -1,6 +1,6 @@
 <template> 
     <header class="py-2 bg-dark shadow">
-        <b-container class="maxwidth-page px-md-0">
+        <b-container class="maxwidth-header">
             <b-navbar class="px-0">
 
                 <b-navbar-brand to="/" class="mx-2">
@@ -116,6 +116,10 @@ header {
     &:hover {
         color: #d1515a;
     }
+}
+
+.maxwidth-header {
+    max-width: 1200px !important;
 }
 
 </style>

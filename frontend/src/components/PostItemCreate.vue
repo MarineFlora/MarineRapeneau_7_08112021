@@ -1,9 +1,11 @@
 <template>
-    <b-row class="shadow p-3">
-       
-        <ProfileImage imageHeight="60" class="text-center px-2"/>
+    <b-row class="shadow p-3 ">
+    
+        <router-link :to="'/user-profile'">
+            <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
+        </router-link>
         
-        <b-form class="col p-2 overflow-hidden create-form" @submit.prevent="createPost" enctype="multipart/form-data">
+        <b-form class="col overflow-hidden create-form py-1" @submit.prevent="createPost" enctype="multipart/form-data">
             <b-form-textarea                            
                 placeholder="Quoi de neuf ?"
                 rows="2"
@@ -25,7 +27,7 @@
             </div>   
 
             <div class="d-flex justify-content-end">
-                <BaseButton button-title="Publier" class="btn-sm btn-pages"/> 
+                <BaseButton button-title="Publier" class="btn-sm btn-pages" /> 
             </div>
             
         </b-form>
@@ -38,6 +40,7 @@ import BaseButton from '../components/BaseButton.vue';
 import PostInput from '../components/PostInput.vue';
 import ProfileImage from '../components/ProfileImage.vue';
 import { apiFetch } from '../utils/ApiFetch';
+import { eventBus } from "../main.js";
 
 export default {
     name: 'PostItemCreate',
@@ -46,19 +49,17 @@ export default {
         ProfileImage,
         PostInput
     },
-    props: {
-        loadPosts: { type: Function },
-    },
     data() {
         return {
             description: '',
-            errorMessage: ''
+            errorMessage: '',
+            userData: JSON.parse(localStorage.getItem("userData"))
         }
     },
     methods: {
         createPost() { 
             const description = this.description;
-            const userId = localStorage.getItem("userId");
+            const userId = this.userData.id;
 
             const inputFile = document.querySelector(".input-file");
             const images = inputFile.files;
@@ -90,7 +91,7 @@ export default {
                         this.removePreviewChild();
                         this.description = "";
                         form.reset();
-                        this.loadPosts();
+                        eventBus.$emit('loadPosts');
                     })
                     .catch(error => {
                         console.log(error);
@@ -108,6 +109,7 @@ export default {
                 previewMedia.removeChild(previewMedia.firstChild);
             }
         },
+         
     }  
 }
 </script>

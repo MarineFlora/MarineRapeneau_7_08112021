@@ -4,19 +4,19 @@
             <b-col class="d-sm-flex flex-column align-items-center">
                 <ConnectionHeading sub-heading="Creez votre compte"/>
 
-                <b-form class="form-width my-4" @submit.stop.prevent="signup" novalidate>
+                <b-form class="form-width my-4" @submit.prevent="signup" novalidate>
 
                     <b-form-group>
                         <div class="input-div" id="firstName">
                             <h6 class="text-left">Prénom</h6>
                             <b-form-input
-                                v-model="$v.form.firstName.$model" 
-                                :state="validateState('firstName')"
+                                v-model="$v.signupForm.firstName.$model" 
+                                :state="validateStateSignUp('firstName')"
                                 @focus="addClassFocus('#firstName')"
                                 @blur="removeClassFocus('#firstName')"
                                 type="text" 
                                 class="px-4 input pt-3"
-                                autocomplete=given-name
+                                autocomplete="given-name"
                             ></b-form-input>
                         </div>
                     </b-form-group>    
@@ -25,13 +25,13 @@
                         <div class="input-div" id="lastName">
                             <h6 class="text-left">Nom</h6>
                             <b-form-input
-                                v-model="$v.form.lastName.$model" 
-                                :state="validateState('lastName')"
+                                v-model="$v.signupForm.lastName.$model" 
+                                :state="validateStateSignUp('lastName')"
                                 @focus="addClassFocus('#lastName')"
                                 @blur="removeClassFocus('#lastName')"
                                 type="text" 
                                 class="px-4 input pt-3"
-                                autocomplete=family-name
+                                autocomplete="family-name"
                             ></b-form-input>
                         </div>
                     </b-form-group>
@@ -40,13 +40,13 @@
                         <div class="input-div" id="email">
                             <h6 class="text-left">Email</h6>
                             <b-form-input
-                                v-model="$v.form.email.$model" 
-                                :state="validateState('email')"
+                                v-model="$v.signupForm.email.$model" 
+                                :state="validateStateSignUp('email')"
                                 @focus="addClassFocus('#email')"
                                 @blur="removeClassFocus('#email')"
                                 type="email" 
                                 class="px-4 input pt-3"
-                                autocomplete=email
+                                autocomplete="email"
                             ></b-form-input>
                         </div>
                     </b-form-group>
@@ -55,15 +55,15 @@
                         <div class="input-div" id="password">
                             <h6 class="text-left">Mot de passe</h6>
                             <b-form-input  
-                                v-model="$v.form.password.$model" 
-                                :state="validateState('password')" 
+                                v-model="$v.signupForm.password.$model" 
+                                :state="validateStateSignUp('password')" 
                                 @focus="addClassFocus('#password')"
                                 @blur="removeClassFocus('#password')"
                                 type="password"
                                 class="px-4 input pt-3"
-                                autocomplete=current-password
+                                autocomplete="new-password"
                             ></b-form-input>
-                            <b-form-invalid-feedback v-if="!$v.form.password.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
+                            <b-form-invalid-feedback v-if="!$v.signupForm.password.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
                         </div>    
                     </b-form-group>
 
@@ -86,15 +86,11 @@
 import BaseButton from '../components/BaseButton.vue';
 import ConnectionHeading from '../components/ConnectionHeading.vue';
 
-import { validationMixin } from "vuelidate";
-import { required, minLength, helpers } from "vuelidate/lib/validators";
 import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
 
-// regex patterns pour validation champs
-const passwordValid = helpers.regex('passwordValid', /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/);
-const emailValid = helpers.regex('emailValid', /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/);
-const nameValid = helpers.regex('nameValid', /^[a-z ,'-é]+$/i);
+import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
+import inputsValidationMixin from '../mixins/inputsValidationMixin.js'
 
 export default {
     name: 'SignUp',
@@ -102,10 +98,10 @@ export default {
         BaseButton,
         ConnectionHeading
 	},
-    mixins: [validationMixin],
+    mixins: [inputAnimationMixin, inputsValidationMixin],
     data() {
         return {
-            form: {
+            signupForm: {
                 firstName: '',
                 lastName: '',
                 email: '',
@@ -114,78 +110,35 @@ export default {
             errorMessage: '',
         };
     },
-    validations: {
-        form: {
-            firstName: {
-                required,
-                nameValid
-            },
-            lastName: {
-                required,
-                nameValid
-            },
-            email: {
-                required,
-                emailValid
-        },
-            password: {
-                required,
-                passwordValid
-            }
-        }
-    },
     methods: {
-        // methodes (vuelidate) pour changer le state de chaque input pour faire apparaitre la validation
-        validateState(name) {
-        const { $dirty, $error } = this.$v.form[name];
-        return $dirty ? !$error : null; 
-        },
-
         signup() {
             // validation des champs
-            this.$v.form.$touch();
+            this.$v.signupForm.$touch();
             // si au moins 1 des inputs n'est pas valide, terminer l'exécution   
-            if (this.$v.form.$anyError) {
+            if (this.$v.signupForm.$anyError) {
                 return;
             } else {
                 // sinon envoi des champs au back-end
-                const userSignup = this.form;
-                 apiFetch
-                    .post('/auth/signup', userSignup)
-                    .then((res) => {
-                        console.log('token:', res.token); 
-                        if (!res.token) {
-                            this.errorMessage = 'Une erreur est survenue, si vous possédez déjà un compte, veuillez vous connecter'
-                        } else {
-                            localStorage.setItem('userToken', res.token);
-                            localStorage.setItem('userId', res.userId);
-                            localStorage.setItem('isAdmin', res.isAdmin);
-                            
-                            router.push({ name: 'LatestPosts' });
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error)
-                        this.errorMessage = 'Problèmes de connexion'
-                    })            
+                const userSignup = this.signupForm;
+                    apiFetch
+                        .post('/auth/signup', userSignup)
+                        .then((res) => {
+                            console.log('token:', res.token); 
+                            if (!res.token) {
+                                this.errorMessage = 'Une erreur est survenue, si vous possédez déjà un compte, veuillez vous connecter'
+                            } else {
+                                localStorage.setItem('userToken', res.token);
+                                localStorage.setItem('userData', JSON.stringify(res.user));
+                                router.push({ name: 'LatestPosts' });
+                            }
+                        })
+                        .catch(error => {
+                            console.log(error)
+                            this.errorMessage = 'Problèmes de connexion'
+                        })            
             }
-        },
-        // animation du titre des inputs
-        // ajoute classe 'focus' au focus
-        addClassFocus(element) {
-            let inputDiv = document.querySelector(`${element}`);
-            inputDiv.classList.add("focus");  
-        },
-        // enlève la classe au blur v-on:blur
-        removeClassFocus(element) {
-            let inputDiv = document.querySelector(`${element}`);
-            let input = document.querySelector(`${element} > .input`);
-            if (input.value == "") {
-                inputDiv.classList.remove("focus");
-            }
-        }
-         
-    }
+        },         
+    },
 }
 </script>
 

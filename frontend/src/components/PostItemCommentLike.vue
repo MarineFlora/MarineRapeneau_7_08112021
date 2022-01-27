@@ -1,11 +1,11 @@
 <template>
-    <div class="d-flex justify-content-end align-items-center px-2">
+    <div class="d-flex justify-content-end align-items-center">
         <div class="like">
             <transition name="like-fill" mode="out-in">
                 <b-icon 
                     icon="suit-heart" 
                     :font-scale="likeScale" 
-                    title="j'aime" 
+                    title="j'aime le commentaire" 
                     class="like-icon" 
                     v-if="!liked" key="1"
                     @click="likeOneComment"
@@ -13,7 +13,7 @@
                 <b-icon 
                     icon="suit-heart-fill" 
                     :font-scale="likeScale" 
-                    title="enlever le like" 
+                    title="enlever le j'aime" 
                     variant="primary"
                     class="like-icon" 
                     v-else="" key="2"
@@ -27,7 +27,7 @@
             class="text-secondary mx-1 likes-count" 
             :class="`likes-comment-total-${comments.id}`"
             v-b-modal="'modal-comment-like-' +  comments.id"
-            title="aimé par"
+            title="commentaire aimé par"
             @click="getLikesInfos"
         >
             {{ likesCount }}
@@ -35,17 +35,17 @@
         
         <b-modal 
             :id="'modal-comment-like-' + comments.id" 
-            title="Aimé par" 
+            title="Commentaire aimé par" 
             ok-title="modifier"
             hide-footer
             v-if="this.likesCount > 0"
             centered
         >
-        <div class="d-flex" v-for="like in likesList" :key="">
-            <ProfileImage imageHeight="50" /> 
-            <div class="px-3 my-2">
+        <div class="d-flex mb-3" v-for="like in likesList" :key="">
+            <ProfileImage imageHeight="50" :imageUrl="like.User.profilePhoto" /> 
+            <div class="px-3">
                 <p class="font-weight-bold">{{ like.User.firstName }} {{ like.User.lastName }}</p>
-                <p>{{ like.User.userDescription }}</p>
+                <p class="font-weight-light">{{ like.User.userDescription }}</p>
             </div>
         </div>
         </b-modal>
