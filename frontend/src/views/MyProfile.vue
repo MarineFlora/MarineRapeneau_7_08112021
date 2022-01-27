@@ -67,9 +67,9 @@
                                         autocomplete="new-password"
                                         
                                     ></b-form-input>
-                                    <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.notSameAsCurrent" class="text-left">Votre mot de passe doit avoir au moins : <br>
-                                    - 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial <br>
-                                    - être différent de votre ancien mot de passe</b-form-invalid-feedback>         
+                                    <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : <br>
+                                    - 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>  
+                                    <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.notSameAsCurrent" class="text-left">Votre mot de passe doit être différent de votre ancien mot de passe</b-form-invalid-feedback>         
                                 </div>    
                             </b-form-group>
 

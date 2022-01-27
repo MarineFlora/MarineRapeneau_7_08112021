@@ -124,17 +124,18 @@ exports.changePassword = async (req, res, next) => {
         const user = await User.findOne({ where: { id: req.params.userId } });
         if (req.token.userId === user.id) {
             const passwordDecrypt = await bcrypt.compare(req.body.currentPassword, user.password)
+            const newPasswordDecrypt = await bcrypt.compare(req.body.newPassword, user.password)
+
             if (!passwordDecrypt) {
                 return res.status(401).json({ error1: "Mot de passe actuel incorrect !" });
             } 
 
-            const newPasswordDecrypt = await bcrypt.compare(req.body.newPassword, user.password)
-            if (newPasswordDecrypt) {
+            else if (newPasswordDecrypt) {
                 return res.status(401).json({ error: "Le nouveau mot de passe doit être différent de l'ancien" });
             } 
 
-            if ((passwordRegex.test(req.body.newPassword)) == false) {
-                res.status(400).json({ error: "le nouveau mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
+            else if ((passwordRegex.test(req.body.newPassword)) == false) {
+                return res.status(400).json({ error: "le nouveau mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
             } 
             
             else {

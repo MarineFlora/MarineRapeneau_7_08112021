@@ -36,8 +36,9 @@ export default {
             },
             newPassword: {
                 required,
+                passwordValid,
                 notSameAsCurrent: not(sameAs('currentPassword')),
-                passwordValid
+                
             },
             newPasswordConfirm: {
                 required,
