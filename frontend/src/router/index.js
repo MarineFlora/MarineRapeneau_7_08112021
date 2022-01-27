@@ -28,7 +28,8 @@ const routes = [
     {
         path: '/about',
         name: 'AboutPage',
-        component: AboutPage
+        component: AboutPage,
+        props: true
     },
     {
         path: '/user-profile',

@@ -51,6 +51,7 @@
                     <b-dropdown-item 
                         v-if="!isCreator(post.userId)" 
                         to="/about"
+                        :to="{ name: 'AboutPage', params: { signalToMods: post } }"
                     >Signaler la publication aux modérateurs
                     </b-dropdown-item>
                 </b-dropdown>
@@ -152,7 +153,7 @@ export default {
         return {
             dayjs: dayjs,
             imageUrl: JSON.parse(this.post.imageUrl),
-            userData: JSON.parse(localStorage.getItem("userData"))
+            userData: JSON.parse(localStorage.getItem("userData")),
         }
     },
     methods: {

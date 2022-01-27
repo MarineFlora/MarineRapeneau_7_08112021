@@ -63,7 +63,7 @@
 
                                 <b-dropdown-item 
                                     v-if="!isCreator(comments.userId)" 
-                                    to="/about"
+                                    :to="{ name: 'AboutPage', params: { signalToMods: comments, type: 'comment' } }"
                                 >Signaler le commentaire aux modérateurs
                                 </b-dropdown-item>
                             </b-dropdown>
