@@ -60,6 +60,19 @@
                             </div>
                         </b-form-group>
 
+                        <b-form-group v-if="this.aboutForm.signalMessage">
+                            <div class="input-div" id="about-signal" >
+                                <b-form-textarea   
+                                    v-model="aboutForm.signalMessage" 
+                                    type="text" 
+                                    class="px-4 input pt-2"                        
+                                    rows="1"
+                                    max-rows="6" 
+                                    disabled
+                                ></b-form-textarea>
+                            </div>
+                        </b-form-group>
+                
                         <b-form-group>
                             <div class="input-div" id="about-message" >
                                 <h6 class="text-left">Votre Message</h6>
@@ -106,10 +119,30 @@ export default {
             aboutForm: {
                 name: '',
                 email: '',
-                message: ''
-            }
+                message: '',
+                signalMessage: ''
+            },
+            signalType: ''
         };
     }, 
+    mounted() {
+        this.setSignalType()
+        this.setInputMessage()
+    },
+    methods: {
+        setInputMessage() {
+            if (this.$attrs.signalToMods) {
+                this.aboutForm.signalMessage = 'Signaler : ' + this.signalType + ' id: ' + this.$attrs.signalToMods.id + ', Date: ' + this.$attrs.signalToMods.createdAt + ', Contenu: "' +  this.$attrs.signalToMods.description.substring(0, 35) +'..."';
+            }
+        }, 
+        setSignalType() {
+            if (this.$attrs.type === "comment") {
+                this.signalType = `dans Publication id: ${this.$attrs.signalToMods.postId}, Commentaire`
+            } else {
+                this.signalType = 'Publication'
+            }
+        }
+    }
 }
 </script>
 
