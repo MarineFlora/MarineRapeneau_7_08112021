@@ -6,7 +6,7 @@
         cancel-title="annuler"
         centered
         @ok="editProfile"
-        @cancel="resetForm"
+        @cancel="getUserData"
     >
         <b-form class="px-2">
             <b-form-group label="Image de profil">
@@ -167,9 +167,6 @@ export default {
             this.form.lastName = this.user.lastName;
             this.form.profession = this.user.profession;
             this.form.userDescription = this.user.userDescription;
-        },
-        resetForm() {
-            this.getUserData();
         }
     }
 }

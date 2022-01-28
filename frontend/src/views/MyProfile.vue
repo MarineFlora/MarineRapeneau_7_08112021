@@ -111,7 +111,7 @@
                         hide-footer
                         centered
                     >
-                        <p class="mb-5">Réfléchissez bien, le profil sera supprimé définitivement. </p>
+                        <p class="mb-5">Le profil sera supprimé définitivement. </p>
                         <div class="d-flex justify-content-end">
                             <b-button 
                                 v-b-modal.modal-user-remove-2 
@@ -175,7 +175,7 @@ import router from '../router/index';
 
 import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
 import inputsValidationMixin from '../mixins/inputsValidationMixin.js'
-
+import functionsMixin from '../mixins/functionsMixin.js'
 import { validationMixin } from "vuelidate";
 
 import { eventBus } from "../main.js";
@@ -190,7 +190,7 @@ export default {
         PostList,
         UserProfileInfos
     }, 
-    mixins: [inputAnimationMixin, inputsValidationMixin, validationMixin],
+    mixins: [inputAnimationMixin, inputsValidationMixin, validationMixin, functionsMixin],
     data() {
         return {
             user: null,
@@ -213,10 +213,6 @@ export default {
         updateUserInfos(payload) {
             this.user = payload;
         },
-        logOut() {
-            localStorage.clear();
-            router.push({ name: 'Login' });
-        },  
         showAccountParams() {
             this.accountParams ? this.accountParams = false : this.accountParams = true;
         },
