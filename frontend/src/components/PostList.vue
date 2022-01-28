@@ -55,21 +55,10 @@ export default {
                 .get(`/posts/${userIdParams}`)
                 .then(data => { 
                     this.posts = data.posts;
-                   
-                   if (data.error) {
-                       this.logOut();
-                   }
-                   // console.log("PostItem-this.posts:", this.posts);
-                    console.log("error:", data.error);
                 })
                 .catch(error => {
-                    console.log(error);
-                    this.logOut();
+                   console.log(error);
                 }); 
-        },
-        logOut() {
-            localStorage.clear();
-            router.push({ name: 'Login' });
         },
         updateParent() {
             this.$emit("loadPosts", this.loadPosts());
