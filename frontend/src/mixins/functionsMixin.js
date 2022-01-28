@@ -8,7 +8,8 @@ export default {
             localStorage.clear();
             router.push({ name: 'Login' });
         },
-        // fonctions pour accès aux paramètres modifier/supprimer des posts et commentaires
+
+        // Fonctions pour accès aux paramètres modifier/supprimer des posts et commentaires
         isAdmin() {
             const isAdmin = this.userData.admin;
             if (isAdmin) {
@@ -19,6 +20,16 @@ export default {
             const userId = this.userData.id;
             if (option == userId) {
                return true
+            }
+        },
+
+        // Fonctions likes post / comment
+        // permutation coeurs plein/vide
+        likeSwap(condition) {
+            if (condition) {
+                this.liked = true;
+            } else {
+                this.liked = false;
             }
         },
     }   

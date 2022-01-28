@@ -104,7 +104,7 @@
 
                         </b-col>
                     </b-row>
-                    <div class="d-flex align-items-end text-secondary">
+                    <div class="d-flex align-items-end text-secondary pr-3">
                         <p class="comment-text pr-2 text-left">{{ comments.description }}</p>
 
                         <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
