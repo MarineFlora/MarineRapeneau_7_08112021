@@ -1,5 +1,7 @@
 //----------------------- fichier contenant configuration pour les requêtes http Fetch -----------------------// 
 
+import router from '../router/index'
+
 // classe pour creer plus facilement les requêtes http, eviter répétitions
 class ApiFetch {
     constructor() {
@@ -17,6 +19,21 @@ class ApiFetch {
             ...contentType,
             Authorization: 'Bearer ' + localStorage.getItem('userToken')
         }
+    };
+
+    get (path) {
+        return fetch(this.baseUrl + path, {
+            method: 'GET',
+            headers: this.headers(),
+        })
+            .then((res) => {
+                if (res.status === 401) {
+                    localStorage.clear();
+                    alert("Session expirée !");
+                    router.push({ name: 'Login' });
+                }
+                  return res.json()
+                })
     }
 
     post (path, body, options = {}) {
@@ -24,14 +41,6 @@ class ApiFetch {
             method: 'POST',
             headers: this.headers(options),
             body: options.isFormData ? body : JSON.stringify(body)
-        })
-            .then((res) => res.json())
-    }
-
-    get (path) {
-        return fetch(this.baseUrl + path, {
-            method: 'GET',
-            headers: this.headers(),
         })
             .then((res) => res.json())
     }

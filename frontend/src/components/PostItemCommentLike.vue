@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-end align-items-center">
-        <div class="like">
+        <div class="like mx-1">
             <transition name="like-fill" mode="out-in">
                 <b-icon 
                     icon="suit-heart" 
@@ -24,11 +24,12 @@
 
         <!-- retour total likes + affichage des users qui ont aimé lors du click-->
         <b-link 
-            class="text-secondary mx-1 likes-count" 
+            class="text-secondary likes-count" 
             :class="`likes-comment-total-${comments.id}`"
             v-b-modal="'modal-comment-like-' +  comments.id"
             title="commentaire aimé par"
             @click="getLikesInfos"
+            v-if="this.likesCount > 0"
         >
             {{ likesCount }}
         </b-link>
@@ -57,6 +58,7 @@
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import ProfileImage from './ProfileImage.vue';
+import functionsMixin from '../mixins/functionsMixin.js'
 
 export default {
     name: 'PostItemCommentLike',
@@ -85,18 +87,11 @@ export default {
             likesList: []
         }
     },
+    mixins: [functionsMixin],  
     mounted() {
         this.getUserLike();
     },
     methods: {
-        // permutation coeurs plein/vide
-        likeSwap(condition) {
-            if (condition) {
-                this.liked = true;
-            } else {
-                this.liked = false;
-            }
-        },
         // envoi du like au back-end et maj infos
         likeOneComment() {
             this.likeSwap(!this.liked);
@@ -115,7 +110,6 @@ export default {
                 .get(`/posts/${this.post.id}/comment/${this.comments.id}/likes`)
                 .then((res) => {
                     this.likesCount = res.likes.length;
-                    this.hideLikesNumber();
                     this.likesList = res.likes;
                 })
                 .catch(error => console.log(error));
@@ -126,19 +120,9 @@ export default {
                 .get(`/posts/${this.post.id}/comment/${this.comments.id}/like`)
                 .then((res) => {
                     this.likeSwap(res.like);
-                    this.hideLikesNumber();
                 })
                 .catch(error => console.log(error));
         },
-        // ajout opacity 0 au nombre quand 0 like
-        hideLikesNumber() {
-            let totalLikesNumber = document.querySelector(`.likes-comment-total-${this.comments.id}`);
-            if(totalLikesNumber) {
-                this.likesCount == 0 ? 
-                totalLikesNumber.style.cssText = "opacity:0" 
-                : totalLikesNumber.style.cssText = "opacity:1";
-            }
-        }
     }
 }
 </script>

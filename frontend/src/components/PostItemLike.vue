@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex justify-content-end align-items-center pl-3">
-        <div class="like">
+        <div class="like mx-2">
             <transition name="like-fill" mode="out-in">
                 <b-icon 
                     icon="suit-heart" 
@@ -24,11 +24,12 @@
 
         <!-- retour total likes + affichage des users qui ont aimé lors du click-->
         <b-link 
-            class="text-secondary mx-2" 
+            class="text-secondary" 
             :class="`likes-total-${post.id}`"
             v-b-modal="'modal-like-' +  post.id"
             title="publication aimée par"
             @click="getLikesInfos"
+            v-if="this.likesCount > 0"
         >
             {{ likesCount }}
         </b-link>
@@ -57,6 +58,7 @@
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import ProfileImage from './ProfileImage.vue';
+import functionsMixin from '../mixins/functionsMixin.js'
 
 export default {
     name: 'PostItemLike',
@@ -79,18 +81,11 @@ export default {
             likesList: []
         }
     },
+    mixins: [functionsMixin],  
     mounted() {
         this.getUserLike();
     },
     methods: {
-        // permutation coeurs plein/vide
-        likeSwap(condition) {
-            if (condition) {
-                this.liked = true;
-            } else {
-                this.liked = false;
-            }
-        },
         // envoi du like au back-end et maj infos
         likeOnePost() {
             this.likeSwap(!this.liked);
@@ -109,7 +104,6 @@ export default {
                 .get(`/posts/${this.post.id}/likes`)
                 .then((res) => {
                     this.likesCount = res.likes.length;
-                    this.hideLikesNumber();
                     this.likesList = res.likes;
                 })
                 .catch(error => console.log(error));
@@ -120,19 +114,9 @@ export default {
                 .get(`/posts/${this.post.id}/like`)
                 .then((res) => {
                     this.likeSwap(res.like);
-                    this.hideLikesNumber();
                 })
                 .catch(error => console.log(error));
         },
-        // ajout opacity 0 au nombre quand 0 like
-        hideLikesNumber() {
-            let totalLikesNumber = document.querySelector(`.likes-total-${this.post.id}`);
-            if (this.likesCount == 0) { 
-                totalLikesNumber.style.opacity = "0";
-            } else {
-               totalLikesNumber.style.opacity = "1";
-            }
-        }
         
     }
     

@@ -104,7 +104,7 @@
 
                         </b-col>
                     </b-row>
-                    <div class="d-flex align-items-end text-secondary">
+                    <div class="d-flex align-items-end text-secondary pr-3">
                         <p class="comment-text pr-2 text-left">{{ comments.description }}</p>
 
                         <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
@@ -133,6 +133,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 require('dayjs/locale/fr');
 import { eventBus } from "../main.js";
+import functionsMixin from '../mixins/functionsMixin.js'
 
 export default {
     name: 'PostItemComment',
@@ -153,6 +154,7 @@ export default {
             commentCreateKey: 0,
         }
     },
+    mixins: [functionsMixin],   
     created() {
         apiFetch
             .get(`/posts/${this.post.id}/comments/?limit=2`)
@@ -183,19 +185,6 @@ export default {
                 })
                 .then(() => { this.removeOtherCommentsLink(); })
                 .catch(error => { console.log(error) }); 
-        },
-        // fonctions pour accès aux paramètres modifier/supprimer des posts
-        isCreator(option) {
-            const userId = this.userData.id;
-            if (option == userId) {
-               return true
-            }
-        },
-        isAdmin() {
-            const isAdmin = this.userData.admin;
-            if (isAdmin) {
-                return true
-            }
         },
         deleteComment(id) {
             apiFetch

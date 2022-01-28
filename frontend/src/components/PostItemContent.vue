@@ -137,6 +137,7 @@ import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 require('dayjs/locale/fr');
+import functionsMixin from '../mixins/functionsMixin.js'
 
 export default {
     name: 'PostItemContent',
@@ -156,20 +157,8 @@ export default {
             userData: JSON.parse(localStorage.getItem("userData")),
         }
     },
+    mixins: [functionsMixin],  
     methods: {
-        // fonctions pour accès aux paramètres modifier/supprimer des posts
-        isCreator(option) {
-            const userId = this.userData.id
-            if (option == userId) {
-               return true
-            }
-        },
-        isAdmin() {
-            const isAdmin = this.userData.admin;
-            if (isAdmin) {
-                return true
-            }
-        },
         deletePost(id) {
             apiFetch
                 .delete("/posts/" + id)

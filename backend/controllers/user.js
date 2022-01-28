@@ -127,11 +127,11 @@ exports.changePassword = async (req, res, next) => {
             const newPasswordDecrypt = await bcrypt.compare(req.body.newPassword, user.password)
 
             if (!passwordDecrypt) {
-                return res.status(401).json({ error1: "Mot de passe actuel incorrect !" });
+                return res.status(400).json({ error1: "Mot de passe actuel incorrect !" });
             } 
 
             else if (newPasswordDecrypt) {
-                return res.status(401).json({ error: "Le nouveau mot de passe doit être différent de l'ancien" });
+                return res.status(400).json({ error: "Le nouveau mot de passe doit être différent de l'ancien" });
             } 
 
             else if ((passwordRegex.test(req.body.newPassword)) == false) {

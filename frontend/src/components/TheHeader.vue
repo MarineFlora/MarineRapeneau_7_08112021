@@ -85,6 +85,7 @@
 <script> 
 import BaseButton from '../components/BaseButton.vue';
 import router from '../router/index';
+import functionsMixin from '../mixins/functionsMixin.js'
 
 export default {
     name: 'TheHeader',
@@ -97,12 +98,7 @@ export default {
             hoverInfo: false, 
         };
     },
-    methods: {
-        logOut() {
-            localStorage.clear();
-            router.push({ name: 'Login' });
-        }
-    }        
+    mixins: [functionsMixin]      
 }
 </script>
 
