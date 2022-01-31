@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- COMMENTAIRES ET LIKES INFO -->
+        <!-- COMMENTAIRES ET LIKES INFO 
         <div class="pb-3 border border-left-0 border-top-0 border-right-0">
             <b-row>
                 <b-col cols="9" class="d-flex align-items-center comments-info" @click="targetForm">
@@ -14,7 +14,7 @@
                     <PostItemLike :post="post" likeScale="1.4"/>
                 </b-col>
             </b-row>
-        </div> 
+        </div> -->
         
         <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="post.commentsCount > 0">
              <!-- 1 COMMENTAIRE -->

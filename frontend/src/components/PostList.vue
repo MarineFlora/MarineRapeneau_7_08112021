@@ -5,6 +5,9 @@
             <!-- CONTENU POST -->
             <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
+            <!-- COMMENTAIRES ET LIKES INFO -->
+            <PostItemStats :post="post" />
+
             <!-- COMMENTAIRES DU POST -->
             <PostItemComment :post="post" />
             
@@ -19,6 +22,7 @@
 <script>
 import PostItemContent from '../components/PostItemContent.vue';
 import PostItemComment from '../components/PostItemComment.vue';
+import PostItemStats from './PostItemStats.vue';
 
 import router from '../router/index';
 import { apiFetch } from '../utils/ApiFetch';
@@ -29,6 +33,7 @@ export default {
     components: {
         PostItemContent,
         PostItemComment, 
+        PostItemStats
     }, 
     data() {
         return {
@@ -60,9 +65,6 @@ export default {
                    console.log(error);
                 }); 
         },
-        updateParent() {
-            this.$emit("loadPosts", this.loadPosts());
-        }
     }
 }
 

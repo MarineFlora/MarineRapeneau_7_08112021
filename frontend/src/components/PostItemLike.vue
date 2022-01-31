@@ -31,7 +31,7 @@
             @click="getLikesInfos"
             v-if="this.likesCount > 0"
         >
-            {{ likesCount }}
+            {{ likesCount }} J'aime
         </b-link>
         
         <b-modal 
