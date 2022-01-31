@@ -116,7 +116,7 @@
                     <!-- disposition des images selon leur nombre -->
                     <PostItemImagesDisplay :post="post" v-if="imageUrl.length > 0"/>
 
-                    <p class="text-justify">{{ post.description }}</p>
+                    <p class="text-break">{{ post.description }}</p>
                 </b-card-text> 
             </b-col>   
         </b-row>

@@ -1,43 +1,29 @@
 <template>
-    <div>
-        <!-- COMMENTAIRES ET LIKES INFO 
-        <div class="pb-3 border border-left-0 border-top-0 border-right-0">
-            <b-row>
-                <b-col cols="9" class="d-flex align-items-center comments-info" @click="targetForm">
-                    <b-icon icon="chat-square" font-scale="1.3"></b-icon>
-                    <p class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</p>
-                    <p class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</p>
-                    <p class="text-secondary mx-2" v-if="post.commentsCount == 1">{{ post.commentsCount }} commentaire</p>
-                </b-col>
-
-                <b-col cols="3" >
-                    <PostItemLike :post="post" likeScale="1.4"/>
-                </b-col>
-            </b-row>
-        </div> -->
-        
+    <div>        
         <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="post.commentsCount > 0">
              <!-- 1 COMMENTAIRE -->
             <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
-            
+
                 <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }">
                     <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
                 </router-link>
                 
                 <b-col class="pr-0">
-                    <b-row class="px-3" align-v="start" >
-                        <b-col cols="11" class="px-0" >
+                    <!-- informations du commentaire et paramètres -->
+                    <b-row class="px-3" align-v="start">
+                        <!-- auteur et date du post -->
+                        <b-col cols="11" class="px-0">
                             <div class="d-flex align-items-end flex-wrap pr-2">
                                 <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }" style="color: inherit;">
-                                    <p class="font-weight-bold pr-2">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
+                                    <p class="font-weight-bold pr-1">{{ comments.User.firstName }} {{ comments.User.lastName }}</p>
                                 </router-link>
                                 <b-icon v-if="comments.User.admin" icon="person-check-fill" class="text-dark px-1" font-scale="1.5" title="admin"></b-icon> 
-                                <p class="text-secondary">· {{ dayjs(comments.createdAt).locale('fr').fromNow(true) }}</p>
+                                <p class="text-secondary pl-1">· {{ dayjs(comments.createdAt).locale('fr').fromNow(true) }}</p>
                             </div>
                         </b-col>
-                        <b-col cols="1" class="px-0 d-flex justify-content-end">
 
-                            <!-- si propriétaire du post afficher les 3 options sinon juste signaler -->
+                        <b-col cols="1" class="px-0 d-flex justify-content-end">
+                            <!-- paramètres du commentaire -->
                             <b-dropdown 
                                 size="sm" 
                                 variant="tertairy" 
@@ -49,69 +35,71 @@
                                     <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>
                                 </template>
                             
+                                <!-- Option 1 : modifier le commentaire -->
                                 <b-dropdown-item 
                                     v-if="isCreator(comments.userId)" 
                                     v-b-modal="'modal-comment-modify-' + comments.id"
                                 > Modifier le commentaire
                                 </b-dropdown-item>
+                                <!-- modal de modification du commentaire -->
+                                <b-modal 
+                                    :id="'modal-comment-modify-' + comments.id" 
+                                    title="Modifier le commentaire" 
+                                    ok-title="modifier"
+                                    cancel-title="annuler"
+                                    @ok="modifyComment(`${comments.id}`)"
+                                    centered
+                                >
+                                    <b-form class="col p-2 overflow-hidden" >
+                                        <!-- modification contenu -->
+                                        <b-form-textarea                            
+                                            rows="2"
+                                            max-rows="10"
+                                            v-model="comments.description"
+                                            class="modify-description"
+                                        ></b-form-textarea>
+                                        
+                                    </b-form>
+                                </b-modal>
 
+                                <!-- Option 2 : supprimer le commentaire -->
                                 <b-dropdown-item 
                                     v-if="isCreator(comments.userId) || isAdmin()" 
                                     v-b-modal="'modal-comment-delete' + comments.id"  
                                 > Supprimer le commentaire
                                 </b-dropdown-item>
+                                <!-- confirmation de suppression -->
+                                <b-modal 
+                                    :id="'modal-comment-delete' + comments.id" 
+                                    title="Voulez-vous vraiment supprimer ce commentaire ?" 
+                                    ok-title="supprimer" 
+                                    cancel-title= "annuler"
+                                    @ok="deleteComment(`${comments.id}`)"
+                                    centered
+                                >
+                                    <p>Le commentaire sera supprimé définitivement. </p>
+                                </b-modal>
 
+                                <!-- Option 3 : signaler le commentaire -->
                                 <b-dropdown-item 
                                     v-if="!isCreator(comments.userId)" 
                                     :to="{ name: 'AboutPage', params: { signalToMods: comments, type: 'comment' } }"
-                                >Signaler le commentaire aux modérateurs
+                                > Signaler le commentaire aux modérateurs
                                 </b-dropdown-item>
                             </b-dropdown>
-
-                           
-                            <!-- modal de modification du post -->
-                            <b-modal 
-                                :id="'modal-comment-modify-' + comments.id" 
-                                title="Modifier le commentaire" 
-                                ok-title="modifier"
-                                cancel-title="annuler"
-                                @ok="modifyComment(`${comments.id}`)"
-                                centered
-                            >
-                                <b-form class="col p-2 overflow-hidden" >
-                                    <!-- modif description -->
-                                    <b-form-textarea                            
-                                        rows="2"
-                                        max-rows="10"
-                                        v-model="comments.description"
-                                        class="modify-description"
-                                    ></b-form-textarea>
-                                    
-                                </b-form>
-                            </b-modal>
-
-                            <!-- confirmation de suppression -->
-                            <b-modal 
-                                :id="'modal-comment-delete' + comments.id" 
-                                title="Voulez-vous vraiment supprimer ce commentaire ?" 
-                                ok-title="supprimer" 
-                                cancel-title= "annuler"
-                                @ok="deleteComment(`${comments.id}`)"
-                                centered
-                            >
-                                <p>Le commentaire sera supprimé définitivement. </p>
-                            </b-modal>
-
                         </b-col>
                     </b-row>
-                    <div class="d-flex align-items-end text-secondary pr-3">
-                        <p class="comment-text pr-2 text-left">{{ comments.description }}</p>
 
-                        <PostItemCommentLike :post="post" :comments="comments" likeScale="1" />
+                    <!-- contenu du commentaire -->
+                    <div class="d-flex align-items-end text-secondary pr-3">
+                        <p class="comment-text text-left text-break pr-1">{{ comments.description }}</p>
+                        <!-- like associé au commentaire -->
+                        <PostItemCommentLike :post="post" :comments="comments" class="comment-like" likeScale="1" />
                     </div>
                 </b-col>
             </div>
 
+            <!-- lien pour afficher + de commentaires -->
             <div class="py-2" :class="'other-comments-' + post.id" v-if="post.commentsCount > 2">
                 <b-link class="text-secondary mx-2" @click="loadPostComments">afficher {{ post.commentsCount -2 }} autres commentaires</b-link> 
             </div> 

@@ -1,7 +1,7 @@
 <template>
     <b-row class="shadow p-3 ">
     
-        <router-link :to="'/user-profile'">
+        <router-link :to="'/user-profile'" class="py-1">
             <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
         </router-link>
         
