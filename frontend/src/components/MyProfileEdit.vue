@@ -8,7 +8,9 @@
         @ok="editProfile"
         @cancel="getUserData"
     >
+        <!-- FORMULAIRE EDITER LE PROFIL -->
         <b-form class="px-2">
+            <!-- image de profil -->
             <b-form-group label="Image de profil">
                 <div class="d-flex align-items-center overflow-hidden profile-input-file">
                     <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage"/>
@@ -25,6 +27,7 @@
             </b-form-group>
 
             <div class="d-flex justify-content-between">
+                <!-- prénom -->
                 <b-form-group>
                     <div class="input-div mr-2" id="edit-firstName" >
                         <h6 class="text-left">Prénom</h6>
@@ -39,7 +42,7 @@
                         ></b-form-input>
                     </div>
                 </b-form-group>
-
+                <!-- nom -->
                 <b-form-group>
                     <div class="input-div" id="edit-lastName" >
                         <h6 class="text-left">Nom</h6>
@@ -55,7 +58,7 @@
                     </div>
                 </b-form-group>
             </div>
-
+            <!-- profession -->
             <b-form-group>
                 <div class="input-div" id="edit-profession" >
                     <h6 class="text-left">Profession</h6>
@@ -70,7 +73,7 @@
                     ></b-form-input>
                 </div>
             </b-form-group>
-           
+            <!-- description profil -->
             <b-form-group>
                 <div class="input-div" id="edit-description" >
                     <h6 class="text-left">Décrivez-vous en quelques mots</h6>
@@ -89,7 +92,6 @@
         </b-form>
    
     </b-modal>    
-
 </template> 
 
 <script> 

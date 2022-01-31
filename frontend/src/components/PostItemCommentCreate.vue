@@ -3,6 +3,7 @@
         <router-link :to="'/user-profile'">
             <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" />
         </router-link>
+
         <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea       
                 :class="'comment-form-' + post.id"                     
@@ -18,7 +19,7 @@
                 <BaseButton button-title="Répondre" class="btn-sm btn-pages"/> 
             </div>
         </b-form>
-</b-row>
+    </b-row>
 </template>
 
 <script>

@@ -3,17 +3,18 @@
         <TheHeader />
         <main>
             <b-container class="maxwidth-page">
-            
+                <!-- RETOUR DES INFORMATIONS DU PROFIL CONNECTE -->
                 <UserProfileInfos userPageTitle="Mon Profil :" :userId="this.userData.id"  @userInfos="updateUserInfos" />
 
+                <!-- EDITION DU PROFILPUBLIQUE -->
                 <div class="d-flex flex-column align-items-center">
-                    <!--edition du profil -->
                     <div>
                         <BaseButton button-title="Editer le profil" v-b-modal.modal-edit-profile class="my-2" />
                     </div>
                     <MyProfileEdit :user="user" />
                 </div>  
 
+                <!-- EDITION PARAMETRES CONFIDENTIELS -->
                 <div class="d-flex flex-column align-items-end mt-4 mb-5">
                     <div>
                         <b-icon 
@@ -23,7 +24,7 @@
                         <b-link class="text-dark pl-1" @click="showAccountParams">Modifier les paramètres du compte</b-link>
                     </div>
 
-                    <!-- lien changer password  -->
+                    <!-- lien changer mot de passe -->
                     <b-link class="text-dark font-italic" v-b-modal.modal-change-password v-show="accountParams">changer votre mot de passe</b-link>
 
                     <b-modal 
@@ -33,27 +34,25 @@
                         centered
                         @ok.prevent="changePassword()"
                     >
-
-                        <b-form class="px-2" >
-
-                            <b-form-group >
+                        <!-- formulaire -->
+                        <b-form class="px-2">
+                            <!-- mot de passe actuel -->
+                            <b-form-group>
                                 <div class="input-div" id="current-password">
                                     <h6 class="text-left">Mot de passe actuel</h6>
                                     <b-form-input  
                                         v-model="$v.passwordChangeForm.currentPassword.$model" 
-                                        
                                         @focus="addClassFocus('#current-password')"
                                         @blur="removeClassFocus('#current-password')"
                                         type="password"
                                         class="px-4 input pt-3"
                                         autocomplete="current-password"
-                                    
                                     ></b-form-input> 
                               
                                   <b-form-invalid-feedback class="text-left">Mot de passe saisi incorrect</b-form-invalid-feedback> 
                                 </div>    
                             </b-form-group>
-
+                            <!-- nouveau mot de passe -->
                             <b-form-group>
                                 <div class="input-div" id="new-password">
                                     <h6 class="text-left">Nouveau mot de passe</h6>
@@ -72,7 +71,7 @@
                                     <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.notSameAsCurrent" class="text-left">Votre mot de passe doit être différent de votre ancien mot de passe</b-form-invalid-feedback>         
                                 </div>    
                             </b-form-group>
-
+                            <!-- confirmation nouveau mot de passe -->
                             <b-form-group>
                                 <div class="input-div" id="new-password-confirm">
                                     <h6 class="text-left">Confirmer le mot de passe</h6>
@@ -89,11 +88,11 @@
                                     <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPasswordConfirm.sameAsPassword" class="text-left">Les mots de passe ne correspondent pas.</b-form-invalid-feedback>         
                                 </div>    
                             </b-form-group>
-
                         </b-form>  
                          
                         <p class="mb-5">Vous devrez vous reconnecter après la modification de votre mot de passe.</p>
 
+                        <!-- message de réussite avant redirection -->
                         <b-alert v-model="showDismissibleAlert" variant="success" dismissible>
                             Votre mot de passe a bien été mis à jour. <br>
                             Vous allez être redirigé vers la page de connexion...
@@ -119,7 +118,7 @@
                             >oui, je supprime mon compte</b-button>
                         </div>
                     </b-modal>
-
+                    <!-- 2ème confirmation et suppression -->
                     <b-modal 
                         id="modal-user-remove-2" 
                         title="Toujours sûr de vouloir nous quitter ?" 
@@ -136,7 +135,7 @@
                             >supprimer</b-button>
                         </div>   
                     </b-modal>
-
+                    <!-- message à bientot et redirection -->
                     <b-modal 
                         id="modal-user-remove-3" 
                         title="A bientôt !" 
@@ -145,14 +144,11 @@
                         @ok="logOut()"
                         centered
                     >
-                        
                         <p>Nous vous remercions d'avoir utilisé le réseau social de Groupomania, à bientôt !</p>    
                     </b-modal>
-
                 </div>
 
-               
-                <!-- Publications de l'user -->
+                <!-- PUBLICATIONS DE L'USER CONNECTE-->
                 <h2 class="my-4 mx-2 font-weight-bold text-left">Publications partagées</h2>
                 <PostList :userId="this.userData.id" />
 

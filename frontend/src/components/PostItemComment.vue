@@ -1,7 +1,8 @@
 <template>
-    <div>        
+    <div>   
+        <!-- BLOC COMMENTAIRES --> 
         <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="post.commentsCount > 0">
-             <!-- 1 COMMENTAIRE -->
+            <!-- 1 COMMENTAIRE -->
             <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
 
                 <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }">
@@ -9,7 +10,7 @@
                 </router-link>
                 
                 <b-col class="pr-0">
-                    <!-- informations du commentaire et paramètres -->
+                    <!-- INFORMATIONS DU COMMENTAIRE ET PARAMÈTRES -->
                     <b-row class="px-3" align-v="start">
                         <!-- auteur et date du post -->
                         <b-col cols="11" class="px-0">
@@ -22,8 +23,8 @@
                             </div>
                         </b-col>
 
+                        <!-- paramètres du commentaire -->
                         <b-col cols="1" class="px-0 d-flex justify-content-end">
-                            <!-- paramètres du commentaire -->
                             <b-dropdown 
                                 size="sm" 
                                 variant="tertairy" 
@@ -90,7 +91,7 @@
                         </b-col>
                     </b-row>
 
-                    <!-- contenu du commentaire -->
+                    <!-- CONTENU DU COMMENTAIRE -->
                     <div class="d-flex align-items-end text-secondary pr-3">
                         <p class="comment-text text-left text-break pr-1">{{ comments.description }}</p>
                         <!-- like associé au commentaire -->
@@ -105,7 +106,7 @@
             </div> 
         </div>
          
-        <!-- création d'un commentaire -->
+        <!-- CRÉATION D'UN COMMENTAIRE -->
         <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments" :key="commentCreateKey"/>
     </div>
 </template>

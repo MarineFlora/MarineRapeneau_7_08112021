@@ -23,6 +23,7 @@
                 inputFile=".input-file" 
             />
             
+            <!-- emplacement du retour médias selectionnés -->
             <div class="preview-media text-secondary font-italic">
             </div>   
 

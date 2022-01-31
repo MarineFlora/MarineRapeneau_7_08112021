@@ -1,7 +1,6 @@
 <template>
     <div class="d-flex align-items-center justify-content-start px-0 overflow-hidden my-2 post-input-file" title="ajouter une image ou un gif">
         <b-icon icon="images" class="text-primary"></b-icon>
-        
         <input 
             type="file" 
             :id="inputImageId"
@@ -20,19 +19,14 @@
 
 <script>
 
-
 export default {
     name: 'PostInput',
-    components: {
-        
-    },
     props: {
         inputImageId: String,
         inputImageClass: String,
         labelTitle: String,
         previewMedia: String,
         inputFile: String
-        
     },
     methods: {
         updateMediaDisplay({ preview, inputFile }) {

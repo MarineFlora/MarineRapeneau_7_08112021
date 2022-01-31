@@ -1,5 +1,6 @@
 <template>
     <div class="d-flex justify-content-end align-items-center pl-3">
+        <!-- PERMUTATION COEUR PLEIN/VIDE-->
         <div class="like mx-2">
             <transition name="like-fill" mode="out-in">
                 <b-icon 
@@ -22,7 +23,7 @@
             </transition>
         </div>
 
-        <!-- retour total likes + affichage des users qui ont aimé lors du click-->
+        <!-- RETOUR TOTAL LIKES -->
         <b-link 
             class="text-secondary" 
             :class="`likes-total-${post.id}`"
@@ -34,6 +35,7 @@
             {{ likesCount }} J'aime
         </b-link>
         
+        <!-- affichage des users qui ont aimé -->
         <b-modal 
             :id="'modal-like-' + post.id" 
             title="Publication aimée par" 
@@ -42,13 +44,13 @@
             v-if="this.likesCount > 0"
             centered
         >
-        <div class="d-flex mb-3" v-for="like in likesList" :key="">
-            <ProfileImage imageHeight="50" :imageUrl="like.User.profilePhoto" /> 
-            <div class="px-3">
-                <p class="font-weight-bold">{{ like.User.firstName }} {{ like.User.lastName }}</p>
-                <p class="font-weight-light">{{ like.User.userDescription }}</p>
+            <div class="d-flex mb-3" v-for="like in likesList" :key="">
+                <ProfileImage imageHeight="50" :imageUrl="like.User.profilePhoto" /> 
+                <div class="px-3">
+                    <p class="font-weight-bold">{{ like.User.firstName }} {{ like.User.lastName }}</p>
+                    <p class="font-weight-light">{{ like.User.userDescription }}</p>
+                </div>
             </div>
-        </div>
         </b-modal>
 
     </div>
