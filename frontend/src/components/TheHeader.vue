@@ -3,7 +3,7 @@
         <b-container class="maxwidth-header">
             <b-navbar class="px-0">
 
-                <b-navbar-brand to="/" class="mx-2">
+                <b-navbar-brand  class="mx-2">
                     <b-img 
                         height="45" 
                         :src="require('../assets/images/logo-white.svg')" 
@@ -21,18 +21,42 @@
 
                 <b-navbar-nav class="ml-auto align-items-center">
                     <b-nav-item 
+                        to="/" 
+                        exact
+                        @mouseover="hoverHome = true" 
+                        @mouseleave="hoverHome = false" 
+                        v-b-tooltip.hover.v-primary="'accueil'"
+                        class="home-nav"
+                    >
+                            <b-icon 
+                                v-if="!hoverHome && !isHomeActive" 
+                                icon="house" 
+                                font-scale="2.2" 
+                                variant="light"
+                            ></b-icon>
+                            <b-icon 
+                                v-if="hoverHome || isHomeActive" 
+                                icon="house-fill" 
+                                variant="primary" 
+                                font-scale="2.2" 
+                            ></b-icon>
+                    </b-nav-item>
+                    
+                    <b-nav-item 
                         to="/user-profile" 
                         @mouseover="hoverProfile = true" 
                         @mouseleave="hoverProfile = false" 
-                        v-b-tooltip.hover.v-primary="'profil'">
+                        v-b-tooltip.hover.v-primary="'profil'"
+                        class="profile-nav"
+                    >
                             <b-icon 
-                                v-if="!hoverProfile" 
+                                v-if="!hoverProfile && !isProfileActive" 
                                 icon="person" 
                                 font-scale="2.2" 
-                                class="text-white"
+                                variant="light"
                             ></b-icon>
                             <b-icon 
-                                v-if="hoverProfile" 
+                                v-if="hoverProfile || isProfileActive" 
                                 icon="person-fill" 
                                 variant="primary" 
                                 font-scale="2.2" 
@@ -43,18 +67,20 @@
                         to="/about" 
                         @mouseover="hoverInfo = true" 
                         @mouseleave="hoverInfo = false" 
-                        v-b-tooltip.hover.v-primary="'à propos'">
+                        v-b-tooltip.hover.v-primary="'à propos'"
+                        class="about-nav"
+                    >
                             <b-icon 
-                                v-if="!hoverInfo" 
+                                v-if="!hoverInfo && !isAboutActive" 
                                 icon="info-circle" 
                                 font-scale="1.8" 
-                                class="text-white"
+                                variant="light"
                             ></b-icon>
                             <b-icon 
-                                v-if="hoverInfo" 
+                                v-if="hoverInfo || isAboutActive" 
                                 icon="info-circle-fill" 
                                 variant="primary" 
-                                font-scale="1.8" 
+                                font-scale="1.8"
                             ></b-icon>
                     </b-nav-item>
 
@@ -96,23 +122,64 @@ export default {
         return {
             hoverProfile: false,
             hoverInfo: false, 
+            hoverHome: false,
+            isHomeActive: false,
+            isProfileActive: false,
+            isAboutActive: false,
+            activeNavElement: false
         };
     },
-    mixins: [functionsMixin]      
+    mixins: [functionsMixin],
+    mounted() {
+        this.homeIsActive();
+        this.profileIsActive();
+        this.aboutIsActive()
+    },
+    methods: {
+        // recherche si le chemin des liens des icones correspondent à l'adresse de la page actuelle
+        findRouterActive(navItem) {
+            const navItemLink = document.querySelector(`${navItem} a`);
+            const isActive = navItemLink.classList.contains('router-link-exact-active');
+            this.activeNavElement = isActive;
+        },
+        // activation des icones "actives" si correspondance route to=""/adresse
+        homeIsActive(){
+            this.findRouterActive('.home-nav');
+            this.activeNavElement ? this.isHomeActive = true : ""
+        },
+        profileIsActive(){
+            this.findRouterActive('.profile-nav');
+            this.activeNavElement ? this.isProfileActive = true : ""
+        },
+        aboutIsActive(){
+            this.findRouterActive('.about-nav');
+            this.activeNavElement ? this.isAboutActive = true : ""
+        },
+    }      
 }
 </script>
 
 <style lang="scss">
+@import "../assets/custom.scss";
+
 header {
     border-radius: 0 0 0.8rem 0.8rem;
 }
 
 .logout-icon {
-    color: #fff;
+    color: $light;
     &:hover {
-        color: #d1515a;
+        color: $primary;
     }
 }
+
+/*
+}
+.router-link-exact-active > svg {
+   //background-color: indianred;
+  // cursor: pointer;
+   color: $primary;
+ }*/
 
 .maxwidth-header {
     max-width: 1200px !important;
