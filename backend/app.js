@@ -1,22 +1,15 @@
 //----------------------- fichier contenant l'application Express -----------------------// 
 
-// import Express
 const express = require('express');
-// import path, donne accès au chemin de notre système de fichier
 const path = require('path');
-// import fichier config variables env
-const config = require('./config/config.js');
 
-//import des router
+//import des routers
+const userRoutes = require('./routes/user');
+const postsRoutes = require('./routes/posts');
+const likesRoutes = require('./routes/likes');
+const commentsRoutes = require('./routes/comments');
 
-
-// création de l'application express
 const app = express();
-
-// TEST SERVEUR
-app.use((req, res) => {
-  res.json({ message: 'Votre requête a bien été reçue !' }); 
-})
 
 // middleware pour résoudre problèmes de CORS et permettre l'accès à l'API
 app.use((req, res, next) => {
@@ -29,11 +22,13 @@ app.use((req, res, next) => {
 //middleware global, transforme le corps de la requete en objet javascript utilisable
 app.use(express.json());
 
-// gestion ressource images de manière statique
+// gestion ressource images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // enregistrement du routeur avec racine attendue par front-end
+app.use('/api/auth', userRoutes);
+app.use('/api/posts', postsRoutes);
+app.use('/api/posts', likesRoutes);
+app.use('/api/posts', commentsRoutes);
 
-
-//export de l'application
 module.exports = app;

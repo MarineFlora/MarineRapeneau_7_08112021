@@ -1,4 +1,4 @@
-// fichier de configuration pour pouvoir renommer config.json en config.js
+// fichier de configuration pour pouvoir renommer config.json en config.js et accèder aux variables d'environnement
 
 const path = require('path');
 
