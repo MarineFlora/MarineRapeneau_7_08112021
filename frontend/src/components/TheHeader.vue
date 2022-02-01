@@ -104,13 +104,14 @@
                             aria-label="deconnexion"
                         ></b-icon>
 
-                        <b-modal id="modal-logout" hide-footer>
-                            <b-row class="text-center flex-column align-items-center">
-                                <h4 class="pb-3">Voulez-vous vraiment quitter votre espace personnel ?</h4>
-                                <div @click="logOut" >
-                                    <BaseButton button-title="se déconnecter" /> 
-                                </div>
-                            </b-row>
+                        <b-modal id="modal-logout"
+                            title="Deconnexion" 
+                            ok-title="se déconnecter" 
+                            cancel-title="annuler"
+                            @ok="logOut"
+                            centered
+                        >
+                            <p>Voulez-vous vraiment quitter votre espace personnel ?</p>
                         </b-modal>
                     </b-nav-item>
                 </b-navbar-nav>

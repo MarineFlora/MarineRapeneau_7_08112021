@@ -52,4 +52,21 @@ h1, h2, p {
     color: #6e6e6e;
     transition: .2s;
 }
+
+// classes utilisées sur toutes les pages sauf connexion
+.btn-pages {
+    font-size: 1.17rem !important;
+    max-width: 110px !important;
+}
+
+.modal-footer button {
+    border-radius: 50rem;
+    font-size: 1.17rem;
+    font-weight: bold;
+    padding: 0.3rem 1rem;
+}
+
+.maxwidth-page {
+    max-width: 720px !important;
+}
 </style>

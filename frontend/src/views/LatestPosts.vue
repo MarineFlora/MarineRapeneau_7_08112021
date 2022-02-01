@@ -36,14 +36,4 @@ export default {
 
 <style lang="scss">
 
-// classes utilisées sur toutes les pages sauf connexion
-.btn-pages {
-    font-size: 1.17rem !important;
-    max-width: 110px !important;
-}
-
-.maxwidth-page {
-    max-width: 720px !important;
-}
-
 </style>

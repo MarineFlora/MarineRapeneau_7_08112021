@@ -224,4 +224,5 @@ export default {
     width: 100px;
     margin: 0.3rem;
 }
+
 </style>
