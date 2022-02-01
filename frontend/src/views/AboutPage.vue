@@ -38,7 +38,7 @@
                         <!-- nom et prénom -->
                         <b-form-group>
                             <div class="input-div" id="about-name">
-                                <h6 class="text-left">Nom et Prénom</h6>
+                                <label for="about-name-input" class="text-left">Nom et Prénom</label>
                                 <b-form-input  
                                     v-model="aboutForm.name" 
                                     @focus="addClassFocus('#about-name')"
@@ -46,14 +46,14 @@
                                     type="text"
                                     class="px-4 input pt-3"
                                     autocomplete="name"
-                                    title="nom et prénom"
+                                    id="about-name-input"
                                 ></b-form-input>
                             </div>    
                         </b-form-group>
                         <!-- email -->
                         <b-form-group>
                             <div class="input-div" id="about-email" >
-                                <h6 class="text-left">Email</h6>
+                                <label for="about-email-input" class="text-left">Email</label>
                                 <b-form-input
                                     v-model="aboutForm.email" 
                                     @focus="addClassFocus('#about-email')"
@@ -61,7 +61,7 @@
                                     type="email" 
                                     class="px-4 input pt-3"
                                     autocomplete="email"
-                                    title="email"
+                                    id="about-email-input"
                                 ></b-form-input>
                             </div>
                         </b-form-group>
@@ -82,7 +82,7 @@
                         <!-- message -->
                         <b-form-group>
                             <div class="input-div" id="about-message" >
-                                <h6 class="text-left">Votre Message</h6>
+                                <label for="about-message-input" class="text-left">Votre Message</label>
                                 <b-form-textarea   
                                     v-model="aboutForm.message" 
                                     @focus="addClassFocus('#about-message')"
@@ -91,7 +91,7 @@
                                     class="px-4 input pt-3"                        
                                     rows="1"
                                     max-rows="6" 
-                                    title="votre message"
+                                    id="about-message-input"
                                 ></b-form-textarea>
                             </div>
                         </b-form-group>

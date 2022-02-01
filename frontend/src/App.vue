@@ -39,12 +39,12 @@ h1, h2, p {
     position: relative;
 }
 
-.input-div.focus > h6 {
+.input-div.focus > label {
     top: 0.75rem;
     font-size: 13px;
 }
 
-.input-div > h6 {
+.input-div > label {
     position: absolute;
     left: 1.5rem;
     top: 50%;

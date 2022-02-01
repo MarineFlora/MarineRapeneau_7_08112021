@@ -39,7 +39,7 @@
                             <!-- mot de passe actuel -->
                             <b-form-group>
                                 <div class="input-div" id="current-password">
-                                    <h6 class="text-left">Mot de passe actuel</h6>
+                                    <label for="current-password-input" class="text-left">Mot de passe actuel</label>
                                     <b-form-input  
                                         v-model="$v.passwordChangeForm.currentPassword.$model" 
                                         @focus="addClassFocus('#current-password')"
@@ -47,15 +47,16 @@
                                         type="password"
                                         class="px-4 input pt-3"
                                         autocomplete="current-password"
+                                        id="current-password-input"
                                     ></b-form-input> 
-                              
+
                                   <b-form-invalid-feedback class="text-left">Mot de passe saisi incorrect</b-form-invalid-feedback> 
                                 </div>    
                             </b-form-group>
                             <!-- nouveau mot de passe -->
                             <b-form-group>
                                 <div class="input-div" id="new-password">
-                                    <h6 class="text-left">Nouveau mot de passe</h6>
+                                    <label for="new-password-input" class="text-left">Nouveau mot de passe</label>
                                     <b-form-input  
                                         v-model="$v.passwordChangeForm.newPassword.$model" 
                                         :state="validateStatePasswordChange('newPassword')"
@@ -64,8 +65,9 @@
                                         type="password"
                                         class="px-4 input pt-3"
                                         autocomplete="new-password"
-                                        
+                                        id="new-password-input"
                                     ></b-form-input>
+
                                     <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : <br>
                                     - 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>  
                                     <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPassword.notSameAsCurrent" class="text-left">Votre mot de passe doit être différent de votre ancien mot de passe</b-form-invalid-feedback>         
@@ -74,7 +76,7 @@
                             <!-- confirmation nouveau mot de passe -->
                             <b-form-group>
                                 <div class="input-div" id="new-password-confirm">
-                                    <h6 class="text-left">Confirmer le mot de passe</h6>
+                                    <label for="new-password-input-ok" class="text-left">Confirmer le mot de passe</label>
                                     <b-form-input  
                                         v-model="passwordChangeForm.newPasswordConfirm" 
                                         :state="validateStatePasswordChange('newPasswordConfirm')"
@@ -83,7 +85,7 @@
                                         type="password"
                                         class="px-4 input pt-3"
                                         autocomplete="new-password"
-                                       
+                                        id="new-password-input-ok"
                                     ></b-form-input>
                                     <b-form-invalid-feedback v-if="!$v.passwordChangeForm.newPasswordConfirm.sameAsPassword" class="text-left">Les mots de passe ne correspondent pas.</b-form-invalid-feedback>         
                                 </div>    

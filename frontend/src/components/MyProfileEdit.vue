@@ -11,7 +11,7 @@
         <!-- FORMULAIRE EDITER LE PROFIL -->
         <b-form class="px-2">
             <!-- image de profil -->
-            <b-form-group label="Image de profil">
+            <b-form-group>
                 <div class="d-flex align-items-center overflow-hidden profile-input-file">
                     <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage" alt="mon avatar" />
                     <input 
@@ -22,7 +22,7 @@
                         autocomplete="photo"
                         @change="updateProfilePreview()"
                     >  
-                    <label for="edit-profile-input" class="px-1 mb-0 mx-3 text-primary text-nowrap" role="button">changer l'image</label>
+                    <label for="edit-profile-input" class="px-1 mb-0 mx-3 text-primary text-nowrap" role="button">changer l'image de profil</label>
                 </div>
             </b-form-group>
 
@@ -30,7 +30,7 @@
                 <!-- prénom -->
                 <b-form-group>
                     <div class="input-div mr-2" id="edit-firstName" >
-                        <h6 class="text-left">Prénom</h6>
+                        <label for="firstName-input" class="text-left">Prénom</label>
                         <b-form-input
                             v-model="form.firstName"
                             @focus="addClassFocus('#edit-firstName')"
@@ -39,14 +39,14 @@
                             class="px-4 input pt-3"
                             autocomplete="given-name"
                             autofocus
-                            title="prénom"
+                            id="firstName-input"
                         ></b-form-input>
                     </div>
                 </b-form-group>
                 <!-- nom -->
                 <b-form-group>
                     <div class="input-div" id="edit-lastName" >
-                        <h6 class="text-left">Nom</h6>
+                        <label for="name-input" class="text-left">Nom</label>
                         <b-form-input
                             v-model="form.lastName"
                             @focus="addClassFocus('#edit-lastName')"
@@ -55,7 +55,7 @@
                             class="px-4 input pt-3"
                             autocomplete="family-name"
                             autofocus
-                            title="nom"
+                            id="name-input"
                         ></b-form-input>
                     </div>
                 </b-form-group>
@@ -63,7 +63,7 @@
             <!-- profession -->
             <b-form-group>
                 <div class="input-div" id="edit-profession" >
-                    <h6 class="text-left">Profession</h6>
+                    <label for="profession-input" class="text-left">Profession</label>
                     <b-form-input
                         v-model="form.profession"
                         @focus="addClassFocus('#edit-profession')"
@@ -72,14 +72,14 @@
                         class="px-4 input pt-3"
                         autocomplete="family-name"
                         autofocus
-                        title="profession"
+                        id="profession-input"
                     ></b-form-input>
                 </div>
             </b-form-group>
             <!-- description profil -->
             <b-form-group>
                 <div class="input-div" id="edit-description" >
-                    <h6 class="text-left">Décrivez-vous en quelques mots</h6>
+                    <label for="description-input" class="text-left">Décrivez-vous en quelques mots</label>
                     <b-form-input
                         v-model="form.userDescription"
                         @focus="addClassFocus('#edit-description')"
@@ -88,7 +88,7 @@
                         class="px-4 input pt-3"
                         maxlength="250"
                         autofocus
-                        title="description utilisateur"
+                        id="description-input"
                     ></b-form-input>
                 </div>
             </b-form-group>
