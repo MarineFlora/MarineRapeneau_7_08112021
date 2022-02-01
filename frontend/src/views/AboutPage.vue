@@ -46,6 +46,7 @@
                                     type="text"
                                     class="px-4 input pt-3"
                                     autocomplete="name"
+                                    title="nom et prénom"
                                 ></b-form-input>
                                 
                             </div>    
@@ -61,6 +62,7 @@
                                     type="email" 
                                     class="px-4 input pt-3"
                                     autocomplete="email"
+                                    title="email"
                                 ></b-form-input>
                             </div>
                         </b-form-group>
@@ -74,6 +76,7 @@
                                     rows="1"
                                     max-rows="6" 
                                     disabled
+                                    title="post ou commentaire signalé"
                                 ></b-form-textarea>
                             </div>
                         </b-form-group>
@@ -89,6 +92,7 @@
                                     class="px-4 input pt-3"                        
                                     rows="1"
                                     max-rows="6" 
+                                    title="votre message"
                                 ></b-form-textarea>
                             </div>
                         </b-form-group>

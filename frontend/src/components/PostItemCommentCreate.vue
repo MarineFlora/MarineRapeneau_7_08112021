@@ -11,6 +11,7 @@
                 rows="1"
                 max-rows="10"
                 v-model="commentDescription"
+                title="ajouter un commentaire"
             ></b-form-textarea>
 
             <p class="text-danger">{{ errorMessage }}</p>

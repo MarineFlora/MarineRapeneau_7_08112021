@@ -11,6 +11,7 @@
                 rows="2"
                 max-rows="30"
                 v-model="description"
+                title="ajouter une publication"
             ></b-form-textarea>
 
             <p class="text-danger">{{ errorMessage }}</p>
