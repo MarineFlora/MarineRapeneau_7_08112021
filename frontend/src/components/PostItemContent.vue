@@ -35,7 +35,7 @@
                     variant="outline-primary" 
                     offset="-160rem"
                     v-b-tooltip.hover.v-primary.left="'paramètres'"
-                    id="list-params-post"
+                    :id="'list-params-post' + post.id"
                 >
                     <!-- Option 1 : modifier le post -->
                     <b-dropdown-item 

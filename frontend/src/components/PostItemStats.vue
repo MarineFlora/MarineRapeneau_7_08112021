@@ -3,9 +3,9 @@
         <b-row>
             <b-col cols="7" class="d-flex align-items-center comments-info" @click="targetForm">
                 <b-icon icon="chat-square" font-scale="1.3"></b-icon>
-                <p class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</p>
-                <p class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</p>
-                <p class="text-secondary mx-2" v-if="post.commentsCount == 1">{{ post.commentsCount }} commentaire</p>
+                <b-link class="text-secondary mx-2" v-if="post.commentsCount == 0">Commenter</b-link>
+                <b-link class="text-secondary mx-2" v-if="post.commentsCount > 1">{{ post.commentsCount }} commentaires</b-link>
+                <b-link class="text-secondary mx-2" v-if="post.commentsCount == 1">{{ post.commentsCount }} commentaire</b-link>
             </b-col>
 
             <b-col cols="5" >

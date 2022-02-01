@@ -31,6 +31,7 @@
                                 offset="-160rem" 
                                 no-caret v-b-tooltip.hover.v-secondary.left="'paramètres'"
                                 class="comment-dropdown"
+                                :id="'list-params-comment' + comments.id"
                             >
                                 <template #button-content>
                                     <b-icon icon="caret-down-fill" font-scale="0.9"></b-icon>

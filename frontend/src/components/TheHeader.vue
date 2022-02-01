@@ -35,12 +35,14 @@
                             icon="house" 
                             font-scale="2.2" 
                             variant="light"
+                            aria-label="accueil"
                         ></b-icon>
                         <b-icon 
                             v-if="hoverHome || isHomeActive" 
                             icon="house-fill" 
                             variant="primary" 
                             font-scale="2.2" 
+                            aria-label="accueil"
                         ></b-icon>
                     </b-nav-item>
 
@@ -57,12 +59,14 @@
                             icon="person" 
                             font-scale="2.2" 
                             variant="light"
+                            aria-label="profil"
                         ></b-icon>
                         <b-icon 
                             v-if="hoverProfile || isProfileActive" 
                             icon="person-fill" 
                             variant="primary" 
                             font-scale="2.2" 
+                            aria-label="profil"
                         ></b-icon>
                     </b-nav-item>
 
@@ -79,22 +83,25 @@
                             icon="info-circle" 
                             font-scale="1.8" 
                             variant="light"
+                            aria-label="à propos"
                         ></b-icon>
                         <b-icon 
                             v-if="hoverAbout || isAboutActive" 
                             icon="info-circle-fill" 
                             variant="primary" 
                             font-scale="1.8"
+                            aria-label="à propos"
                         ></b-icon>
                     </b-nav-item>
 
                     <!-- vers page login -->
-                    <b-nav-item v-b-tooltip.hover.v-primary="'se déconnecter'">
+                    <b-nav-item v-b-tooltip.hover.v-primary="'se déconnecter'" >
                         <b-icon 
                             icon="power" 
                             font-scale="2" 
                             class="logout-icon"
                             v-b-modal.modal-logout
+                            aria-label="deconnexion"
                         ></b-icon>
 
                         <b-modal id="modal-logout" hide-footer>

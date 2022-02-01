@@ -5,7 +5,7 @@
             <b-col cols="6" class="p-1 d-flex justify-content-center image-col" v-for="value in imageUrl" :key="value">
                 <b-img 
                     :src="value" 
-                    alt="" 
+                    alt="image" 
                     class="post-image" 
                     fluid
                     rounded 
@@ -29,7 +29,7 @@
             <b-col class="p-1 d-flex justify-content-center">
                 <b-img 
                     :src="imageUrl[0]" 
-                    alt="" 
+                    alt="image" 
                     class="post-image" 
                     fluid
                     rounded 
