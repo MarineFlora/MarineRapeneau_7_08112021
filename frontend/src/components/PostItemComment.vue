@@ -170,7 +170,6 @@ export default {
                 .then(data => {
                     this.commentsList = data.comments.rows;
                     this.post.commentsCount = data.comments.count;
-                    console.log("commentsList:", this.commentsList);
                 })
                 .then(() => { this.removeOtherCommentsLink(); })
                 .catch(error => { console.log(error) }); 
@@ -179,12 +178,10 @@ export default {
             apiFetch
                 .delete(`/posts/${this.post.id}/comment/` + id)
                 .then(res => {
-                    console.log("delete res:", res)
                     this.loadPostComments();
                 })
                 .catch(error => {
                     console.log(error)
-                   alert("erreur")
                 }); 
         },
         modifyComment(id) { 
@@ -200,12 +197,10 @@ export default {
                 apiFetch
                     .put(`/posts/${this.post.id}/comment/` + id, body)
                     .then(res => {
-                        console.log("modif com res:", res)
-                        console.log("error modif com:", res.error)
                         this.loadPostComments();
                     })
                     .catch(error => {
-                        console.log("error catch fetch:", error);
+                        console.log(error);
                     });  
             }
         },

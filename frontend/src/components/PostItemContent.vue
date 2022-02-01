@@ -161,7 +161,6 @@ export default {
             apiFetch
                 .delete("/posts/" + id)
                 .then(res => {
-                    console.log("delete res:", res)
                     this.loadPosts();
                 })
                 .catch(error => {
@@ -198,13 +197,10 @@ export default {
                 apiFetch
                     .put('/posts/' + id, body, { isFormData })
                     .then(res => {
-                        console.log("fetch res:", res)
-                        console.log("error fetch:", res.error)
                         this.loadPosts();
                     })
                     .catch(error => {
-                        console.log("error catch fetch:", error);
-                        alert("Une erreur est survenue"); 
+                        console.log(error);
                     });  
             }                      
         },

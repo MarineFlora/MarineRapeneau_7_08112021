@@ -95,7 +95,6 @@ export default {
             apiFetch
                 .post(`/posts/${this.post.id}/like`)
                 .then(res => {
-                    console.log("LikeOnePost fetch res:", res)
                     this.getLikesInfos();
                 })
                 .catch(error => console.log(error));  

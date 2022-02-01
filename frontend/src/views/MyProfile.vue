@@ -240,9 +240,6 @@ export default {
         deleteProfile() {
             apiFetch
                 .delete(`/auth/user-profile/${this.user.id}`)
-                .then(res => {
-                    console.log("delete res:", res)
-                })
                 .catch(error => {
                     console.log(error)
                 }); 

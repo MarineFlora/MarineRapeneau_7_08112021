@@ -100,7 +100,6 @@ export default {
             apiFetch
                 .post(`/posts/${this.post.id}/comment/${this.comments.id}/like`)
                 .then(res => {
-                    console.log("LikeOneComment res:", res)
                     this.getLikesInfos();
                 })
                 .catch(error => console.log(error));  

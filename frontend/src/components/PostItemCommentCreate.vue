@@ -56,7 +56,6 @@ export default {
                 apiFetch
                     .post(`/posts/${this.post.id}/comment`, body)
                     .then(res => {
-                        console.log("res création comment:", res)
                         this.commentDescription = "";
                         this.loadPostComments();
                     })

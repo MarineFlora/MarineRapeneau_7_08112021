@@ -149,18 +149,17 @@ export default {
             apiFetch
                 .put(`/auth/user-profile/${this.user.id}`, body, { isFormData })
                 .then(res => {
-                    console.log("fetch res:", res)
                     if(!res.error) {
                         localStorage.setItem('userData', JSON.stringify(res.user));
                     }
-                    // mise à jour des données affiachées sur la page
+                    // mise à jour des données affichées sur la page
                     eventBus.$emit('forceRerenderCommentCreate');
                     eventBus.$emit('loadUserProfile');
                     eventBus.$emit('loadPosts');
                     eventBus.$emit('loadPostComments');
                 })
                 .catch(error => {
-                    console.log("error:", error);
+                    console.log(error);
                 });  
         },
         getUserData() {

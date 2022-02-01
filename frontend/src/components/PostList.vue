@@ -69,7 +69,6 @@ export default {
                 .get(`/posts/${userIdParams}`)
                 .then(data => { 
                     this.posts = data.posts;
-                    console.log(this.posts.length)
                     if (data.posts.length === 0) {
                         this.noPost = true;
                     }
