@@ -14,7 +14,7 @@
                 <!-- INFORMATIONS SUR MODERATEUR -->
                 <div class="d-flex align-items-center justify-content-center">
                     <router-link :to="'/user-profile/1'">
-                        <ProfileImage imageHeight="80" :imageUrl="require('../assets/images/admin.png')" />
+                        <ProfileImage imageHeight="80" :imageUrl="require('../assets/images/admin.png')" alt="avatar modérateur" />
                     </router-link>
                     <div class="font-weight-bold px-3 text-left" >
                         <p class="user-name">Ambre Hart</p>
@@ -48,7 +48,6 @@
                                     autocomplete="name"
                                     title="nom et prénom"
                                 ></b-form-input>
-                                
                             </div>    
                         </b-form-group>
                         <!-- email -->

@@ -38,7 +38,7 @@ export default {
 
 // classes utilisées sur toutes les pages sauf connexion
 .btn-pages {
-    font-size: 1.15rem !important;
+    font-size: 1.17rem !important;
     max-width: 110px !important;
 }
 

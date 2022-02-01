@@ -10,7 +10,7 @@
 
         <!-- INFORMATIONS PUBLIQUES DU PROFIL -->
         <div v-if="user.firstName">
-            <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
+            <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" :alt="`avatar ${user.firstName}`" />
             <div class="font-weight-bold pt-2">
                 <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
                 <p>{{ user.profession }}</p>

@@ -2,7 +2,7 @@
     <b-row class="shadow p-3 ">
     
         <router-link :to="'/user-profile'" class="py-1">
-            <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
+            <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto" alt="mon avatar" />
         </router-link>
         
         <b-form class="col overflow-hidden create-form py-1" @submit.prevent="createPost" enctype="multipart/form-data">

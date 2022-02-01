@@ -6,7 +6,7 @@
             <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
 
                 <router-link :to="{ name: 'UserProfile', params: { userId: comments.User.id } }">
-                    <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto"/>
+                    <ProfileImage imageHeight="40" :imageUrl="comments.User.profilePhoto" :alt="`image de profil de ${comments.User.firstName}`"/>
                 </router-link>
                 
                 <b-col class="pr-0">
@@ -58,6 +58,7 @@
                                             max-rows="10"
                                             v-model="comments.description"
                                             class="modify-description"
+                                            title="modifier le commentaire"
                                         ></b-form-textarea>
                                         
                                     </b-form>

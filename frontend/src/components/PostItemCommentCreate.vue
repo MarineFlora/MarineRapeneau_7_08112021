@@ -1,7 +1,7 @@
 <template>
     <b-row class="pl-3 mt-3">
         <router-link :to="'/user-profile'">
-            <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" />
+            <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" alt="mon avatar" />
         </router-link>
 
         <b-form class="col " @submit.prevent="createComment">

@@ -13,7 +13,7 @@
             <!-- image de profil -->
             <b-form-group label="Image de profil">
                 <div class="d-flex align-items-center overflow-hidden profile-input-file">
-                    <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage"/>
+                    <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage" alt="mon avatar" />
                     <input 
                         type="file" 
                         id="edit-profile-input"
@@ -39,6 +39,7 @@
                             class="px-4 input pt-3"
                             autocomplete="given-name"
                             autofocus
+                            title="prénom"
                         ></b-form-input>
                     </div>
                 </b-form-group>
@@ -54,6 +55,7 @@
                             class="px-4 input pt-3"
                             autocomplete="family-name"
                             autofocus
+                            title="nom"
                         ></b-form-input>
                     </div>
                 </b-form-group>
@@ -70,6 +72,7 @@
                         class="px-4 input pt-3"
                         autocomplete="family-name"
                         autofocus
+                        title="profession"
                     ></b-form-input>
                 </div>
             </b-form-group>
@@ -85,6 +88,7 @@
                         class="px-4 input pt-3"
                         maxlength="250"
                         autofocus
+                        title="description utilisateur"
                     ></b-form-input>
                 </div>
             </b-form-group>

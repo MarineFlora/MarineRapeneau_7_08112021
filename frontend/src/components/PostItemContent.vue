@@ -8,7 +8,7 @@
                 <div class="d-flex align-items-center">
                     
                     <router-link :to="{ name: 'UserProfile', params: { userId: post.User.id } }">
-                        <ProfileImage imageHeight="60" :imageUrl="post.User.profilePhoto" /> 
+                        <ProfileImage imageHeight="60" :imageUrl="post.User.profilePhoto" :alt="`image de profil de ${post.User.firstName}`" /> 
                     </router-link>
                     <div class="px-3 d-flex align-items-end flex-wrap">
                         <router-link :to="{ name: 'UserProfile', params: { userId: post.User.id } }" style="color: inherit;">
@@ -35,6 +35,7 @@
                     variant="outline-primary" 
                     offset="-160rem"
                     v-b-tooltip.hover.v-primary.left="'paramètres'"
+                    id="list-params-post"
                 >
                     <!-- Option 1 : modifier le post -->
                     <b-dropdown-item 
@@ -58,6 +59,7 @@
                                 max-rows="10"
                                 v-model="post.description"
                                 class="modify-description"
+                                title="modifier le post"
                             ></b-form-textarea>
                             
                             <!-- ajout de médias -->
