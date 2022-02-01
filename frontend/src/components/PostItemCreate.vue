@@ -1,8 +1,8 @@
 <template>
     <b-row class="shadow p-3 ">
     
-        <router-link :to="'/user-profile'">
-            <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto"/>
+        <router-link :to="'/user-profile'" class="py-1">
+            <ProfileImage imageHeight="60" :imageUrl="userData.profilePhoto" alt="mon avatar" />
         </router-link>
         
         <b-form class="col overflow-hidden create-form py-1" @submit.prevent="createPost" enctype="multipart/form-data">
@@ -11,6 +11,7 @@
                 rows="2"
                 max-rows="30"
                 v-model="description"
+                title="ajouter une publication"
             ></b-form-textarea>
 
             <p class="text-danger">{{ errorMessage }}</p>
@@ -23,6 +24,7 @@
                 inputFile=".input-file" 
             />
             
+            <!-- emplacement du retour médias selectionnés -->
             <div class="preview-media text-secondary font-italic">
             </div>   
 

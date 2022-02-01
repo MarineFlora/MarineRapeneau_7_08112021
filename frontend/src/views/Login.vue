@@ -7,7 +7,7 @@
                 <b-form class="form-width my-5" @submit.prevent="login" novalidate>
                     <b-form-group>
                         <div class="input-div" id="email" >
-                            <h6 class="text-left">Email</h6>
+                            <label for="login-email" class="text-left">Email</label>
                             <b-form-input
                                 v-model="email"
                                 @focus="addClassFocus('#email')"
@@ -15,13 +15,14 @@
                                 type="email" 
                                 class="px-4 input pt-3"
                                 autocomplete="email"
+                                id="login-email"
                             ></b-form-input>
                         </div>
                     </b-form-group>
 
                     <b-form-group>
                     <div class="input-div" id="password">
-                        <h6 class="text-left">Mot de passe</h6>
+                        <label for="login-password" class="text-left">Mot de passe</label>
                         <b-form-input  
                             v-model="password"
                             @focus="addClassFocus('#password')"
@@ -29,6 +30,7 @@
                             type="password"
                             class="px-4 input pt-3"
                             autocomplete="current-password"
+                            id="login-password"
                         ></b-form-input>
                         
                      </div>    

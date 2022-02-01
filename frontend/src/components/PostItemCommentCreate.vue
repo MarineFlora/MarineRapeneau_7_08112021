@@ -1,8 +1,9 @@
 <template>
     <b-row class="pl-3 mt-3">
         <router-link :to="'/user-profile'">
-            <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" />
+            <ProfileImage imageHeight="50" :imageUrl="userData.profilePhoto" alt="mon avatar" />
         </router-link>
+
         <b-form class="col " @submit.prevent="createComment">
             <b-form-textarea       
                 :class="'comment-form-' + post.id"                     
@@ -10,6 +11,7 @@
                 rows="1"
                 max-rows="10"
                 v-model="commentDescription"
+                title="ajouter un commentaire"
             ></b-form-textarea>
 
             <p class="text-danger">{{ errorMessage }}</p>
@@ -18,7 +20,7 @@
                 <BaseButton button-title="Répondre" class="btn-sm btn-pages"/> 
             </div>
         </b-form>
-</b-row>
+    </b-row>
 </template>
 
 <script>
@@ -55,7 +57,6 @@ export default {
                 apiFetch
                     .post(`/posts/${this.post.id}/comment`, body)
                     .then(res => {
-                        console.log("res création comment:", res)
                         this.commentDescription = "";
                         this.loadPostComments();
                     })

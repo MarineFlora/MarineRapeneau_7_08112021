@@ -39,17 +39,34 @@ h1, h2, p {
     position: relative;
 }
 
-.input-div.focus > h6 {
+.input-div.focus > label {
     top: 0.75rem;
     font-size: 13px;
 }
 
-.input-div > h6 {
+.input-div > label {
     position: absolute;
     left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
     color: #6e6e6e;
     transition: .2s;
+}
+
+// classes utilisées sur toutes les pages sauf connexion
+.btn-pages {
+    font-size: 1.17rem !important;
+    max-width: 110px !important;
+}
+
+.modal-footer button {
+    border-radius: 50rem;
+    font-size: 1.17rem;
+    font-weight: bold;
+    padding: 0.3rem 1rem;
+}
+
+.maxwidth-page {
+    max-width: 720px !important;
 }
 </style>

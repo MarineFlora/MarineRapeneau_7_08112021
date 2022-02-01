@@ -8,7 +8,7 @@
 
                     <b-form-group>
                         <div class="input-div" id="firstName">
-                            <h6 class="text-left">Prénom</h6>
+                            <label for="signup-firstname" class="text-left">Prénom</label>
                             <b-form-input
                                 v-model="$v.signupForm.firstName.$model" 
                                 :state="validateStateSignUp('firstName')"
@@ -17,13 +17,14 @@
                                 type="text" 
                                 class="px-4 input pt-3"
                                 autocomplete="given-name"
+                                id="signup-firstname"
                             ></b-form-input>
                         </div>
                     </b-form-group>    
 
                     <b-form-group>
                         <div class="input-div" id="lastName">
-                            <h6 class="text-left">Nom</h6>
+                            <label for="signup-name" class="text-left">Nom</label>
                             <b-form-input
                                 v-model="$v.signupForm.lastName.$model" 
                                 :state="validateStateSignUp('lastName')"
@@ -32,13 +33,14 @@
                                 type="text" 
                                 class="px-4 input pt-3"
                                 autocomplete="family-name"
+                                id="signup-name"
                             ></b-form-input>
                         </div>
                     </b-form-group>
 
                     <b-form-group>
                         <div class="input-div" id="email">
-                            <h6 class="text-left">Email</h6>
+                            <label for="signup-email" class="text-left">Email</label>
                             <b-form-input
                                 v-model="$v.signupForm.email.$model" 
                                 :state="validateStateSignUp('email')"
@@ -47,13 +49,14 @@
                                 type="email" 
                                 class="px-4 input pt-3"
                                 autocomplete="email"
+                                id="signup-email"
                             ></b-form-input>
                         </div>
                     </b-form-group>
                          
                     <b-form-group>
                         <div class="input-div" id="password">
-                            <h6 class="text-left">Mot de passe</h6>
+                            <label for="singup-password" class="text-left">Mot de passe</label>
                             <b-form-input  
                                 v-model="$v.signupForm.password.$model" 
                                 :state="validateStateSignUp('password')" 
@@ -62,6 +65,7 @@
                                 type="password"
                                 class="px-4 input pt-3"
                                 autocomplete="new-password"
+                                id="singup-password"
                             ></b-form-input>
                             <b-form-invalid-feedback v-if="!$v.signupForm.password.passwordValid" class="text-left">Votre mot de passe doit avoir au moins : 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial</b-form-invalid-feedback>                        
                         </div>    

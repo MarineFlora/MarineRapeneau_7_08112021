@@ -8,10 +8,12 @@
         @ok="editProfile"
         @cancel="getUserData"
     >
+        <!-- FORMULAIRE EDITER LE PROFIL -->
         <b-form class="px-2">
-            <b-form-group label="Image de profil">
+            <!-- image de profil -->
+            <b-form-group>
                 <div class="d-flex align-items-center overflow-hidden profile-input-file">
-                    <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage"/>
+                    <ProfileImage imageHeight="70" :imageUrl="profilePhoto" class="profileImage" alt="mon avatar" />
                     <input 
                         type="file" 
                         id="edit-profile-input"
@@ -20,14 +22,15 @@
                         autocomplete="photo"
                         @change="updateProfilePreview()"
                     >  
-                    <label for="edit-profile-input" class="px-1 mb-0 mx-3 text-primary text-nowrap" role="button">changer l'image</label>
+                    <label for="edit-profile-input" class="px-1 mb-0 mx-3 text-primary text-nowrap" role="button">changer l'image de profil</label>
                 </div>
             </b-form-group>
 
             <div class="d-flex justify-content-between">
+                <!-- prénom -->
                 <b-form-group>
                     <div class="input-div mr-2" id="edit-firstName" >
-                        <h6 class="text-left">Prénom</h6>
+                        <label for="firstName-input" class="text-left">Prénom</label>
                         <b-form-input
                             v-model="form.firstName"
                             @focus="addClassFocus('#edit-firstName')"
@@ -36,13 +39,14 @@
                             class="px-4 input pt-3"
                             autocomplete="given-name"
                             autofocus
+                            id="firstName-input"
                         ></b-form-input>
                     </div>
                 </b-form-group>
-
+                <!-- nom -->
                 <b-form-group>
                     <div class="input-div" id="edit-lastName" >
-                        <h6 class="text-left">Nom</h6>
+                        <label for="name-input" class="text-left">Nom</label>
                         <b-form-input
                             v-model="form.lastName"
                             @focus="addClassFocus('#edit-lastName')"
@@ -51,14 +55,15 @@
                             class="px-4 input pt-3"
                             autocomplete="family-name"
                             autofocus
+                            id="name-input"
                         ></b-form-input>
                     </div>
                 </b-form-group>
             </div>
-
+            <!-- profession -->
             <b-form-group>
                 <div class="input-div" id="edit-profession" >
-                    <h6 class="text-left">Profession</h6>
+                    <label for="profession-input" class="text-left">Profession</label>
                     <b-form-input
                         v-model="form.profession"
                         @focus="addClassFocus('#edit-profession')"
@@ -67,13 +72,14 @@
                         class="px-4 input pt-3"
                         autocomplete="family-name"
                         autofocus
+                        id="profession-input"
                     ></b-form-input>
                 </div>
             </b-form-group>
-           
+            <!-- description profil -->
             <b-form-group>
                 <div class="input-div" id="edit-description" >
-                    <h6 class="text-left">Décrivez-vous en quelques mots</h6>
+                    <label for="description-input" class="text-left">Décrivez-vous en quelques mots</label>
                     <b-form-input
                         v-model="form.userDescription"
                         @focus="addClassFocus('#edit-description')"
@@ -82,6 +88,7 @@
                         class="px-4 input pt-3"
                         maxlength="250"
                         autofocus
+                        id="description-input"
                     ></b-form-input>
                 </div>
             </b-form-group>
@@ -89,7 +96,6 @@
         </b-form>
    
     </b-modal>    
-
 </template> 
 
 <script> 
@@ -147,18 +153,17 @@ export default {
             apiFetch
                 .put(`/auth/user-profile/${this.user.id}`, body, { isFormData })
                 .then(res => {
-                    console.log("fetch res:", res)
                     if(!res.error) {
                         localStorage.setItem('userData', JSON.stringify(res.user));
                     }
-                    // mise à jour des données affiachées sur la page
+                    // mise à jour des données affichées sur la page
                     eventBus.$emit('forceRerenderCommentCreate');
                     eventBus.$emit('loadUserProfile');
                     eventBus.$emit('loadPosts');
                     eventBus.$emit('loadPostComments');
                 })
                 .catch(error => {
-                    console.log("error:", error);
+                    console.log(error);
                 });  
         },
         getUserData() {

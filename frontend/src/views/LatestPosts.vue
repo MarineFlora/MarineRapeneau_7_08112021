@@ -22,27 +22,18 @@ import BaseButton from '../components/BaseButton.vue';
 import PostItemCreate from '../components/PostItemCreate.vue';
 import PostList from '../components/PostList.vue';
 
+
 export default {
     name: 'LatestPosts',
     components: {
         TheHeader,
         BaseButton,
         PostItemCreate,
-        PostList
+        PostList,
     }
 }
 </script>
 
 <style lang="scss">
-
-// classes utilisées sur toutes les pages sauf connexion
-.btn-pages {
-    font-size: 1.15rem !important;
-    max-width: 110px !important;
-}
-
-.maxwidth-page {
-    max-width: 720px !important;
-}
 
 </style>

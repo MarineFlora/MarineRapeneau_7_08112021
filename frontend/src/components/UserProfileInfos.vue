@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- retour accueil et titre page -->
+        <!-- RETOUR ACCUEIL ET TITRE PAGE -->
         <div class="d-flex align-items-center">
             <router-link to="/" class="text-dark arrow-link p-1">
                 <b-icon icon="arrow-left" font-scale="1.75" title="retour accueil"></b-icon>
@@ -8,18 +8,24 @@
             <h1 class="my-4 mx-2 font-weight-bold">{{ userPageTitle }} {{ user.firstName }} {{ user.lastName }}</h1>
         </div>
 
-        <!-- informations publiques du profil -->
-        <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
-        <div class="font-weight-bold pt-2">
-            <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
-            <p>{{ user.profession }}</p>
+        <!-- INFORMATIONS PUBLIQUES DU PROFIL -->
+        <div v-if="user.firstName">
+            <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" :alt="`avatar ${user.firstName}`" />
+            <div class="font-weight-bold pt-2">
+                <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
+                <p>{{ user.profession }}</p>
+            </div>
+            <p class="py-3">{{ user.userDescription }}</p>
         </div>
-        <p class="py-3">{{ user.userDescription }}</p>
+        <div v-else>
+            <LoadSpinner />
+        </div>
     </div>
 </template>
 
 <script> 
 import ProfileImage from '../components/ProfileImage.vue';
+import LoadSpinner from '../components/LoadSpinner.vue';
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import { eventBus } from "../main.js";
@@ -27,7 +33,8 @@ import { eventBus } from "../main.js";
     export default {
         name: 'UserProfileInfos',
         components: {
-            ProfileImage
+            ProfileImage,
+            LoadSpinner
         },
         data() {
             return {
