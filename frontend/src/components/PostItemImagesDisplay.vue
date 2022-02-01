@@ -2,7 +2,7 @@
     <div>
         <!-- DISPOSITION DES IMAGES DANS LES POSTS SI PLUS D'1 IMAGE -->
         <b-row align-h="center" class="mb-3" v-if="imageUrl.length > 1" >
-            <b-col cols="6" class="p-1 d-flex justify-content-center image-col" v-for="value in imageUrl" :key="value">
+            <b-col cols="6" class="p-1 d-flex justify-content-center image-col img-div" v-for="value in imageUrl" :key="value" >
                 <b-img 
                     :src="value" 
                     alt="" 
@@ -68,9 +68,15 @@ export default {
 </script>
 
 <style lang="scss">
+.img-div {
+    height: 250px;
+}
+
 .post-image {
+    height: auto;
+    width: 100%;
+    object-fit: cover;
     max-height: 20rem;
-    object-fit: contain;
 }
 
 .modal-img {
@@ -80,8 +86,13 @@ export default {
 }
 
 @media (max-width: 576px) {
+    .img-div {
+        height: 150px;
+    }
     .post-image {
         max-height: 15rem;
-    }
 }
+
+}
+
 </style>
