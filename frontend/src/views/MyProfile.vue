@@ -197,7 +197,6 @@ export default {
                 newPassword: "",
                 newPasswordConfirm: ""
             },
-            posts: [],
             showDismissibleAlert: false
         }
     },

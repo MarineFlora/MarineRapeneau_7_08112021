@@ -9,17 +9,23 @@
         </div>
 
         <!-- INFORMATIONS PUBLIQUES DU PROFIL -->
-        <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
-        <div class="font-weight-bold pt-2">
-            <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
-            <p>{{ user.profession }}</p>
+        <div v-if="user.firstName">
+            <ProfileImage imageHeight="120" :imageUrl="user.profilePhoto" />
+            <div class="font-weight-bold pt-2">
+                <p class="user-name">{{ user.firstName }} {{ user.lastName }}</p>
+                <p>{{ user.profession }}</p>
+            </div>
+            <p class="py-3">{{ user.userDescription }}</p>
         </div>
-        <p class="py-3">{{ user.userDescription }}</p>
+        <div v-else>
+            <LoadSpinner />
+        </div>
     </div>
 </template>
 
 <script> 
 import ProfileImage from '../components/ProfileImage.vue';
+import LoadSpinner from '../components/LoadSpinner.vue';
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
 import { eventBus } from "../main.js";
@@ -27,7 +33,8 @@ import { eventBus } from "../main.js";
     export default {
         name: 'UserProfileInfos',
         components: {
-            ProfileImage
+            ProfileImage,
+            LoadSpinner
         },
         data() {
             return {

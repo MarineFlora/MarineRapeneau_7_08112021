@@ -22,13 +22,14 @@ import BaseButton from '../components/BaseButton.vue';
 import PostItemCreate from '../components/PostItemCreate.vue';
 import PostList from '../components/PostList.vue';
 
+
 export default {
     name: 'LatestPosts',
     components: {
         TheHeader,
         BaseButton,
         PostItemCreate,
-        PostList
+        PostList,
     }
 }
 </script>
