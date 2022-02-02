@@ -49,7 +49,7 @@
                         title="Modifier la publication" 
                         ok-title="modifier"
                         cancel-title="annuler"
-                        @ok="modifyPost(`${post.id}`)"
+                        @ok="modifyPost(`${post.id}`, $event)"
                         centered
                     >
                         <b-form class="col p-2 overflow-hidden" >
@@ -76,7 +76,8 @@
                                 <div v-for="value in imageUrl" :key="value">
                                     <b-img :src="value" alt="" class="post-images"></b-img>
                                 </div>
-                            </div>  
+                            </div> 
+                            <p class="text-danger" v-if="errorMessage">{{ errorMessage }} </p> 
                         </b-form>
                     </b-modal>
 
@@ -155,6 +156,7 @@ export default {
             dayjs: dayjs,
             imageUrl: JSON.parse(this.post.imageUrl),
             userData: JSON.parse(localStorage.getItem("userData")),
+            errorMessage: ""
         }
     },
     mixins: [functionsMixin],  
@@ -169,7 +171,7 @@ export default {
                     console.log(error)
                 }); 
         },
-        modifyPost(id) { 
+        modifyPost(id, event) { 
             const description = document.querySelector(".modify-description").value
             const userId = this.userData.id;
             const previewMedia = document.querySelector('.preview-media-modify');
@@ -179,8 +181,10 @@ export default {
 
             if (description === '' && !previewMedia.firstChild) {
                 this.loadPosts();
-                alert("vous ne pouvez pas envoyer un post vide")
+                event.preventDefault();
+                this.errorMessage="vous ne pouvez pas envoyer un post vide";
             } else { 
+                this.errorMessage='';
                 const isFormData = images.length > 0; 
                 let body = { 
                     "userId": Number(userId),

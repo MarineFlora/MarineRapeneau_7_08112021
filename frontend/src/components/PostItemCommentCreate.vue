@@ -48,9 +48,12 @@ export default {
     methods: {
         createComment() {
             const commentDescription = this.commentDescription;
+            const userId = this.userData.id;
+            
             if (commentDescription !== '') {
                 this.errorMessage = '';
                 let body = { 
+                    "userId": Number(userId),
                     "description": commentDescription
                 }
 

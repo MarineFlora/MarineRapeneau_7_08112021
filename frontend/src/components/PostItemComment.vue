@@ -49,7 +49,7 @@
                                     title="Modifier le commentaire" 
                                     ok-title="modifier"
                                     cancel-title="annuler"
-                                    @ok="modifyComment(`${comments.id}`)"
+                                    @ok="modifyComment(`${comments.id}`, $event)"
                                     centered
                                 >
                                     <b-form class="col p-2 overflow-hidden" >
@@ -61,7 +61,7 @@
                                             class="modify-description"
                                             title="modifier le commentaire"
                                         ></b-form-textarea>
-                                        
+                                        <p class="text-danger" v-if="errorMessage">{{ errorMessage }} </p>
                                     </b-form>
                                 </b-modal>
 
@@ -143,6 +143,7 @@ export default {
             dayjs: dayjs,
             userData: JSON.parse(localStorage.getItem("userData")),
             commentCreateKey: 0,
+            errorMessage: ""
         }
     },
     mixins: [functionsMixin],   
@@ -176,22 +177,15 @@ export default {
                 .then(() => { this.removeOtherCommentsLink(); })
                 .catch(error => { console.log(error) }); 
         },
-        deleteComment(id) {
-            apiFetch
-                .delete(`/posts/${this.post.id}/comment/` + id)
-                .then(res => {
-                    this.loadPostComments();
-                })
-                .catch(error => {
-                    console.log(error)
-                }); 
-        },
-        modifyComment(id) { 
+        modifyComment(id, event) { 
             const description = document.querySelector(".modify-description").value
 
             if (description === '') {
-                alert("vous ne pouvez pas envoyer un commentaire vide")
+                this.loadPostComments();
+                event.preventDefault()
+                this.errorMessage="vous ne pouvez pas envoyer un commentaire vide"
             } else {  
+                this.errorMessage='';
                 let body = { 
                     "description": description
                 }
@@ -205,6 +199,16 @@ export default {
                         console.log(error);
                     });  
             }
+        },
+        deleteComment(id) {
+            apiFetch
+                .delete(`/posts/${this.post.id}/comment/` + id)
+                .then(res => {
+                    this.loadPostComments();
+                })
+                .catch(error => {
+                    console.log(error)
+                }); 
         },
         targetForm() {
             document.querySelector(`.comment-form-${this.post.id}`).focus();
