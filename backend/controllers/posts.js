@@ -11,35 +11,36 @@ const fs = require('fs');
 
 /* ---------- création d'une publication ---------- */
 exports.createPost = async (req, res, next) => {
-    let postObject = req.body;
-    postObject.imageUrl = "[]";
-    
-    if (req.files) {
-        postObject = JSON.parse(req.body.post);
-        let imageUrlList = [];
-        for (let i = 0; i < req.files.length; i++) {
-            let fileUrl;
-            fileUrl =`${req.protocol}://${req.get('host')}/images/${req.files[i].filename}`;
-            imageUrlList.push(fileUrl);
-        }
-        postObject.imageUrl = JSON.stringify(imageUrlList)
-    } 
-    
-    // vérifier autorisation avant enregistrement dans la DB
-    // si post as JSON (pas d'image), description obligatoire
-    if (req.body.description !== "" && postObject.userId === req.token.userId) { 
-        try {
+    try {
+        let postObject = req.body;
+        postObject.imageUrl = "[]";
+        
+        if (req.files && req.files.length != 0) {
+            postObject = JSON.parse(req.body.post);
+            let imageUrlList = [];
+            for (let i = 0; i < req.files.length; i++) {
+                let fileUrl;
+                fileUrl =`${req.protocol}://${req.get('host')}/images/${req.files[i].filename}`;
+                imageUrlList.push(fileUrl);
+            }
+            postObject.imageUrl = JSON.stringify(imageUrlList)
+        } 
+        
+        // vérifier autorisation avant enregistrement dans la DB
+        // si post as JSON (pas d'image), description obligatoire
+        if (req.body.description !== "" && postObject.userId === req.token.userId) { 
             let post = await Post.create({ ...postObject });
             // renvoi en réponse détails du Post et de son User
             post = await Post.findOne({ where: { id: post.id }, include: db.User });
             res.status(201).json({ message: 'Publication enregistrée !', post });
-        } catch (error) {
-            console.log(error);
-            res.status(400).json({ error });
+        } 
+
+        else {
+            throw "création de post non autorisée";
         }
-    }
-    else {
-        res.status(401).json({ error: "création de post non autorisée" });
+
+    } catch (error) {
+        res.status(400).json({ error });
     }
 };
 
@@ -68,10 +69,13 @@ exports.modifyPost = (req, res, next) => {
                 postObject.imageUrl = JSON.stringify(imageUrlList);
             } else {
                 postObject.imageUrl = post.imageUrl;
+                if (!req.body.description && postObject.imageUrl === "[]") {
+                    throw 'vous ne pouvez pas envoyer un post vide'
+                } 
             }
-    
+            
             // vérifier autorisation avant maj DB
-            if (req.token.userId === postObject.userId) {
+            if (post.userId === req.token.userId) {
                 Post.update({ ...postObject }, { where: { id: req.params.id } })
                     .then(() => res.status(200).json({ message: 'Publication modifiée !'}))
                     .catch(error => res.status(400).json({ error }));  

@@ -11,10 +11,14 @@ const { Comment, Post } = db.sequelize.models;
 exports.createComment = async (req, res, next) => {
     try {
         const post = await Post.findOne({ where: { id: req.params.postId } });
-        console.log("req.body", req.body)
-        await Comment.create({ ...req.body, postId: req.params.postId, userId: req.token.userId } ) 
-        await post.update({ commentsCount: post.commentsCount +1 }, { where: { id: req.params.postId } })
-        res.status(201).json({ message: 'Commentaire ajouté!'})
+        if (req.body.description !== "" && req.body.userId === req.token.userId) {
+            await Comment.create({ ...req.body, postId: req.params.postId, userId: req.token.userId } ) 
+            await post.update({ commentsCount: post.commentsCount +1 }, { where: { id: req.params.postId } })
+            res.status(201).json({ message: 'Commentaire ajouté!'})
+        } 
+        else {
+            throw "création de commentaire non autorisée";
+        }
     } catch (error) {
         res.status(400).json({ error });
     }          
@@ -24,7 +28,7 @@ exports.createComment = async (req, res, next) => {
 exports.modifyComment = async (req, res, next) => {
     try {
         const comment = await Comment.findOne({ where: { id: req.params.commentId } })
-        if (req.token.userId === comment.userId) {
+        if (req.body.description !== "" && req.token.userId === comment.userId) {
             await comment.update(req.body, { where: { id: req.params.commentId } })
             res.status(200).json({ message: 'Commentaire modifié !'})  
         } else {
