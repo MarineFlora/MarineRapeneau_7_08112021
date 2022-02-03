@@ -18,33 +18,35 @@ https://openclassrooms.com/fr/courses/6971126-implementez-vos-bases-de-donnees-r
 
 Dans votre terminal suivez ces étapes :
 - Exécutez la commande : `cd backend`
-- Installer les dépendances : `npm install` 
 - Créez un dossier images : `mkdir images`
+- Installer les dépendances : `npm install` 
 
 - Créez un fichier `.env` et y renseigner les variables d'environnement suivantes pour faire fonctionner l'application :
-Selon la configuration de votre base de donnée :
-    - DB_USERNAME=root ou nom d'utilisateur
-    - DB_PASSWORD=mot de passe MySQL
-    - DATABASE_DEV=groupomania
-    - DB_HOST=127.0.0.1
+```
+#Selon la configuration de votre base de donnée :
+DB_USERNAME=root ou nom d'utilisateur
+DB_PASSWORD=mot de passe MySQL
+DATABASE_DEV=groupomania
+DB_HOST=127.0.0.1
 
-Pour encoder des tokens de connexion sécurisés, renseignez une chaine de caratère complexe à la place de RANDOM_TOKEN_SECRET :
-    - JWT_KEY=RANDOM_TOKEN_SECRET 
-
+#Pour encoder des tokens de connexion sécurisés :
+#renseignez une chaine de caratères complexe à la place de RANDOM_TOKEN_SECRET
+JWT_KEY=RANDOM_TOKEN_SECRET 
+```
 L'installation du back-end est terminée !
-- Pour lancer le serveur back-end local : `node server` 
-- Pour stopper le serveur local : `Ctlr+C`
+- Pour lancer le serveur back-end : `node server` 
+- Pour le stopper : `Ctrl+C`
 
 ### 3. Installer le front-end
 Dans votre terminal :
 - Exécutez la commande : `cd frontend`
 - Puis pour installer les dépendances : `npm install`  
-- Pour lancer le serveur front-end local : `npm run serve` 
-- Pour stopper le serveur local : `Ctlr+C`
+- Pour lancer le serveur front-end : `npm run serve` 
+- Pour le stopper : `Ctrl+C`
 
 ## Technologies & frameworks utilisés
 - Javascript
 - Node.js
 - Vue.js
 - BootstrapVue
-- base de donnée SQL : MySQL
+- MySQL
