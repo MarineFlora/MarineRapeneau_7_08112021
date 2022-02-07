@@ -117,7 +117,6 @@
 import ProfileImage from '../components/ProfileImage.vue';
 import PostItemCommentLike from '../components/PostItemCommentLike.vue';
 import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
-import PostItemLike from './PostItemLike.vue';
 import { apiFetch } from '../utils/ApiFetch';
 import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -132,7 +131,6 @@ export default {
         ProfileImage,
         PostItemCommentLike,
         PostItemCommentCreate,
-        PostItemLike
     },
     props: {
         post: { type: Object, default: ['post'] }, 
