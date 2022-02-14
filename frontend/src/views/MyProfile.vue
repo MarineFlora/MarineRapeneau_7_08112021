@@ -31,6 +31,7 @@
                         id="modal-change-password" 
                         title="Changer de mot de passe" 
                         ok-title="Enregistrer"
+                        cancel-title="annuler"
                         centered
                         @ok.prevent="changePassword()"
                     >
@@ -113,13 +114,9 @@
                         centered
                     >
                         <p class="mb-5">Le profil sera supprimé définitivement. </p>
-                        <div class="d-flex justify-content-end">
-                            <b-button 
-                                v-b-modal.modal-user-remove-2 
-                                variant="primary"
-                            >oui, je supprime mon compte</b-button>
-                        </div>
+                        <BaseButton button-title="oui, je supprime mon compte" v-b-modal.modal-user-remove-2 />
                     </b-modal>
+
                     <!-- 2ème confirmation et suppression -->
                     <b-modal 
                         id="modal-user-remove-2" 
@@ -128,15 +125,10 @@
                         centered
                     >
                         <p class="mb-5">Il est encore temps de faire marche arrière... <br>
-                        Pour supprimer définitivement votre compte, cliquez sur "supprimer".</p> 
-                        <div class="d-flex justify-content-end">
-                            <b-button 
-                                v-b-modal.modal-user-remove-3 
-                                variant="primary" 
-                                @click="deleteProfile()"
-                            >supprimer</b-button>
-                        </div>   
+                        Pour supprimer définitivement votre compte, cliquez sur "supprimer".</p>
+                        <BaseButton button-title="supprimer" v-b-modal.modal-user-remove-3  @click.native="deleteProfile()" /> 
                     </b-modal>
+                    
                     <!-- message à bientot et redirection -->
                     <b-modal 
                         id="modal-user-remove-3" 

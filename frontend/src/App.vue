@@ -59,7 +59,7 @@ h1, h2, p {
     max-width: 110px !important;
 }
 
-.modal-footer button {
+.modal-footer button, .modal-body button {
     border-radius: 50rem;
     font-size: 1.17rem;
     font-weight: bold;
