@@ -28,7 +28,7 @@
                             <b-dropdown 
                                 size="sm" 
                                 variant="tertairy" 
-                                offset="-160rem" 
+                                right 
                                 no-caret v-b-tooltip.hover.v-secondary.left="'paramètres'"
                                 class="comment-dropdown"
                                 :id="'list-params-comment' + comments.id"
