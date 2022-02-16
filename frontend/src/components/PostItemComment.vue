@@ -146,14 +146,11 @@ export default {
     },
     mixins: [functionsMixin],   
     created() {
-        apiFetch
-            .get(`/posts/${this.post.id}/comments/?limit=2`)
-            .then(data => {
-                this.commentsList = data.comments.rows;
-                this.post.commentsCount = data.comments.count ;
-            })
-            .catch(error => {console.log(error)}); 
-
+        this.loadTwoPostComments();
+        
+        eventBus.$on('loadTwoPostComments', () => {
+            this.loadTwoPostComments();
+        });
         eventBus.$on('loadPostComments', () => {
             this.loadPostComments();
         }); 
@@ -164,6 +161,15 @@ export default {
     methods: {
         forceRerender() {
             this.commentCreateKey += 1;
+        },
+        loadTwoPostComments() {
+            apiFetch
+            .get(`/posts/${this.post.id}/comments/?limit=2`)
+            .then(data => {
+                this.commentsList = data.comments.rows;
+                this.post.commentsCount = data.comments.count ;
+            })
+            .catch(error => {console.log(error)}); 
         },
         loadPostComments() {
             apiFetch

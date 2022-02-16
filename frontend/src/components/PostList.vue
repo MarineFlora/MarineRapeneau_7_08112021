@@ -58,6 +58,7 @@ export default {
         eventBus.$on('loadPosts', () => {
             this.loadPosts();
         });   
+        eventBus.$emit('loadPostTwoComments');
     },
     methods: {
         loadPosts() {
