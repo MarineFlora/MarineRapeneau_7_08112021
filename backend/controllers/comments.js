@@ -4,16 +4,14 @@
 const db = require('../models/index');
 
 // Importation modèle Post
-const { Comment, Post } = db.sequelize.models;
+const { Comment } = db.sequelize.models;
 
 
 /* ---------- création d'un commentaire ---------- */ 
 exports.createComment = async (req, res, next) => {
     try {
-        const post = await Post.findOne({ where: { id: req.params.postId } });
         if (req.body.description !== "" && req.body.userId === req.token.userId) {
             await Comment.create({ ...req.body, postId: req.params.postId, userId: req.token.userId } ) 
-            await post.update({ commentsCount: post.commentsCount +1 }, { where: { id: req.params.postId } })
             res.status(201).json({ message: 'Commentaire ajouté!'})
         } 
         else {
@@ -43,10 +41,8 @@ exports.modifyComment = async (req, res, next) => {
 exports.deleteComment = async (req, res, next) => {
     try {
         const comment = await Comment.findOne({ where: { id: req.params.commentId } })
-        const post = await Post.findOne({ where: { id: req.params.postId } });
 
         if (comment.userId === req.token.userId || req.token.isAdmin) {
-            await post.update({ commentsCount: post.commentsCount -1 }, { where: { id: req.params.postId } })
             await comment.destroy({ where: { id: req.params.commentId } })
             res.status(200).json({ message: 'Commentaire supprimé !'})
         } else {

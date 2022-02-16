@@ -4,26 +4,22 @@
 const db = require('../models/index');
 
 // Importation modèle User
-const { Post, LikePost, LikeComment, Comment } = db.sequelize.models;
+const { LikePost, LikeComment, Comment } = db.sequelize.models;
 
 
 /* ---------- LIKE PUBLICATION ---------- */
 /* ---------- ajout/suppression d'un like à une publication ---------- */
 exports.likeOnePost = async (req, res, next) => {
     try {
-        const post = await Post.findOne({ where: { id: req.params.postId } });
-
         let existingLike = await LikePost.findOne({ where: { userId: req.token.userId, postId: req.params.postId } });
-        // si user a déjà liké, supprimer le like et enlever -1 au total de likes du post
+        // si user a déjà liké, supprimer le like
         if (existingLike) {
             await existingLike.destroy();
-            await Post.update({ likesCount: post.likesCount -1 }, { where: { id: req.params.postId } });
             res.status(200).json({ message: 'vous avez déjà liké ce post, like supprimé!'});
         } 
-        // sinon, ajouter le like et ajouter +1 au total de likes du post
+        // sinon, ajouter le like
         else {
             await LikePost.create({ userId: req.token.userId, postId: req.params.postId });
-            await Post.update({ likesCount: post.likesCount +1 }, { where: { id: req.params.postId } }); 
             res.status(201).json({ message: 'Like ajouté!'});
         }
     } catch (error) {
@@ -56,16 +52,14 @@ exports.likeOneComment = async (req, res, next) => {
         }
 
         let existingLike = await LikeComment.findOne({ where: { userId: req.token.userId, postId: req.params.postId, commentId: req.params.commentId } });
-        // si user a déjà liké, supprimer le like et enlever -1 au total de likes du commentaire
+        // si user a déjà liké, supprimer le like 
         if (existingLike) {
             await existingLike.destroy();
-            await comment.update({ likesCount: comment.likesCount -1 }, { where: { id: req.params.commentId } });
             res.status(200).json({ message: 'vous avez déjà liké ce commentaire, like supprimé!'});
         } 
-        // sinon, ajouter le like et ajouter +1 au total de likes du commentaire
+        // sinon, ajouter le like
         else {
             await LikeComment.create({ userId: req.token.userId, postId: req.params.postId, commentId: req.params.commentId  });
-            await comment.update({ likesCount: comment.likesCount +1 }, { where: { id: req.params.commentId } }); 
             res.status(201).json({ message: 'Like ajouté!'});
         }
     } catch (error) {
