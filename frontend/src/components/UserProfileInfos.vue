@@ -2,8 +2,8 @@
     <div>
         <!-- RETOUR ACCUEIL ET TITRE PAGE -->
         <div class="d-flex align-items-center">
-            <router-link to="/" class="text-dark arrow-link p-1">
-                <b-icon icon="arrow-left" font-scale="1.75" title="retour accueil"></b-icon>
+            <router-link to="/" class="text-dark arrow-link p-1" v-b-tooltip.bottom.hover.v-primary="'retour accueil'">
+                <b-icon icon="arrow-left" font-scale="1.75"></b-icon>
             </router-link>
             <h1 class="my-4 mx-2 font-weight-bold">{{ userPageTitle }} {{ user.firstName }} {{ user.lastName }}</h1>
         </div>
