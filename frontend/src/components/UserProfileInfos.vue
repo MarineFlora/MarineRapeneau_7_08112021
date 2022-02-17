@@ -47,7 +47,7 @@ import { eventBus } from "../main.js";
         },
         created() {
             this.loadUserProfile();
-            eventBus.$on('loadUserProfile', () => {
+            eventBus.$on('load-user-profile', () => {
                 this.loadUserProfile();
             }); 
         },
@@ -58,7 +58,7 @@ import { eventBus } from "../main.js";
                     .then(data => { 
                         this.user = data.user;
                         // envoi des données à MyProfile qui renvoi en props à MyProfileEdit
-                        this.$emit('userInfos', this.user) 
+                        this.$emit('user-infos', this.user) 
                     })
                     .catch(error => console.log(error)); 
             }, 

@@ -4,7 +4,7 @@
         <main>
             <b-container class="maxwidth-page">
                 <!-- RETOUR DES INFORMATIONS DU PROFIL CONNECTE -->
-                <UserProfileInfos userPageTitle="Mon Profil :" :userId="this.userData.id"  @userInfos="updateUserInfos" />
+                <UserProfileInfos userPageTitle="Mon Profil :" :userId="this.userData.id"  @user-infos="updateUserInfos" />
 
                 <!-- EDITION DU PROFILPUBLIQUE -->
                 <div class="d-flex flex-column align-items-center">
@@ -157,18 +157,14 @@ import ProfileImage from '../components/ProfileImage.vue';
 import BaseButton from '../components/BaseButton.vue';
 import MyProfileEdit from '../components/MyProfileEdit.vue';
 import UserProfileInfos from '../components/UserProfileInfos.vue';
-
 import PostList from '../components/PostList.vue';
 
 import { apiFetch } from '../utils/ApiFetch';
 import router from '../router/index';
-
 import inputAnimationMixin from '../mixins/inputAnimationMixin.js'
 import inputsValidationMixin from '../mixins/inputsValidationMixin.js'
 import functionsMixin from '../mixins/functionsMixin.js'
 import { validationMixin } from "vuelidate";
-
-import { eventBus } from "../main.js";
 
 export default {
     name: 'MyProfile',
@@ -193,10 +189,6 @@ export default {
             },
             showDismissibleAlert: false
         }
-    },
-    mounted() {
-        eventBus.$emit('loadUserProfile');
-        eventBus.$emit('loadPosts');
     },
     methods: {
         updateUserInfos(payload) {

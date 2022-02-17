@@ -6,11 +6,8 @@
                 <!-- CONTENU POST -->
                 <PostItemContent :post="post" :loadPosts="loadPosts"/>
 
-                <!-- COMMENTAIRES ET LIKES INFO -->
-                <PostItemStats :post="post" />
-
-                <!-- COMMENTAIRES DU POST -->
-                <PostItemComment :post="post" />
+                <!-- STATISTIQUES & COMMENTAIRES DU POST -->
+                <PostItemComment :post="post"  />
                 
             </b-card>
         </div>
@@ -28,7 +25,7 @@
 <script>
 import PostItemContent from '../components/PostItemContent.vue';
 import PostItemComment from '../components/PostItemComment.vue';
-import PostItemStats from './PostItemStats.vue';
+
 import LoadSpinner from '../components/LoadSpinner.vue';
 
 import router from '../router/index';
@@ -40,7 +37,6 @@ export default {
     components: {
         PostItemContent,
         PostItemComment, 
-        PostItemStats,
         LoadSpinner
     }, 
     data() {
@@ -55,10 +51,9 @@ export default {
     }, 
     mounted() {
         this.loadPosts();
-        eventBus.$on('loadPosts', () => {
+        eventBus.$on('load-posts', () => {
             this.loadPosts();
         });   
-        eventBus.$emit('loadPostTwoComments');
     },
     methods: {
         loadPosts() {

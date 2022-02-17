@@ -92,7 +92,7 @@ export default {
                         this.removePreviewChild();
                         this.description = "";
                         form.reset();
-                        eventBus.$emit('loadPosts');
+                        eventBus.$emit('load-posts');
                     })
                     .catch(error => {
                         console.log(error);

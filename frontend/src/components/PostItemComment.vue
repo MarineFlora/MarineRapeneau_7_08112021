@@ -1,7 +1,25 @@
 <template>
     <div>   
+        <!-- Statistiques du Post -->
+        <div class="py-2 border border-left-0 border-right-0" >
+            <!-- Nombre de commentaires du Post-->
+            <b-row>
+                <b-col cols="7" class="d-flex align-items-center comments-info" @click="targetForm">
+                    <b-icon icon="chat-square" font-scale="1.3"></b-icon>
+                    <b-link class="text-secondary mx-2" v-if="commentsCount == 0">Commenter</b-link>
+                    <b-link class="text-secondary mx-2" v-if="commentsCount > 1">{{ commentsCount }} commentaires</b-link>
+                    <b-link class="text-secondary mx-2" v-if="commentsCount == 1">{{ commentsCount }} commentaire</b-link>
+                </b-col>
+
+                <!-- Nombre de likes du Post -->
+                <b-col cols="5" >
+                    <PostItemLike :post="post" likeScale="1.4"/>
+                </b-col>
+            </b-row>
+        </div>
+
         <!-- BLOC COMMENTAIRES --> 
-        <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="post.commentsCount > 0">
+        <div class="border border-left-0 border-right-0 border-top-0 mt-3" v-if="commentsCount > 0">
             <!-- 1 COMMENTAIRE -->
             <div class="mb-3 comments d-flex" align-v="start" v-for="comments in commentsList" :key="comments.id">
 
@@ -103,13 +121,14 @@
             </div>
 
             <!-- lien pour afficher + de commentaires -->
-            <div class="py-2" :class="'other-comments-' + post.id" v-if="post.commentsCount > 2">
-                <b-link class="text-secondary mx-2" @click="loadPostComments">afficher {{ post.commentsCount -2 }} autres commentaires</b-link> 
+            <div class="py-2 text-left" :class="'other-comments-' + post.id" v-if="commentsCount > 2" @click="loadPostComments">
+                <b-link class="text-secondary mx-2" v-if="commentsCount == 3">afficher 1 autre commentaire</b-link>
+                <b-link class="text-secondary mx-2" v-else>afficher {{ commentsCount -2 }} autres commentaires</b-link> 
             </div> 
         </div>
          
         <!-- CRÉATION D'UN COMMENTAIRE -->
-        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments" :key="commentCreateKey"/>
+        <PostItemCommentCreate :post="post" :loadPostComments="loadPostComments" :commentsCount="commentsCount" :key="commentCreateKey"/>
     </div>
 </template>
 
@@ -117,6 +136,8 @@
 import ProfileImage from '../components/ProfileImage.vue';
 import PostItemCommentLike from '../components/PostItemCommentLike.vue';
 import PostItemCommentCreate from '../components/PostItemCommentCreate.vue';
+import PostItemLike from './PostItemLike.vue';
+
 import { apiFetch } from '../utils/ApiFetch';
 import dayjs from 'dayjs' ;
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -131,6 +152,7 @@ export default {
         ProfileImage,
         PostItemCommentLike,
         PostItemCommentCreate,
+        PostItemLike
     },
     props: {
         post: { type: Object, default: ['post'] }, 
@@ -141,25 +163,24 @@ export default {
             dayjs: dayjs,
             userData: JSON.parse(localStorage.getItem("userData")),
             commentCreateKey: 0,
-            errorMessage: ""
+            errorMessage: "",
+            commentsCount: 0
         }
     },
     mixins: [functionsMixin],   
-    created() {
+    mounted() {
         this.loadTwoPostComments();
         
-        eventBus.$on('loadTwoPostComments', () => {
+        // permet à composant MyProfilEdit de mettre à jour les composants après édition
+        eventBus.$on('load-two-comments', () => {
             this.loadTwoPostComments();
         });
-        eventBus.$on('loadPostComments', () => {
-            this.loadPostComments();
-        }); 
-        eventBus.$on('forceRerenderCommentCreate', () => {
-            this.forceRerender();
+        eventBus.$on('force-rerender-comment-create', () => {
+            this.forceRerenderCommentCreate();
         }); 
     },
     methods: {
-        forceRerender() {
+        forceRerenderCommentCreate() {
             this.commentCreateKey += 1;
         },
         loadTwoPostComments() {
@@ -167,7 +188,7 @@ export default {
             .get(`/posts/${this.post.id}/comments/?limit=2`)
             .then(data => {
                 this.commentsList = data.comments.rows;
-                this.post.commentsCount = data.comments.count ;
+                this.commentsCount = data.comments.count;
             })
             .catch(error => {console.log(error)}); 
         },
@@ -176,10 +197,11 @@ export default {
                 .get(`/posts/${this.post.id}/comments`)
                 .then(data => {
                     this.commentsList = data.comments.rows;
-                    this.post.commentsCount = data.comments.count;
+                    this.commentsCount = data.comments.count; 
                 })
-                .then(() => { this.removeOtherCommentsLink(); })
-                .catch(error => { console.log(error) }); 
+                .then(() => { this.removeOtherCommentsLink(); }) 
+               .catch(error => { console.log(error) });  
+            
         },
         modifyComment(id, event) { 
             const description = document.querySelector(".modify-description").value
@@ -196,9 +218,6 @@ export default {
 
                 apiFetch
                     .put(`/posts/${this.post.id}/comment/` + id, body)
-                    .then(res => {
-                        this.loadPostComments();
-                    })
                     .catch(error => {
                         console.log(error);
                     });  
