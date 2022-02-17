@@ -1,7 +1,8 @@
 <template> 
-    <footer class="pt-3 pb-4 bg-dark text-white"> 
-        <p>À propos · Politique de confidentialité </br>
-        {{ copyright }} </p> 
+    <footer class="py-5 bg-dark text-white"> 
+        <b-link>À propos</b-link>  ·  
+        <b-link>Politique de confidentialité</b-link>  </br>
+        <b-link>{{ copyright }} </b-link> 
     </footer> 
 </template> 
 
@@ -19,6 +20,10 @@ export default {
 
 <style lang="scss">
 footer {
-  font-size: 0.9rem;
+    font-size: 0.9rem;
+
+    a, a:hover {
+        color: inherit
+    }
 }
 </style>

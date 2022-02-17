@@ -33,7 +33,7 @@
                 <b-dropdown 
                     size="sm" 
                     variant="outline-primary" 
-                    offset="-160rem"
+                    right
                     v-b-tooltip.hover.v-primary.left="'paramètres'"
                     :id="'list-params-post' + post.id"
                 >

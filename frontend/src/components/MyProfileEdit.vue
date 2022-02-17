@@ -157,10 +157,10 @@ export default {
                         localStorage.setItem('userData', JSON.stringify(res.user));
                     }
                     // mise à jour des données affichées sur la page
-                    eventBus.$emit('forceRerenderCommentCreate');
-                    eventBus.$emit('loadUserProfile');
-                    eventBus.$emit('loadPosts');
-                    eventBus.$emit('loadPostComments');
+                    eventBus.$emit('load-user-profile');
+                    eventBus.$emit('load-posts');
+                    eventBus.$emit('load-two-comments'); 
+                    eventBus.$emit('force-rerender-comment-create'); 
                 })
                 .catch(error => {
                     console.log(error);
