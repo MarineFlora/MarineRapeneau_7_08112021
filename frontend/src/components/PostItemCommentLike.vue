@@ -84,13 +84,14 @@ export default {
     data() {
         return {
             liked: false,
-            likesCount: this.comments.likesCount,
+            likesCount: Number,
             likesList: []
         }
     },
     mixins: [functionsMixin],  
     mounted() {
         this.getUserLike();
+        this.getLikesInfos();
     },
     methods: {
         // envoi du like au back-end et maj infos

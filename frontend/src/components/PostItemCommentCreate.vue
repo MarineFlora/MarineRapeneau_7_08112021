@@ -42,7 +42,7 @@ export default {
         return {
             commentDescription: '',
             errorMessage: '',
-            userData: JSON.parse(localStorage.getItem("userData"))
+            userData: JSON.parse(localStorage.getItem("userData")),
         }
     },
     methods: {
@@ -66,11 +66,13 @@ export default {
                     .catch(error => {
                         console.log(error);
                         this.errorMessage="une erreur est survenue";
-                    });  
+                    }); 
+              
             } else {
                 this.errorMessage="vous ne pouvez pas ajouter de commentaire vide";
             } 
-        }
+        },
+         
     } 
 }
 </script>
