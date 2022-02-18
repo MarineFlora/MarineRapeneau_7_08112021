@@ -6,7 +6,7 @@ module.exports = {
       firstName: 'admin',
       lastName: 'admin',
       email: 'admin@groupomania.com',
-      password: '$2a$09$yA6JgnVgsMfEgFKAJG0IrOpI1IIsN29wtkaW60Jit4Hf4g/aa.T5C',
+      password: '$2a$10$S1ydNYAR8eGlgQsKVzwiRePUjLG8MIXc9momEw7Ev/Xj37mQtl9wq',
       admin: true,
       profession: "Chargée de communication",
       createdAt: new Date(),
