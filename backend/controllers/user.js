@@ -138,7 +138,7 @@ exports.changePassword = async (req, res, next) => {
                 return res.status(400).json({ error: "le nouveau mot de passe doit contenir au moins 8 caractères dont 1 majuscule, 1 minuscule, 1 chiffre, 1 caractère spécial"});
             } 
             
-            else {
+            else if (req.body.newPassword === req.body.newPasswordConfirm & passwordDecrypt & !newPasswordDecrypt) {
                 const hash = await bcrypt.hash(req.body.newPassword, 10);
                 await user.update({ password: hash }, { where: { id: req.params.userId } })
                 res.status(201).json({ message: 'mot de passe modifié, veuillez vous reconnecter avec votre nouvel identifiant !', user }) 

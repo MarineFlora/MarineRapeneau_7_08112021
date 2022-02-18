@@ -200,9 +200,8 @@ export default {
         async changePassword() {
             this.$v.passwordChangeForm.$touch();
             const currentPasswordInput = document.querySelector("#current-password input");
-            const newPasswordInput = document.querySelector("#new-password input");
 
-            const changedPassword = await apiFetch.put(`/auth/user-profile/settings/${this.userData.id}`, { currentPassword: this.passwordChangeForm.currentPassword, newPassword: this.passwordChangeForm.newPassword });
+            const changedPassword = await apiFetch.put(`/auth/user-profile/settings/${this.userData.id}`, { currentPassword: this.passwordChangeForm.currentPassword, newPassword: this.passwordChangeForm.newPassword, newPasswordConfirm: this.passwordChangeForm.newPasswordConfirm  });
         
            // si mot de passe actuel non reconnu, afficher erreur
             if (changedPassword.error1) {
