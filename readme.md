@@ -7,6 +7,12 @@ But : construire le front-end et back-end du réseau social interne de l'entrepr
 
 Contraintes : utilisation d'un framework front-end en Javascript, d'une base de données relationnelles SQL, avec données de connexion sécurisées.
 
+Compétences développées :   
+➡ Authentifier un utilisateur et maintenir sa session   
+➡ Personnaliser le contenu envoyé à un client web   
+➡ Gérer un stockage de données à l'aide de SQL   
+➡ Implémenter un stockage de données sécurisé en utilisant SQL   
+
 Status : terminé
 
 ## Installation
@@ -66,3 +72,9 @@ Bon test !
 - Vue.js
 - BootstrapVue
 - MySQL
+
+## Captures
+![capture login gpmania](https://user-images.githubusercontent.com/79592886/157255449-3f996061-4025-4bb5-abad-2ea5fe4e2289.png)
+![capture home](https://user-images.githubusercontent.com/79592886/157255562-66a72417-b3dc-4220-b3dd-9e4ad47ef5ba.png)
+![capture post-better](https://user-images.githubusercontent.com/79592886/157256539-af8c6bd9-5919-45c9-b5cf-7acea25cb282.png)
+![capture profile](https://user-images.githubusercontent.com/79592886/157255615-c26b328c-f85a-4802-ab88-984157ff6958.png)
