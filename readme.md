@@ -2,6 +2,9 @@
 # Créez un réseau social d'entreprise
 7ème projet du parcours développeur web d'OpenClassrooms
 
+## Démo vidéo
+https://www.loom.com/share/8debb95fa3e04c78bd6076d43517f3ad
+
 ## General Info
 But : construire le front-end et back-end du réseau social interne de l'entreprise Groupomania, permettant de faciliter les intéractions entre collègues, grâce notamment à l'échange d'images/gifs/textes.
 
