@@ -8,6 +8,13 @@ https://www.loom.com/share/8debb95fa3e04c78bd6076d43517f3ad
 ## General Info
 But : construire le front-end et back-end du réseau social interne de l'entreprise Groupomania, permettant de faciliter les intéractions entre collègues, grâce notamment à l'échange d'images/gifs/textes.
 
+Fonctionnalités :    
+- ajouter/modifier/supprimer une publication avec des images et des commentaires    
+- système de likes    
+- page profil : retour des publications, éditer le profil, modifier le mot de passe, supprimer le compte     
+- système de signalement à l’admin, modération des contenus publiés par l'admin
+
+
 Contraintes : utilisation d'un framework front-end en Javascript, d'une base de données relationnelles SQL, avec données de connexion sécurisées.
 
 Compétences développées :   
